@@ -27,42 +27,41 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index(Request $request){
+		if ($request->ajax())
+		{
+			$data                 = array();
+			$data['draw']         = $request->get('draw');
+			$start                = $request->get('page');
+			$length               = $request->get('limit');
+			$order                = $request->get('order');
+			$columns              = $request->get('columns');
+			$search               = $request->get('search');
+			$data['count'] = Role::count();
+			if (strlen($search['value']) > 0)
+			{
+				$data['count'] = Role::where(function ($query) use ($search) {
+					$query->where('name', 'LIKE', '%' . $search['value'] . '%')->orWhere('description', 'like', '%' . $search['value'] . '%');
+				})->count();
+				$data['data']            = Role::where(function ($query) use ($search) {
+					$query->where('name', 'LIKE', '%' . $search['value'] . '%')->orWhere('description', 'like', '%' . $search['value'] . '%');
+				})->skip($start)->take($length)->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])->get();
+			}
+			else
+			{
+				//$data['total'] = Role::count();
+				//$data['data']            = Role::skip($start)->take($length)->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])->get();
+				$data['data']            = Role::skip(($start - 1) * $length)->take($length)->get();
+			}
+			$data['code'] = 0;
+			return response()->json($data);
+		}
         return view('admin.role.index');
     }
     
-    public function show(Request $request)
+    public function show()
     {
-        if ($request->ajax()) {
-            $data = array();
-            $data['draw'] = $request->get('draw');
-            $start = $request->get('start');
-            $length = $request->get('length');
-            $order = $request->get('order');
-            $columns = $request->get('columns');
-            $search = $request->get('search');
-            $data['recordsTotal'] = Role::count();
-            if (strlen($search['value']) > 0) {
-                $data['recordsFiltered'] = Role::where(function ($query) use ($search) {
-                    $query->where('name', 'LIKE', '%' . $search['value'] . '%')
-                        ->orWhere('description', 'like', '%' . $search['value'] . '%');
-                })->count();
-                $data['data'] = Role::where(function ($query) use ($search) {
-                    $query->where('name', 'LIKE', '%' . $search['value'] . '%')
-                        ->orWhere('description', 'like', '%' . $search['value'] . '%');
-                })
-                    ->skip($start)->take($length)
-                    ->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])
-                    ->get();
-            } else {
-                $data['recordsFiltered'] = Role::count();
-                $data['data'] = Role::
-                skip($start)->take($length)
-                    ->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])
-                    ->get();
-            }
-            return response()->json($data);
-        }
+
         return view('admin.role.show');
     }
 

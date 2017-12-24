@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>权限列表--layui后台管理模板</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="/layui/css/layui.css" media="all" />
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
-    <link rel="stylesheet" href="/css/news.css" media="all" />
-</head>
+@extends('admin.layouts.app')
+@section('content')
 <body class="childrenBody">
 <blockquote class="layui-elem-quote permission_search">
     @if($cid==0)
@@ -37,7 +24,7 @@
     </div>
 </blockquote>
 <div class="layui-form">
-    <table class="layui-table" lay-data="{height: 350, url:'{{ url('admin/permission/'.$cid) }}', page:true,limit:6}" lay-filter="demoEvent">
+    <table class="layui-table" lay-data="{height: 'full-100', url:'{{ url('admin/permission/'.$cid) }}', page:true,limit:6}" lay-filter="demoEvent">
         <thead>
         <tr>
             <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
@@ -45,8 +32,8 @@
             <th lay-data="{field:'name', width:'20%'}">权限规则</th>
             <th lay-data="{field:'label', width:'10%'}">权限名称</th>
             <th lay-data="{field:'description', width:'10%'}">权限概述</th>
-            <th lay-data="{field:'created_at', width:'15%'}">创建时间</th>
-            <th lay-data="{field:'updated_at', width:'15%'}">修改时间</th>
+            <th lay-data="{field:'created_at', width:'15%',sort:true}">创建时间</th>
+            <th lay-data="{field:'updated_at', width:'15%',sort:true}">修改时间</th>
             <th lay-data="{fixed: 'right', width:'19%', align:'center', toolbar: '#barDemo'}">操作</th>
         </tr>
         </thead>
@@ -70,6 +57,7 @@
 <div id="page"></div>
 <script type="text/javascript" src="/layui/layui.js"></script>
 <script type="text/javascript">
+
 	layui.use(['form', 'layer','table', 'jquery'], function () {
 		var table = layui.table,
 		    $ = layui.jquery;
@@ -135,5 +123,4 @@
 		});
 	});
 </script>
-</body>
-</html>
+@endsection

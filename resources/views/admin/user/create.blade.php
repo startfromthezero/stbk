@@ -1,3 +1,4 @@
+{{--
 @extends('admin.layouts.base')
 
 @section('title','控制面板')
@@ -21,7 +22,7 @@
                             @include('admin.partials.errors')
                             @include('admin.partials.success')
 
-                            <form class="form-horizontal" role="form" method="POST" action="/admin/user">
+                            <form class="form-horizontal" user="form" method="POST" action="/admin/user">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="cove_image"/>
                                 @include('admin.user._form')
@@ -43,3 +44,19 @@
         </div>
     </div>
 @stop
+--}}@extends('admin.layouts.app')
+@section('content')
+    @include('admin.partials.errors')
+    @include('admin.partials.success')
+    <form class="layui-form" action="/admin/user" user="form" method="POST">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="cove_image" />
+        @include('admin.user._form')
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+@endsection

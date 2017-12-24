@@ -36,23 +36,10 @@
     </div>
 </div>
 --}}
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>编辑权限--layui后台管理模板</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="/layui/css/layui.css" media="all" />
-    <style>
-        .layui-input-block{margin-right:80px}
-    </style>
-</head>
-<body class="childrenBody">
+@extends('admin.layouts.app')
+@section('content')
+@include('admin.partials.errors')
+@include('admin.partials.success')
 <form class="layui-form" action="/admin/permission/{{ $id }}" role="form" method="POST">
     {!! csrf_field() !!}
     {{ method_field('PATCH') }}
@@ -68,6 +55,4 @@
         </div>
     </div>
 </form>
-<script type="text/javascript" src="/layui/layui.js"></script>
-</body>
-</html>
+@endsection

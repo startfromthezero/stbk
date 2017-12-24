@@ -37,28 +37,27 @@ class PermissionController extends Controller
 			$data['draw']         = $request->get('draw');
 			$start                = $request->get('page');
 			$length               = $request->get('limit');
-			$order                = $request->get('order');
+			$order                = $request->get('order','id');
 			$columns              = $request->get('columns');
 			$search               = $request->get('search');
 			//$cid                  = $request->get('cid', 0);
-			//$data['recordsTotal'] = Permission::where('cid', $cid)->count();
+			$data['count'] = Permission::where('cid', $cid)->count();
 			if (strlen($search['value']) > 0)
 			{
-				$data['recordsFiltered'] = Permission::where('cid', $cid)->where(function ($query) use ($search) {
+				$data['count'] = Permission::where('cid', $cid)->where(function ($query) use ($search) {
 					$query->where('name', 'LIKE', '%' . $search['value'] . '%')->orWhere('description', 'like', '%' . $search['value'] . '%')->orWhere('label', 'like', '%' . $search['value'] . '%');
 				})->count();
 				$data['data']            = Permission::where('cid', $cid)->where(function ($query) use ($search) {
 					$query->where('name', 'LIKE', '%' . $search['value'] . '%')->orWhere('description', 'like', '%' . $search['value'] . '%')->orWhere('label', 'like', '%' . $search['value'] . '%');
-				})->skip($start)->take($length)->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])->get();
+				})->skip(($start - 1) * $length)->take($length)->get();
 			}
 			else
 			{
-				$data['code']  = 0;
 				$data['count'] = Permission::where('cid', $cid)->count();
 				//$data['data']            = Permission::where('cid', $cid)->skip($start)->take($length)->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])->get();
 				$data['data']            = Permission::where('cid', $cid)->skip(($start-1)* $length)->take($length)->get();
 			}
-
+			$data['code'] = 0;
 			return $data;
 		}
 		$datas['cid'] = $cid;

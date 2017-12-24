@@ -133,12 +133,13 @@ layui.define(["element","jquery"],function(exports){
 				topTabsWidth = $("#top_tabs").width(),
 				tabLi = topTabs.find("li.layui-this"),
 				top_tabs = document.getElementById("top_tabs");
-
+			console.log(topTabsWidth);
 			if(topTabsWidth > topTabsBoxWidth){
 				if(tabLi.position().left > topTabsBoxWidth || tabLi.position().left+topTabsBoxWidth > topTabsWidth){
-					topTabs.css("left",topTabsBoxWidth-topTabsWidth);
+					topTabs.css("left",topTabsBoxWidth-topTabsWidth+60);
 				}else{
-					topTabs.css("left",-tabLi.position().left);
+					console.log(topTabsBoxWidth - topTabsWidth);
+					topTabs.css("left",-tabLi.position().left-60);
 				}
 				//拖动效果
 				var flag = false;
@@ -160,6 +161,7 @@ layui.define(["element","jquery"],function(exports){
 				}
 				function move(){
 					var self=this;
+					console.log(self);
 					window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
 				    if(flag){
 				        var touch ;

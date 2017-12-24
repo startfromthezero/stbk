@@ -28,14 +28,14 @@ class UserController extends Controller
         if ($request->ajax()) {
             $data = array();
             $data['draw'] = $request->get('draw');
-            $start = $request->get('start');
-            $length = $request->get('length');
+            $start = $request->get('page');
+            $length = $request->get('limit');
             $order = $request->get('order');
             $columns = $request->get('columns');
             $search = $request->get('search');
-            $data['recordsTotal'] = User::count();
+            $data['count'] = User::count();
             if (strlen($search['value']) > 0) {
-                $data['recordsFiltered'] = User::where(function ($query) use ($search) {
+                $data['count'] = User::where(function ($query) use ($search) {
                     $query->where('name', 'LIKE', '%' . $search['value'] . '%')
                         ->orWhere('email', 'like', '%' . $search['value'] . '%');
                 })->count();
@@ -43,17 +43,12 @@ class UserController extends Controller
                     $query->where('name', 'LIKE', '%' . $search['value'] . '%')
                         ->orWhere('email', 'like', '%' . $search['value'] . '%');
                 })
-                    ->skip($start)->take($length)
-                    ->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])
-                    ->get();
+                    ->skip(($start - 1) * $length)->take($length)->get();
             } else {
-                $data['recordsFiltered'] = User::count();
-                $data['data'] = User::
-                skip($start)->take($length)
-                    ->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])
-                    ->get();
+                //$data['recordsFiltered'] = User::count();
+                $data['data'] = User::skip(($start - 1) * $length)->take($length)->get();
             }
-
+			$data['code'] = 0;
             return response()->json($data);
         }
 

@@ -1,3 +1,4 @@
+{{--
 <div class="form-group">
     <label for="tag" class="col-md-3 control-label">角色名称</label>
     <div class="col-md-5">
@@ -12,7 +13,7 @@
 </div>
 
 <div class="form-group">
-    <label for="tag" class="col-md-3 control-label">权限列表</label>
+    <label for="tag" class="col-md-3 control-label">角色列表</label>
 </div>
 <div class="form-group">
     <div class="form-group">
@@ -33,7 +34,7 @@
                                    @if(in_array($vv['id'],$permissions))
                                    checked
                                    @endif
-                                   id="inputChekbox{{$vv['id']}}" type="Checkbox" value="{{$vv['id']}}"
+                                   id="inputCehkbox{{$vv['id']}}" type="Checkbox" value="{{$vv['id']}}"
                                    name="permissions[]"> <label for="inputChekbox{{$vv['id']}}">
                                 {{$vv['label']}}
                             </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -53,5 +54,61 @@
 
         });
     });
+</script>
+--}}
+<div class="layui-form-item" style="margin-top: 20px;">
+    <label class="layui-form-label">角色名称</label>
+    <div class="layui-input-block">
+        <input type="text" name="name" class="layui-input" required="required" placeholder="请输入角色名称"
+               value="{{ $name }}">
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">角色概述</label>
+    <div class="layui-input-block">
+        <textarea placeholder="请输入角色概述" name="description" class="layui-textarea">{{ $description }}</textarea>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">权限配置</label>
+    <div class="layui-input-block">
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col>
+            </colgroup>
+            <tbody>
+            @if($permissionAll)
+                @foreach($permissionAll[0] as $v)
+                    <tr>
+                        <td>
+                            <label class="layui-form-label">
+                            {{$v['label']}}
+                            <input style="display:inline-block" type="checkbox" name="like1[{{$v['id']}}]" onclick="checkAll(this,'{{$v['id']}}')">
+                            </label>
+                        </td>
+                        <td align="left">
+                            @if(isset($permissionAll[$v['id']]))
+                                @foreach($permissionAll[$v['id']] as $vv)
+                                    <label class="layui-form-label">
+                                    {{$vv['label']}}
+                                        <input class="check-{{$v['id']}}" style="display:inline-block" type="checkbox" name="permissions[]" value="{{$vv['id']}}" @if(in_array($vv['id'],$permissions)) checked @endif>&emsp;
+                                    </label>
+                                @endforeach
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script>
+	function checkAll(obj,id)
+	{
+		$('.check-' + id).prop('checked', $(obj).is(":checked"));
+	}
 </script>
 

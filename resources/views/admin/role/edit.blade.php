@@ -1,3 +1,4 @@
+{{--
 @extends('admin.layouts.base')
 
 @section('title','控制面板')
@@ -44,3 +45,24 @@
         </div>
     </div>
 @stop
+--}}
+
+@extends('admin.layouts.app')
+@section('content')
+    @include('admin.partials.errors')
+    @include('admin.partials.success')
+    <form class="layui-form" action="/admin/role/{{ $id }}" role="form" method="POST">
+        {!! csrf_field() !!}
+        {{ method_field('PATCH') }}
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="id" value="{{ $id }}">
+        @include('admin.role._form')
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn">保存</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+@endsection

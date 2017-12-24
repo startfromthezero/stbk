@@ -8,13 +8,16 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
+
 */
 //session的中间件
 //Route::group(['middleware'=>'web'],function(){
 //	Route::any('/session1', 'StudentController@session1');
 //	Route::any('/session2', 'StudentController@session2');
 //});
-//
+Route::get('test',function(){
+	return view('test');
+});
 ////宣传页面
 //Route::any('/activity0', 'StudentController@activity0');
 
