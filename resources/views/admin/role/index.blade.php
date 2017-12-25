@@ -21,13 +21,13 @@
     <table class="layui-table" lay-data="{height: 'full-100', url:'{{ url('admin/role/index') }}', page:true,limit:6}" lay-filter="roleEvent">
         <thead>
         <tr>
-            <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-            <th lay-data="{field:'id', width:'6%',cellMinWidth:60}">ID</th>
+            <th lay-data="{type:'checkbox', fixed: 'left',width:'3%'}"></th>
+            <th lay-data="{field:'id', width:'7%',cellMinWidth:60}">ID</th>
             <th lay-data="{field:'name', width:'20%',cellMinWidth:100}">角色名称</th>
             <th lay-data="{field:'description', width:'20%',cellMinWidth:100}">角色描述</th>
             <th lay-data="{field:'created_at', width:'15%',cellMinWidth:160}">创建时间</th>
             <th lay-data="{field:'updated_at', width:'15%',cellMinWidth:160}">修改时间</th>
-            <th lay-data="{fixed: 'right', width:'19%',cellMinWidth:160, align:'center', toolbar: '#roleOper'}">操作</th>
+            <th lay-data="{fixed: 'right', width:'20%',cellMinWidth:160, align:'center', toolbar: '#roleOper'}">操作</th>
         </tr>
         </thead>
     </table>

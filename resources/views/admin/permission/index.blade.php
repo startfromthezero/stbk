@@ -2,12 +2,13 @@
 @section('content')
 <body class="childrenBody">
 <blockquote class="layui-elem-quote permission_search">
+	<div class="layui-inline" style="float:right">
     @if($cid==0)
-        <span id="cid" attr="{{$cid}}"> 顶级菜单</span>
+        <label style="height:38px;line-height:38px;font-size:24px;" id="cid" attr="{{$cid}}"> 顶级菜单</label>
     @else
         <a href="/admin/permission" class="layui-btn reloadBtn">返回顶级菜单</a>
     @endif
-
+	</div>
     <div class="layui-inline">
         <div class="layui-input-inline">
             <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
@@ -24,17 +25,17 @@
     </div>
 </blockquote>
 <div class="layui-form">
-    <table class="layui-table" lay-data="{height: 'full-100', url:'{{ url('admin/permission/'.$cid) }}', page:true,limit:6}" lay-filter="demoEvent">
+    <table style="width: 100%;" class="layui-table" lay-data="{height: 'full-100', url:'{{ url('admin/permission/'.$cid) }}', page:true,limit:6}" lay-filter="demoEvent">
         <thead>
         <tr>
-            <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-            <th lay-data="{field:'id', width:'6%'}">ID</th>
+            <th lay-data="{type:'checkbox', fixed: 'left',width:'3%'}"></th>
+            <th lay-data="{field:'id', width:'7%'}">ID</th>
             <th lay-data="{field:'name', width:'20%'}">权限规则</th>
             <th lay-data="{field:'label', width:'10%'}">权限名称</th>
             <th lay-data="{field:'description', width:'10%'}">权限概述</th>
             <th lay-data="{field:'created_at', width:'15%',sort:true}">创建时间</th>
             <th lay-data="{field:'updated_at', width:'15%',sort:true}">修改时间</th>
-            <th lay-data="{fixed: 'right', width:'19%', align:'center', toolbar: '#barDemo'}">操作</th>
+            <th lay-data="{fixed: 'right', width:'20%', align:'center', toolbar: '#barDemo'}">操作</th>
         </tr>
         </thead>
     </table>
@@ -61,9 +62,6 @@
 	layui.use(['form', 'layer','table', 'jquery'], function () {
 		var table = layui.table,
 		    $ = layui.jquery;
-		table.on('checkbox(demo)', function (obj) {
-			console.log(obj)
-		});
 
 		//添加权限
 		//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
@@ -76,7 +74,7 @@
 					fixed  : false, //不固定
 					maxmin : true,
 					skin   : 'layui-layer-molv',
-					content: "http://homestead.app/admin/permission/{{ $cid }}/create",
+					content: "/admin/permission/{{ $cid }}/create",
 					success: function (layero, index) {
 						setTimeout(function () {
 							layui.layer.tips('点击此处返回权限列表', '.layui-layer-setwin .layui-layer-close', {
@@ -110,7 +108,7 @@
 					fixed  : false, //不固定
 					maxmin : true,
 					skin: 'layui-layer-molv',
-					content: 'http://homestead.app/admin/permission/' + data.id + '/edit',
+					content: '/admin/permission/' + data.id + '/edit',
 					success: function (layero, index) {
 						setTimeout(function () {
 							layui.layer.tips('点击此处返回权限列表', '.layui-layer-setwin .layui-layer-close', {

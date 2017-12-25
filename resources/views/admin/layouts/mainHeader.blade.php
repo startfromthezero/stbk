@@ -65,8 +65,7 @@
         <a href="javascript:;"><i class="iconfont icon-gonggao"></i><cite>&#xe652;系统公告</cite></a>
       </li>
       <li class="layui-nav-item" mobile>
-        <a href="javascript:;" class="mobileAddTab" data-url="page/user/changePwd.html"><i class="iconfont icon-shezhi1"
-                                                                                           data-icon="icon-shezhi1"></i><cite>设置</cite></a>
+        <a href="javascript:;" class="mobileAddTab" data-url="page/user/changePwd.html"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><cite>设置</cite></a>
       </li>
       <li class="layui-nav-item" mobile>
         <a href="/admin/logout" class="signOut"><i class="iconfont icon-loginout"></i> 退出</a>

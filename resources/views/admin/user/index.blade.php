@@ -21,14 +21,14 @@
     <table class="layui-table" lay-data="{height: 'full-100', url:'{{ url('admin/user/index') }}', page:true,limit:6}" lay-filter="userEvent">
         <thead>
         <tr>
-            <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-            <th lay-data="{field:'id', width:'6%'}">ID</th>
+            <th lay-data="{type:'checkbox', fixed: 'left', width:'3%'}"></th>
+            <th lay-data="{field:'id', width:'7%'}">ID</th>
             <th lay-data="{field:'name', width:'10%'}">用户名称</th>
             <th lay-data="{field:'username', width:'10%'}">帐号</th>
             <th lay-data="{field:'email', width:'20%'}">邮箱</th>
             <th lay-data="{field:'created_at', width:'15%',sort:true}">创建时间</th>
             <th lay-data="{field:'updated_at', width:'15%',sort:true}">修改时间</th>
-            <th lay-data="{fixed: 'right', width:'19%', align:'center', toolbar: '#userOper'}">操作</th>
+            <th lay-data="{fixed: 'right', width:'20%', align:'center', toolbar: '#userOper'}">操作</th>
         </tr>
         </thead>
     </table>
@@ -63,7 +63,7 @@
 					fixed  : false, //不固定
 					maxmin : true,
 					skin   : 'layui-layer-molv',
-					content: "http://homestead.app/admin/user/create",
+					content: "/admin/user/create",
 					success: function (layero, index) {
 						setTimeout(function () {
 							layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
@@ -97,7 +97,7 @@
 					fixed  : false, //不固定
 					maxmin : true,
 					skin: 'layui-layer-molv',
-					content: 'http://homestead.app/admin/user/' + data.id + '/edit',
+					content: '/admin/user/' + data.id + '/edit',
 					success: function (layero, index) {
 						setTimeout(function () {
 							layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {

@@ -60,12 +60,12 @@
     {{--图标修改--}}
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/plugins/bootstrap-iconpicker/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css" />
-
+    <input type="hidden" name="icon" class="layui-input" required="required" value="fa-sliders">
     <div class="layui-form-item">
             <label class="layui-form-label">图标</label>
             <div class="layui-input-block" style="line-height:36px;">
                 <a class="layui-btn layui-btn-sm layui-btn-primary iconpicker" name="icon" data-iconset="fontawesome" data-icon="{{ $icon?$icon:'fa-sliders' }}" role="iconpicker">
-                    <i class="layui-icon">&#xe625;</i>
+                    <i class="layui-icon">fa-sliders</i>
                 </a>
             </div>
         </div>

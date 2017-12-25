@@ -133,7 +133,14 @@ layui.define(["element","jquery"],function(exports){
 				topTabsWidth = $("#top_tabs").width(),
 				tabLi = topTabs.find("li.layui-this"),
 				top_tabs = document.getElementById("top_tabs");
-			console.log(topTabsWidth);
+
+				if ($(".layui-layout-admin").hasClass("showMenu")){
+					$(".user-photo > p > .ishow").hide();
+					$(".showMenu .navBar >.layui-nav > .layui-nav-item").addClass('layui-nav-itemed');
+				}else{
+					$(".user-photo > p > .ishow").show();
+					$(".showMenu .navBar >.layui-nav > .layui-nav-item").removeClass('layui-nav-itemed');
+				}
 			if(topTabsWidth > topTabsBoxWidth){
 				if(tabLi.position().left > topTabsBoxWidth || tabLi.position().left+topTabsBoxWidth > topTabsWidth){
 					topTabs.css("left",topTabsBoxWidth-topTabsWidth+60);
