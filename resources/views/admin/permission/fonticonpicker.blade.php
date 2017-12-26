@@ -1,90 +1,25 @@
-{{--
-
-
-<div class="form-group">
-    <label for="tag" class="col-md-3 control-label">权限规则</label>
-    <div class="col-md-6">
-        <input type="text" class="form-control" name="name" id="tag" value="{{ $name }}" autofocus>
-        <input type="hidden" class="form-control" name="cid" id="tag" value="{{ $cid }}" autofocus>
-    </div>
-</div>
-<div class="form-group">
-    <label for="tag" class="col-md-3 control-label">权限名称</label>
-    <div class="col-md-6">
-        <input type="text" class="form-control" name="label" id="tag" value="{{ $label }}" autofocus>
-    </div>
-</div>
-@if($cid == 0 )
-{{--图标修改
-    <link rel="stylesheet" href="/plugins/bootstrap-iconpicker/icon-fonts/font-awesome-4.2.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="/plugins/bootstrap-iconpicker/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css"/>
-
-    <div class="form-group">
-    <label for="tag" class="col-md-3 control-label">图标</label>
-    <div class="col-md-6">
-        <!-- Button tag -->
-        <button class="btn btn-default" name="icon" data-iconset="fontawesome" data-icon="{{ $icon?$icon:'fa-sliders' }}" role="iconpicker"></button>
-    </div>
-
-    </div>
-@section('js')
-
-    <script type="text/javascript" src="/plugins/bootstrap-iconpicker/bootstrap-iconpicker/js/iconset/iconset-fontawesome-4.3.0.min.js"></script>
-    <script type="text/javascript" src="/plugins/bootstrap-iconpicker/bootstrap-iconpicker/js/bootstrap-iconpicker.js"></script>
-
-@stop
-@endif
-<div class="form-group">
-    <label for="tag" class="col-md-3 control-label">权限概述</label>
-    <div class="col-md-6">
-        <textarea name="description" class="form-control" rows="3">{{ $description }}</textarea>
-    </div>
-</div>
---}}
-
-<div class="layui-form-item" style="margin-top: 20px;">
-    <label class="layui-form-label">权限规则</label>
-    <div class="layui-input-block">
-        <input type="text" name="name" class="layui-input" required="required" placeholder="请输入权限规则" value="{{ $name }}">
-        <input type="hidden" class="form-control" name="cid" id="tag" value="{{ $cid }}" autofocus>
-    </div>
-</div>
-<div class="layui-form-item">
-    <label class="layui-form-label">权限名称</label>
-    <div class="layui-input-block">
-        <input type="text" name="label" class="layui-input" required="required" placeholder="请输入权限名称"
-               value="{{ $label }}">
-    </div>
-</div>
-    @if($cid == 0 )
-    {{--图标修改--}}
 <!-- jQuery -->
-<script type="text/javascript" src="/fonticonpicker/demo/lib/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="fonticonpicker/demo/lib/js/jquery-1.7.1.min.js"></script>
 
 <!-- fontIconPicker JS -->
-<script type="text/javascript" src="/fonticonpicker/jquery.fonticonpicker.min.js"></script>
+<script type="text/javascript" src="fonticonpicker/jquery.fonticonpicker.min.js"></script>
 
 <!-- fontIconPicker core CSS -->
-<link rel="stylesheet" type="text/css" href="/fonticonpicker/css/jquery.fonticonpicker.min.css" />
-<link rel="stylesheet" type="text/css" href="/css/app.css" />
+<link rel="stylesheet" type="text/css" href="fonticonpicker/css/jquery.fonticonpicker.min.css" />
+<link rel="stylesheet" type="text/css" href="css/app.css" />
 
 <!-- required default theme -->
-<link rel="stylesheet" type="text/css" href="/fonticonpicker/themes/grey-theme/jquery.fonticonpicker.grey.min.css" />
+<link rel="stylesheet" type="text/css" href="fonticonpicker/themes/grey-theme/jquery.fonticonpicker.grey.min.css" />
 
 <!-- optional themes -->
-<link rel="stylesheet" type="text/css" href="/fonticonpicker/themes/dark-grey-theme/jquery.fonticonpicker.darkgrey.min.css" />
-<link rel="stylesheet" type="text/css" href="/fonticonpicker/themes/bootstrap-theme/jquery.fonticonpicker.bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="/fonticonpicker/themes/inverted-theme/jquery.fonticonpicker.inverted.min.css" />
+<link rel="stylesheet" type="text/css" href="fonticonpicker/themes/dark-grey-theme/jquery.fonticonpicker.darkgrey.min.css" />
+<link rel="stylesheet" type="text/css" href="fonticonpicker/themes/bootstrap-theme/jquery.fonticonpicker.bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="fonticonpicker/themes/inverted-theme/jquery.fonticonpicker.inverted.min.css" />
 <!-- Font -->
-<link rel="stylesheet" type="text/css" href="/fonticonpicker/demo/fontello-7275ca86/css/fontello.css" />
-<link rel="stylesheet" type="text/css" href="/fonticonpicker/demo/icomoon/style.css" />
-<link rel="stylesheet" type="text/css" href="/fonticonpicker/demo/style.css" />
-<div class="layui-form-item">
-    <label class="layui-form-label">图标</label>
-    <div class="layui-input-block">
-        <input type="text" name="icon" id="change-icons" value="{{ $icon }}" />
-    </div>
-</div>
+<link rel="stylesheet" type="text/css" href="fonticonpicker/demo/fontello-7275ca86/css/fontello.css" />
+<link rel="stylesheet" type="text/css" href="fonticonpicker/demo/icomoon/style.css" />
+<link rel="stylesheet" type="text/css" href="fonticonpicker/demo/style.css" />
+@yield('content')
 <script type="text/javascript">
     var icm_icons = {
     'Web Applications' : [57436, 57437, 57438, 57439, 57524, 57525, 57526, 57527, 57528, 57531, 57532, 57533, 57534, 57535, 57536, 57537, 57541, 57545, 57691, 57692],
@@ -132,6 +67,22 @@ var icm_icon_search = {
     'Other Icons' : ['Quill', 'Blog', 'Droplet', 'Images', 'Music', 'Pacman', 'Spades', 'Clubs', 'Diamonds', 'Pawn', 'Bullhorn', 'Connection', 'Podcast', 'Feed', 'Stack', 'Tags', 'Barcode', 'Qrcode', 'Ticket', 'Coin', 'Credit', 'Notebook', 'Pushpin', 'Compass', 'Alarm', 'Alarm 2', 'Bell', 'Print', 'Laptop', 'Mobile', 'Mobile 2', 'Tv', 'Disk', 'Storage', 'Reply', 'Bubbles', 'Bubbles 2', 'Bubbles 3', 'Bubbles 4', 'Users', 'Users 2', 'Quotes left', 'Spinner', 'Spinner 2', 'Spinner 3', 'Spinner 4', 'Spinner 5', 'Spinner 6', 'Binoculars', 'Search', 'Hammer', 'Wand', 'Aid', 'Bug', 'Stats', 'Bars', 'Bars 2', 'Gift', 'Trophy', 'Glass', 'Mug', 'Food', 'Leaf', 'Rocket', 'Meter', 'Meter 2', 'Dashboard', 'Hammer 2', 'Fire', 'Lab', 'Magnet', 'Remove', 'Remove 2', 'Briefcase', 'Airplane', 'Truck', 'Road', 'Accessibility', 'Target', 'Shield', 'Lightning', 'Switch', 'Powercord', 'Signup', 'Tree', 'Cloud', 'Earth', 'Bookmarks', 'Notification', 'Close', 'Checkmark', 'Checkmark 2', 'Minus', 'Plus', 'Stop', 'Backward', 'Stop 2', 'Backward 2', 'First', 'Last', 'Eject', 'Loop', 'Loop 2', 'Loop 3', 'Shuffle', 'Tab', 'Checkbox checked', 'Checkbox unchecked', 'Checkbox partial', 'Crop', 'Font', 'Text height', 'Text width', 'Omega', 'Sigma', 'Insert template', 'Pilcrow', 'Lefttoright', 'Righttoleft', 'Paragraph left', 'Paragraph center', 'Paragraph right', 'Paragraph justify', 'Paragraph left 2', 'Paragraph center 2', 'Paragraph right 2', 'Paragraph justify 2', 'Newtab', 'Mail', 'Mail 2', 'Mail 3', 'Mail 4', 'Google', 'Instagram', 'Feed 2', 'Feed 3', 'Feed 4', 'Youtube', 'Youtube 2', 'Lanyrd', 'Flickr', 'Flickr 2', 'Flickr 3', 'Flickr 4', 'Picassa', 'Picassa 2', 'Dribbble', 'Dribbble 2', 'Dribbble 3', 'Forrst', 'Forrst 2', 'Deviantart', 'Deviantart 2', 'Steam', 'Steam 2', 'Blogger', 'Blogger 2', 'Tux', 'Delicious', 'Xing', 'Xing 2', 'Flattr', 'Foursquare', 'Foursquare 2', 'Libreoffice', 'Css 3', 'IE', 'IcoMoon']
 };
 
+
+
+
+var fnt_icons = ["icon-music", "icon-search", "icon-mail", "icon-mail-alt", "icon-heart", "icon-heart-empty", "icon-star", "icon-star-empty", "icon-star-half", "icon-star-half-alt", "icon-user", "icon-users", "icon-male", "icon-female", "icon-video", "icon-videocam", "icon-picture", "icon-camera", "icon-camera-alt", "icon-th-large", "icon-th", "icon-th-list", "icon-ok", "icon-ok-circled", "icon-ok-circled2", "icon-ok-squared", "icon-cancel", "icon-cancel-circled", "icon-cancel-circled2", "icon-plus", "icon-plus-circled", "icon-plus-squared", "icon-plus-squared-small", "icon-minus", "icon-minus-circled", "icon-minus-squared", "icon-minus-squared-alt", "icon-minus-squared-small", "icon-help", "icon-help-circled", "icon-info-circled", "icon-info", "icon-home", "icon-link", "icon-unlink", "icon-link-ext", "icon-link-ext-alt", "icon-attach", "icon-lock", "icon-lock-open", "icon-lock-open-alt", "icon-pin", "icon-eye", "icon-eye-off", "icon-tag", "icon-tags", "icon-bookmark", "icon-bookmark-empty", "icon-flag", "icon-flag-empty", "icon-flag-checkered", "icon-thumbs-up", "icon-thumbs-down", "icon-thumbs-up-alt", "icon-thumbs-down-alt", "icon-download", "icon-upload", "icon-download-cloud", "icon-upload-cloud", "icon-reply", "icon-reply-all", "icon-forward", "icon-quote-left", "icon-quote-right", "icon-code", "icon-export", "icon-export-alt", "icon-pencil", "icon-pencil-squared", "icon-edit", "icon-print", "icon-retweet", "icon-keyboard", "icon-gamepad", "icon-comment", "icon-chat", "icon-comment-empty", "icon-chat-empty", "icon-bell", "icon-bell-alt"];
+
+var fnt_icons_categorized = {
+    'Web Application Icons' : ["icon-mail", "icon-mail-alt", "icon-th-large", "icon-th", "icon-th-list", "icon-help-circled", "icon-info-circled", "icon-info", "icon-home", "icon-link", "icon-unlink", "icon-link-ext", "icon-link-ext-alt", "icon-attach", "icon-tag", "icon-tags", "icon-bookmark", "icon-bookmark-empty", "icon-download", "icon-upload", "icon-download-cloud", "icon-upload-cloud", "icon-reply", "icon-reply-all"],
+    'Form Control Icons' : ["icon-search", "icon-ok", "icon-ok-circled", "icon-ok-circled2", "icon-ok-squared", "icon-cancel", "icon-cancel-circled", "icon-cancel-circled2", "icon-plus", "icon-plus-circled", "icon-plus-squared", "icon-plus-squared-small", "icon-minus", "icon-minus-circled", "icon-minus-squared", "icon-minus-squared-alt", "icon-minus-squared-small", "icon-quote-right", "icon-code", "icon-comment-empty", "icon-chat-empty"],
+    'Media Icons' : ["icon-video", "icon-videocam", "icon-picture", "icon-camera", "icon-camera-alt", "icon-export", "icon-export-alt", "icon-pencil", "icon-pencil-squared", "icon-edit", "icon-print"],
+    'Popular Icons' : ["icon-heart", "icon-heart-empty", "icon-star", "icon-star-empty", "icon-star-half", "icon-star-half-alt", "icon-user", "icon-users", "icon-male", "icon-female", "icon-forward", "icon-quote-left", "icon-retweet", "icon-keyboard", "icon-gamepad", "icon-comment", "icon-chat"],
+    'Others' : ["icon-music", "icon-help", "icon-lock", "icon-lock-open", "icon-lock-open-alt", "icon-pin", "icon-eye", "icon-eye-off", "icon-flag", "icon-flag-empty", "icon-flag-checkered", "icon-thumbs-up", "icon-thumbs-down", "icon-thumbs-up-alt", "icon-thumbs-down-alt", "icon-bell", "icon-bell-alt"]
+};
+
+var fnt_icons_1 = ["icon-mail", "icon-mail-alt", "icon-th-large", "icon-th", "icon-th-list", "icon-help-circled", "icon-info-circled", "icon-info", "icon-home", "icon-link", "icon-unlink", "icon-link-ext", "icon-link-ext-alt", "icon-attach", "icon-tag", "icon-tags", "icon-bookmark", "icon-bookmark-empty", "icon-download", "icon-upload", "icon-download-cloud", "icon-upload-cloud", "icon-reply", "icon-reply-all"];
+var fnt_icons_2 = ["icon-video", "icon-videocam", "icon-picture", "icon-camera", "icon-camera-alt", "icon-export", "icon-export-alt", "icon-pencil", "icon-pencil-squared", "icon-edit", "icon-print"];
+
 /**
  * Dynamically set icons
  *
@@ -145,12 +96,17 @@ var dynamicIconsElement = $('#change-icons').fontIconPicker({
     theme: 'fip-bootstrap'
 });
 
-</script>
-    @endif
-    <div class="layui-form-item">
-        <label class="layui-form-label">权限概述</label>
-        <div class="layui-input-block">
-            <textarea placeholder="请输入权限概述" name="description" class="layui-textarea">{{ $description }}</textarea>
-        </div>
-    </div>
+// Add the event listeners and change icons dynamically
+$('.change-icons-all').on('click', function(e) {
+    // Prevent default action
+    e.preventDefault();
 
+    // Set the icon
+    dynamicIconsElement.setIcons(icm_icons, icm_icon_search);
+
+    // Change the button appearance
+    $('.change-icons-buttons button').removeClass('btn-primary').addClass('btn-default');
+    $(this).removeClass('btn-default').addClass('btn-primary');
+});
+
+</script>

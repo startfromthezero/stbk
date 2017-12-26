@@ -6,14 +6,14 @@ function navBar(strData){
 		data = strData;
 	}
 	top = data.top;
-	var ulHtml = '<ul class="layui-nav layui-nav-tree"><li class="layui-nav-item"><a href="/admin"><i class="fa fa-book fa-fw"></i><cite class="sidecite">控制面板</cite></a></li>';
+	var ulHtml = '<ul class="layui-nav layui-nav-tree"><li class="layui-nav-item"><a href="/admin"><i class="icomoon-home"></i><cite class="sidecite">控制面板</cite></a></li>';
 	console.log(top.length);
 	for(var i=0;i< top.length;i++){
 		ulHtml += '<li class="layui-nav-item">';
 		if(data[top[i].id].length > 0){
 			ulHtml += '<a href="javascript:;">';
 			if(top[i].icon != undefined && top[i].icon != ''){
-				ulHtml += '<i class="fa '+ top[i].icon+' fa-fw"></i>';
+				ulHtml += '<i data-icomoon="&#x'+parseInt(top[i].icon, 10).toString(16)+'"></i>';
 			}
 			ulHtml += '<cite class="sidecite">'+ top[i].label+'</cite>';
 			ulHtml += '<span class="layui-nav-more"></span>';

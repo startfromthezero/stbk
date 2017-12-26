@@ -90,7 +90,7 @@
                         <td align="left">
                             @if(isset($permissionAll[$v['id']]))
                                 @foreach($permissionAll[$v['id']] as $vv)
-                                    <label class="layui-form-label">
+                                    <label style="float: left;padding: 9px 15px;">
                                     {{$vv['label']}}
                                         <input class="check-{{$v['id']}}" style="display:inline-block" type="checkbox" name="permissions[]" value="{{$vv['id']}}" @if(in_array($vv['id'],$permissions)) checked @endif>&emsp;
                                     </label>

@@ -18,6 +18,31 @@
     </div>
 </blockquote>
 <div class="layui-form">
+	<table class="layui-table">
+		<colgroup>
+			<col width="50">
+			<col>
+			<col width="9%">
+			<col width="9%">
+			<col width="9%">
+			<col width="9%">
+			<col width="12%">
+			<col width="15%">
+		</colgroup>
+		<thead>
+		<tr>
+			<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
+			<th style="text-align:left;">文章标题</th>
+			<th>发布人</th>
+			<th>审核状态</th>
+			<th>浏览权限</th>
+			<th>是否展示</th>
+			<th>发布时间</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody class="news_content"></tbody>
+	</table>
     <table class="layui-table" lay-data="{height: 'full-100', url:'{{ url('admin/user/index') }}', page:true,limit:6}" lay-filter="userEvent">
         <thead>
         <tr>

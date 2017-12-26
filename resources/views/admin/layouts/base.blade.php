@@ -13,7 +13,7 @@
     <script type="text/javascript" src="/layui/layui.js"></script>
     <script type="text/javascript" src="/js/leftNav.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/fonticonpicker/demo/icomoon/style.css" rel="stylesheet">
     <style>
         body .demo-class .layui-layer-title{
             background:#c00;

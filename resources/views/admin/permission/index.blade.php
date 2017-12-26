@@ -3,8 +3,8 @@
 <body class="childrenBody">
 <blockquote class="layui-elem-quote permission_search">
 	<div class="layui-inline" style="float:right">
-    @if($cid==0)
-        <label style="height:38px;line-height:38px;font-size:24px;" id="cid" attr="{{$cid}}"> 顶级菜单</label>
+    @if($data['cid']==0)
+        <label style="height:38px;line-height:38px;font-size:24px;" id="cid" attr="{{$data['cid']}}"> 顶级菜单</label>
     @else
         <a href="/admin/permission" class="layui-btn reloadBtn">返回顶级菜单</a>
     @endif
@@ -25,42 +25,66 @@
     </div>
 </blockquote>
 <div class="layui-form">
-    <table style="width: 100%;" class="layui-table" lay-data="{height: 'full-100', url:'{{ url('admin/permission/'.$cid) }}', page:true,limit:6}" lay-filter="demoEvent">
-        <thead>
-        <tr>
-            <th lay-data="{type:'checkbox', fixed: 'left',width:'3%'}"></th>
-            <th lay-data="{field:'id', width:'7%'}">ID</th>
-            <th lay-data="{field:'name', width:'20%'}">权限规则</th>
-            <th lay-data="{field:'label', width:'10%'}">权限名称</th>
-            <th lay-data="{field:'description', width:'10%'}">权限概述</th>
-            <th lay-data="{field:'created_at', width:'15%',sort:true}">创建时间</th>
-            <th lay-data="{field:'updated_at', width:'15%',sort:true}">修改时间</th>
-            <th lay-data="{fixed: 'right', width:'20%', align:'center', toolbar: '#barDemo'}">操作</th>
-        </tr>
-        </thead>
-    </table>
-    <script type="text/html" id="barDemo">
-        @if($cid==0)
-        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">下级菜单</a>
-        @endif
-        @if(Gate::forUser(auth('admin')->user())->check('admin.permission.edit'))
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        @endif
-        @if(Gate::forUser(auth('admin')->user())->check('admin.permission.destroy'))
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-        @endif
-        <form class="deleteForm" method="POST" action="/admin/list" style="display:none;">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="_method" value="DELETE">
-        </form>
-    </script>
+	<table class="layui-table">
+		<colgroup>
+			<col width="50">
+			<col width="5%">
+			<col width="15%">
+			<col width="15%">
+			<col width="15%">
+			<col width="15%">
+			<col width="15%">
+			<col>
+		</colgroup>
+		<thead>
+		<tr>
+			<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
+			<th>ID</th>
+			<th>权限规则</th>
+			<th>权限名称</th>
+			<th>权限概述</th>
+			<th>创建时间</th>
+			<th>修改时间</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody class="permissions_data">
+        @foreach ($data['permissions'] as $permission)
+            <tr>
+                <td><input type="checkbox" name="checked" lay-skin="primary" lay-filter="choose"></td>
+                <td>{{ $permission->id }}</td>
+                <td>{{ $permission->name }}</td>
+                <td>{{ $permission->label }}</td>
+                <td>{{ $permission->description }}</td>
+                <td>{{ $permission->created_at }}</td>
+                <td>{{ $permission->updated_at }}</td>
+                <td>
+                	@if($data['cid']==0)
+			        <a href="{{ url('admin/permission/'. $permission->id ) }}" class="layui-btn layui-btn-primary layui-btn-xs">下级菜单</a>
+			        @endif
+			        @if(Gate::forUser(auth('admin')->user())->check('admin.permission.edit'))
+       				<a class="layui-btn layui-btn-xs permission_edit" edit-id="{{ $permission->id }}">编辑</a>
+        			@endif
+                	@if(Gate::forUser(auth('admin')->user())->check('admin.permission.destroy'))
+        			<a class="layui-btn layui-btn-danger layui-btn-xs permission_del" del-id="{{ $permission->id }}">删除</a>
+        			@endif
+        			<form class="deleteForm" method="POST" action="/admin/list" style="display:none;">
+			            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+			            <input type="hidden" name="_method" value="DELETE">
+		        	</form>
+                </td>
+            </tr>
+        @endforeach
+		</tbody>
+	</table>
+	<div id="page"></div>
 </div>
-<div id="page"></div>
 <script type="text/javascript" src="/layui/layui.js"></script>
 <script type="text/javascript">
 
-	layui.use(['form', 'layer','table', 'jquery'], function () {
+	layui.use(['form', 'layer', 'jquery','laypage'], function () {
 		var table = layui.table,
+			laypage = layui.laypage,
 		    $ = layui.jquery;
 
 		//添加权限
@@ -74,7 +98,7 @@
 					fixed  : false, //不固定
 					maxmin : true,
 					skin   : 'layui-layer-molv',
-					content: "/admin/permission/{{ $cid }}/create",
+					content: "/admin/permission/{{ $data['cid'] }}/create",
 					success: function (layero, index) {
 						setTimeout(function () {
 							layui.layer.tips('点击此处返回权限列表', '.layui-layer-setwin .layui-layer-close', {
@@ -85,40 +109,55 @@
 				});
 			})
 		}).resize();
-		table.on('tool(demoEvent)', function (obj) {
-			var data = obj.data;
-			if (obj.event === 'detail')
+
+		//编辑
+		$("body").on("click", ".permission_edit", function ()
+		{  //编辑
+			var index = layui.layer.open({
+				title  : "编辑权限",
+				type   : 2,
+				content: '/admin/permission/' + $(this).attr("edit-id") + '/edit',
+				success: function (layero, index)
+				{
+					setTimeout(function ()
+					{
+						layui.layer.tips('点击此处返回权限列表', '.layui-layer-setwin .layui-layer-close', {
+							tips: 3
+						});
+					}, 500)
+				}
+			})
+			//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+			$(window).resize(function ()
 			{
-				location.href="/admin/permission/"+ data.id;
+				layui.layer.full(index);
+			})
+			layui.layer.full(index);
+		})
+
+		$("body").on("click",".permission_del",function(){  //删除
+			layer.confirm('确定删除此权限？',{icon:3, title:'提示信息'},function(index){
+				$('.deleteForm').attr('action', '/admin/permission/' + $(this).attr("del-id"));
+				$('.deleteForm').submit();
+				layer.close(index);
+			});
+		})
+
+		var nums = 10; //每页出现的数据量
+		//var limit = eval('(' + newsData + ')').length;
+		laypage.render({
+			elem : "page",
+			layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
+			count: {{ $data['count'] }},
+			limit: nums,
+			jump : function(obj){
+				console.log(obj);
+				//window.location.href="/admin/permission/{{ $data['cid'] }}?page="+obj.curr+"&limit="+nums;
+				// $(".permissions_data").html(renderDate(newsData,obj.curr));
+				// $('.news_list thead input[type="checkbox"]').prop("checked",false);
+		  //   	form.render();
 			}
-			else if (obj.event === 'del')
-			{
-				layer.confirm('真的删除行么', function (index) {
-					$('.deleteForm').attr('action', '/admin/permission/' + data.id);
-					$('.deleteForm').submit();
-					layer.close(index);
-				});
-			}
-			else if (obj.event === 'edit')
-			{
-				var index = layui.layer.open({
-					type   : 2,
-					title: '编辑权限',
-					area   : ['700px', '450px'],
-					fixed  : false, //不固定
-					maxmin : true,
-					skin: 'layui-layer-molv',
-					content: '/admin/permission/' + data.id + '/edit',
-					success: function (layero, index) {
-						setTimeout(function () {
-							layui.layer.tips('点击此处返回权限列表', '.layui-layer-setwin .layui-layer-close', {
-								tips: 3
-							});
-						}, 500)
-					}
-				});
-			}
-		});
+		})
 	});
 </script>
 @endsection
