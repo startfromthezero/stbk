@@ -21,5 +21,13 @@
 </head>
 <body class="childrenBody">
     @yield('content')
+    <script type="text/javascript">
+        layui.use('layer', function () {
+            var layer = layui.layer
+                @if (Session::has('success'))
+                var index = layer.msg('{{ Session::get('success') }}');
+                @endif
+        });
+    </script>
 </body>
 </html>

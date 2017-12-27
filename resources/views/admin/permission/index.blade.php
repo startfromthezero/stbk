@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
 <body class="childrenBody">
+@include('admin.partials.errors')
 <blockquote class="layui-elem-quote permission_search">
 	<div class="layui-inline" style="float:right">
     @if($data['cid']==0)
@@ -11,7 +12,7 @@
 	</div>
     <div class="layui-inline">
         <div class="layui-input-inline">
-            <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
+            <input type="text" value="{{$data['search']}}" placeholder="请输入关键字" class="layui-input search_input">
         </div>
         <a class="layui-btn search_btn">查询</a>
     </div>
@@ -81,38 +82,56 @@
 </div>
 <script type="text/javascript" src="/layui/layui.js"></script>
 <script type="text/javascript">
-
 	layui.use(['form', 'layer', 'jquery','laypage'], function () {
 		var table = layui.table,
 			laypage = layui.laypage,
-		    $ = layui.jquery;
+			form = layui.form,
+		    $ = layui.jquery,
+		    nums = 10; //每页出现的数据量;
+
+		//搜索
+		$("body").on("click", ".search_btn", function ()
+		{
+			var search = $('.search_input').val(),url = "/admin/permission/{{ $data['cid'] }}?page=1&limit="+nums;
+			if(search != ''){
+				url +="&search="+search;
+			}
+			window.location.href = url;
+			return;
+		})
 
 		//添加权限
-		//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-		$(window).one("resize", function () {
-			$(".perAdd_btn").click(function () {
-				var index = layui.layer.open({
-					type   : 2,
-					title  : '添加权限',
-					area   : ['700px', '450px'],
-					fixed  : false, //不固定
-					maxmin : true,
-					skin   : 'layui-layer-molv',
-					content: "/admin/permission/{{ $data['cid'] }}/create",
-					success: function (layero, index) {
-						setTimeout(function () {
-							layui.layer.tips('点击此处返回权限列表', '.layui-layer-setwin .layui-layer-close', {
-								tips: 3
-							});
-						}, 500)
-					}
-				});
+		$("body").on("click", ".perAdd_btn", function ()
+		{  //编辑
+			var index = layui.layer.open({
+				title  : "添加权限",
+				type   : 2,
+				content: "/admin/permission/{{ $data['cid'] }}/create",
+				success: function (layero, index)
+				{
+					setTimeout(function ()
+					{
+						layui.layer.tips('点击此处返回权限列表', '.layui-layer-setwin .layui-layer-close', {
+							tips: 3
+						});
+					}, 500)
+				},
+				yes: function(index, layero){
+				    //do something
+				    layer.close(index); //如果设定了yes回调，需进行手工关闭
+			  	}
 			})
-		}).resize();
+			//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+			$(window).resize(function ()
+			{
+				layui.layer.full(index);
+			})
+			layui.layer.full(index);
+		})
 
 		//编辑
 		$("body").on("click", ".permission_edit", function ()
-		{  //编辑
+		{
 			var index = layui.layer.open({
 				title  : "编辑权限",
 				type   : 2,
@@ -124,38 +143,53 @@
 						layui.layer.tips('点击此处返回权限列表', '.layui-layer-setwin .layui-layer-close', {
 							tips: 3
 						});
-					}, 500)
-				}
+					}, 500);
+					//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+					$(window).resize(function ()
+					{
+						layui.layer.full(index);
+					})
+					layui.layer.full(index);
+				},
+				btn:'',
+				yes: function(index, layero){
+					console.log(layero);
+				    //do something
+				    layer.close(index); //如果设定了yes回调，需进行手工关闭
+			  	}
 			})
-			//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-			$(window).resize(function ()
-			{
-				layui.layer.full(index);
-			})
-			layui.layer.full(index);
 		})
 
-		$("body").on("click",".permission_del",function(){  //删除
+		//删除
+		$("body").on("click",".permission_del",function(){
+			var _this=$(this);
 			layer.confirm('确定删除此权限？',{icon:3, title:'提示信息'},function(index){
-				$('.deleteForm').attr('action', '/admin/permission/' + $(this).attr("del-id"));
+				$('.deleteForm').attr('action', '/admin/permission/' +_this.attr("del-id"));
 				$('.deleteForm').submit();
-				layer.close(index);
 			});
 		})
 
-		var nums = 10; //每页出现的数据量
-		//var limit = eval('(' + newsData + ')').length;
+		@if (count($errors) > 0)
+			alert('出错啦！');
+			var error = '';
+			@foreach ($errors->all() as $error)
+			error += '{{ $error }}'."\n";
+			@endforeach
+        	var index = layui.layer.msg(error, {icon: 5});
+		@endif
+
+		//分页
 		laypage.render({
 			elem : "page",
 			layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
 			count: {{ $data['count'] }},
 			limit: nums,
-			jump : function(obj){
-				console.log(obj);
-				//window.location.href="/admin/permission/{{ $data['cid'] }}?page="+obj.curr+"&limit="+nums;
-				// $(".permissions_data").html(renderDate(newsData,obj.curr));
-				// $('.news_list thead input[type="checkbox"]').prop("checked",false);
-		  //   	form.render();
+			curr : {{ $data['page'] }},
+			jump : function(obj,first){
+		    	if(!first){
+					window.location.href="/admin/permission/{{ $data['cid'] }}?page="+obj.curr+"&limit="+nums;
+					return;
+		    	}
 			}
 		})
 	});

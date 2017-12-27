@@ -35,56 +35,21 @@ class PermissionController extends Controller
         $search  = $request->get('search');
         $data = array();
         $data['cid'] = (int)$cid;
+        $data['page'] =$start;
+        $data['search'] =$search;
         $data['count'] =  Permission::where('cid', $cid)->count();
-        if (strlen($search['value']) > 0)
+        if (strlen($search) > 0)
         {
              $data['count'] = Permission::where('cid', $cid)->where(function ($query) use ($search) {
-                 $query->where('name', 'LIKE', '%' . $search['value'] . '%')->orWhere('description', 'like', '%' . $search['value'] . '%')->orWhere('label', 'like', '%' . $search['value'] . '%');
+                 $query->where('name', 'LIKE', '%' . $search . '%')->orWhere('description', 'like', '%' . $search . '%')->orWhere('label', 'like', '%' . $search . '%');
              })->count();
              $data['permissions']            = Permission::where('cid', $cid)->where(function ($query) use ($search) {
-                 $query->where('name', 'LIKE', '%' . $search['value'] . '%')->orWhere('description', 'like', '%' . $search['value'] . '%')->orWhere('label', 'like', '%' . $search['value'] . '%');
+                 $query->where('name', 'LIKE', '%' . $search . '%')->orWhere('description', 'like', '%' . $search . '%')->orWhere('label', 'like', '%' . $search . '%');
              })->skip(($start - 1) * $length)->take($length)->get();
         }else{
              $data['permissions']            = Permission::where('cid', $cid)->skip(($start-1)* $length)->take($length)->get();
         }
         return view('admin.permission.index',compact('data'));
-		// $cid = (int)$cid;
-		// if ($request->ajax())
-		// {
-		// 	$data                 = array();
-		// 	$data['draw']         = $request->get('draw');
-		// 	$start                = $request->get('page');
-		// 	$length               = $request->get('limit');
-		// 	$order                = $request->get('order','id');
-		// 	$columns              = $request->get('columns');
-		// 	$search               = $request->get('search');
-		// 	//$cid                  = $request->get('cid', 0);
-		// 	$data['count'] = Permission::where('cid', $cid)->count();
-		// 	if (strlen($search['value']) > 0)
-		// 	{
-		// 		$data['count'] = Permission::where('cid', $cid)->where(function ($query) use ($search) {
-		// 			$query->where('name', 'LIKE', '%' . $search['value'] . '%')->orWhere('description', 'like', '%' . $search['value'] . '%')->orWhere('label', 'like', '%' . $search['value'] . '%');
-		// 		})->count();
-		// 		$data['data']            = Permission::where('cid', $cid)->where(function ($query) use ($search) {
-		// 			$query->where('name', 'LIKE', '%' . $search['value'] . '%')->orWhere('description', 'like', '%' . $search['value'] . '%')->orWhere('label', 'like', '%' . $search['value'] . '%');
-		// 		})->skip(($start - 1) * $length)->take($length)->get();
-		// 	}
-		// 	else
-		// 	{
-		// 		$data['count'] = Permission::where('cid', $cid)->count();
-		// 		//$data['data']            = Permission::where('cid', $cid)->skip($start)->take($length)->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])->get();
-		// 		$data['data']            = Permission::where('cid', $cid)->skip(($start-1)* $length)->take($length)->get();
-		// 	}
-		// 	$data['code'] = 0;
-		// 	return $data;
-		// }
-		// $datas['cid'] = $cid;
-		// if ($cid > 0)
-		// {
-		// 	$datas['data'] = Permission::find($cid);
-		// }
-
-		// return view('admin.permission.index', $datas);
     }
 
     /**
@@ -188,7 +153,6 @@ class PermissionController extends Controller
         Event::fire(new permChangeEvent());
         event(new \App\Events\userActionEvent('\App\Models\Admin\Permission', $tag->id, 2, '删除了权限:' . $tag->name . '(' . $tag->label . ')'));
 
-        return redirect()->back()
-            ->withSuccess("删除成功");
+        return redirect()->back()->withSuccess("删除成功");
     }
 }

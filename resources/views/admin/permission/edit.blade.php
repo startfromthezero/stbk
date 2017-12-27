@@ -39,7 +39,6 @@
 @extends('admin.layouts.app')
 @section('content')
 @include('admin.partials.errors')
-@include('admin.partials.success')
 <form class="layui-form" action="/admin/permission/{{ $id }}" role="form" method="POST">
     {!! csrf_field() !!}
     {{ method_field('PATCH') }}
@@ -50,7 +49,7 @@
     @include('admin.permission._form')
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn">保存</button>
+            <button type="submit" class="layui-btn">保存</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
