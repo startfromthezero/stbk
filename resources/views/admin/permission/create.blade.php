@@ -48,7 +48,9 @@
 @section('content')
 @include('admin.partials.errors')
 @include('admin.partials.success')
-<form class="layui-form" action="/admin/permission" role="form" method="POST">
+<div class="layui-layer-title" style="cursor: move;">添加权限</div>
+<span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1" href="/admin/permission/{{ $cid }}"></a></span>
+<form class="layui-form layui-form-pane" style="padding:40px" action="/admin/permission" role="form" method="POST">
    <input type="hidden" name="_token" value="{{ csrf_token() }}">
    <input type="hidden" name="cove_image"/>
     @include('admin.permission._form')

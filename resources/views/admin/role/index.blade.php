@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
 <body class="childrenBody">
-<blockquote class="layui-elem-quote role_search">
+<blockquote class="layui-elem-quote">
     <div class="layui-inline">
         <div class="layui-input-inline">
             <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
@@ -10,7 +10,7 @@
     </div>
     @if(Gate::forUser(auth('admin')->user())->check('admin.role.create'))
     <div class="layui-inline">
-        <a class="layui-btn layui-btn-normal roleAdd_btn">添加角色</a>
+        <a class="layui-btn layui-btn-normal role_add">添加角色</a>
     </div>
     @endif
     <div class="layui-inline">
@@ -18,93 +18,106 @@
     </div>
 </blockquote>
 <div class="layui-form">
-    <table class="layui-table" lay-data="{height: 'full-100', url:'{{ url('admin/role/index') }}', page:true,limit:6}" lay-filter="roleEvent">
+    <table class="layui-table">
+        <colgroup>
+            <col width="50">
+            <col width="5%">
+            <col width="15%">
+            <col>
+            <col width="15%">
+            <col width="15%">
+            <col width="20%">
+        </colgroup>
         <thead>
         <tr>
-            <th lay-data="{type:'checkbox', fixed: 'left',width:'3%'}"></th>
-            <th lay-data="{field:'id', width:'7%',cellMinWidth:60}">ID</th>
-            <th lay-data="{field:'name', width:'20%',cellMinWidth:100}">角色名称</th>
-            <th lay-data="{field:'description', width:'20%',cellMinWidth:100}">角色描述</th>
-            <th lay-data="{field:'created_at', width:'15%',cellMinWidth:160}">创建时间</th>
-            <th lay-data="{field:'updated_at', width:'15%',cellMinWidth:160}">修改时间</th>
-            <th lay-data="{fixed: 'right', width:'20%',cellMinWidth:160, align:'center', toolbar: '#roleOper'}">操作</th>
+            <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
+            <th>ID</th>
+            <th>角色名称</th>
+            <th>角色描述</th>
+            <th>创建时间</th>
+            <th>修改时间</th>
+            <th>操作</th>
         </tr>
         </thead>
+        <tbody class="roles_data">
+        @foreach ($data['roles'] as $role)
+            <tr>
+                <td><input type="checkbox" name="checked" lay-skin="primary" lay-filter="choose"></td>
+                <td>{{ $role->id }}</td>
+                <td>{{ $role->name }}</td>
+                <td>{{ $role->description }}</td>
+                <td>{{ $role->created_at }}</td>
+                <td>{{ $role->updated_at }}</td>
+                <td>
+                    @if(Gate::forUser(auth('admin')->user())->check('admin.role.edit'))
+                        <a class="layui-btn layui-btn-xs role_edit" edit-id="{{ $role->id }}">编辑</a>
+                    @endif
+                    @if(Gate::forUser(auth('admin')->user())->check('admin.role.destroy'))
+                        <a class="layui-btn layui-btn-danger layui-btn-xs role_del"
+                           del-id="{{ $role->id }}">删除</a>
+                    @endif
+                    <form class="deleteForm" method="POST" action="/admin/list" style="display:none;">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="_method" value="DELETE">
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
     </table>
-    <script type="text/html" id="roleOper">
-        @if(Gate::forUser(auth('admin')->user())->check('admin.role.edit'))
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        @endif
-        @if(Gate::forUser(auth('admin')->user())->check('admin.role.destroy'))
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-        @endif
-        <form class="deleteForm" method="POST" action="/admin/list" style="display:none;">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="_method" value="DELETE">
-        </form>
-    </script>
+    <div id="page"></div>
 </div>
-<div id="page"></div>
-<script type="text/javascript" src="/layui/layui.js"></script>
 <script type="text/javascript">
-	layui.use(['table', 'jquery'], function () {
-		var table = layui.table,
-		    $ = layui.jquery;
-		table.on('checkbox(demo)', function (obj) {
-			console.log(obj)
-		});
+	layui.use(['jquery', 'laypage'], function () {
+		var laypage = layui.laypage,
+			$ = layui.jquery,
+			nums = 10; //每页出现的数据量;
+
+		//搜索
+		$("body").on("click", ".search_btn", function () {
+			var search = $('.search_input').val(), url = "/admin/role?page=1&limit=" + nums;
+			if (search != '')
+			{
+				url += "&search=" + search;
+			}
+			window.location.href = url;
+			return;
+		})
 
 		//添加角色
-		//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-		$(window).one("resize", function () {
-			$(".roleAdd_btn").click(function () {
-				var index = layui.layer.open({
-					title  : "添加角色",
-					type   : 2,
-					content: "/admin/role/create",
-					success: function (layero, index) {
-						setTimeout(function () {
-							layui.layer.tips('点击此处返回文章列表', '.layui-layer-setwin .layui-layer-close', {
-								tips: 3
-							});
-						}, 500)
-					}
-				})
-				layui.layer.full(index);
-			})
-		}).resize();
+		$("body").on("click", ".role_add", function () {
+			window.location.href = '/admin/role/create';
+		})
 
-		table.on('tool(roleEvent)', function (obj) {
-			var data = obj.data;
-			if (obj.event === 'detail')
-			{
-				location.href="/admin/role/"+ data.id;
+		//编辑
+		$("body").on("click", ".role_edit", function () {
+			window.location.href = '/admin/role/' + $(this).attr("edit-id") + '/edit';
+		})
+
+		//删除
+		$("body").on("click", ".role_del", function () {
+			var _this = $(this);
+			layer.confirm('确定删除此角色？', {icon: 3, title: '提示信息'}, function (index) {
+				$('.deleteForm').attr('action', '/admin/role/' + _this.attr("del-id"));
+				$('.deleteForm').submit();
+			});
+		})
+
+		//分页
+		laypage.render({
+			elem  : "page",
+			layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
+			count : {{ $data['count'] }},
+			limit : nums,
+			curr  : {{ $data['page'] }},
+			jump  : function (obj, first) {
+				if (!first)
+				{
+					window.location.href = "/admin/role?page=" + obj.curr + "&limit=" + nums;
+					return;
+				}
 			}
-			else if (obj.event === 'del')
-			{
-				layer.confirm('真的删除行么', function (index) {
-					$('.deleteForm').attr('action', '/admin/role/' + data.id);
-					$('.deleteForm').submit();
-					layer.close(index);
-				});
-			}
-			else if (obj.event === 'edit')
-			{
-				var index = layui.layer.open({
-					title  : "编辑角色",
-					type   : 2,
-					content: '/admin/role/' + data.id + '/edit',
-					success: function (layero, index) {
-						setTimeout(function () {
-							layui.layer.tips('点击此处返回角色列表', '.layui-layer-setwin .layui-layer-close', {
-								tips: 3
-							});
-						}, 500)
-					}
-				})
-				layui.layer.full(index);
-			}
-		});
+		})
 	});
 </script>
 @endsection

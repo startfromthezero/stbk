@@ -2,7 +2,7 @@
 @section('content')
 <body class="childrenBody">
 @include('admin.partials.errors')
-<blockquote class="layui-elem-quote permission_search">
+<blockquote class="layui-elem-quote">
 	<div class="layui-inline" style="float:right">
     @if($data['cid']==0)
         <label style="height:38px;line-height:38px;font-size:24px;" id="cid" attr="{{$data['cid']}}"> 顶级菜单</label>
@@ -32,10 +32,10 @@
 			<col width="5%">
 			<col width="15%">
 			<col width="15%">
-			<col width="15%">
-			<col width="15%">
-			<col width="15%">
 			<col>
+			<col width="15%">
+			<col width="15%">
+			<col width="20%">
 		</colgroup>
 		<thead>
 		<tr>
@@ -80,12 +80,9 @@
 	</table>
 	<div id="page"></div>
 </div>
-<script type="text/javascript" src="/layui/layui.js"></script>
 <script type="text/javascript">
-	layui.use(['form', 'layer', 'jquery','laypage'], function () {
-		var table = layui.table,
-			laypage = layui.laypage,
-			form = layui.form,
+	layui.use(['jquery','laypage'], function () {
+		var laypage = layui.laypage,
 		    $ = layui.jquery,
 		    nums = 10; //每页出现的数据量;
 
@@ -102,62 +99,14 @@
 
 		//添加权限
 		$("body").on("click", ".perAdd_btn", function ()
-		{  //编辑
-			var index = layui.layer.open({
-				title  : "添加权限",
-				type   : 2,
-				content: "/admin/permission/{{ $data['cid'] }}/create",
-				success: function (layero, index)
-				{
-					setTimeout(function ()
-					{
-						layui.layer.tips('点击此处返回权限列表', '.layui-layer-setwin .layui-layer-close', {
-							tips: 3
-						});
-					}, 500)
-				},
-				yes: function(index, layero){
-				    //do something
-				    layer.close(index); //如果设定了yes回调，需进行手工关闭
-			  	}
-			})
-			//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-			$(window).resize(function ()
-			{
-				layui.layer.full(index);
-			})
-			layui.layer.full(index);
+		{
+			window.location.href = '/admin/permission/{{ $data['cid'] }}/create';
 		})
 
 		//编辑
 		$("body").on("click", ".permission_edit", function ()
 		{
-			var index = layui.layer.open({
-				title  : "编辑权限",
-				type   : 2,
-				content: '/admin/permission/' + $(this).attr("edit-id") + '/edit',
-				success: function (layero, index)
-				{
-					setTimeout(function ()
-					{
-						layui.layer.tips('点击此处返回权限列表', '.layui-layer-setwin .layui-layer-close', {
-							tips: 3
-						});
-					}, 500);
-					//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-					$(window).resize(function ()
-					{
-						layui.layer.full(index);
-					})
-					layui.layer.full(index);
-				},
-				btn:'',
-				yes: function(index, layero){
-					console.log(layero);
-				    //do something
-				    layer.close(index); //如果设定了yes回调，需进行手工关闭
-			  	}
-			})
+			window.location.href = '/admin/permission/' + $(this).attr("edit-id") + '/edit';
 		})
 
 		//删除
@@ -168,15 +117,6 @@
 				$('.deleteForm').submit();
 			});
 		})
-
-		@if (count($errors) > 0)
-			alert('出错啦！');
-			var error = '';
-			@foreach ($errors->all() as $error)
-			error += '{{ $error }}'."\n";
-			@endforeach
-        	var index = layui.layer.msg(error, {icon: 5});
-		@endif
 
 		//分页
 		laypage.render({

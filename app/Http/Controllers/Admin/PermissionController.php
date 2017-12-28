@@ -22,7 +22,6 @@ class PermissionController extends Controller
         'icon'        => '',
     ];
 
-
     /**
      * Display a listing of the resource.
      *

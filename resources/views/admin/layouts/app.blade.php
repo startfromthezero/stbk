@@ -12,22 +12,15 @@
     <link rel="stylesheet" href="/layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
     <link rel="stylesheet" href="/css/news.css" media="all" />
-    <style>
-        .layui-input-block{
-            margin-right:80px
-        }
-    </style>
     <script type="text/javascript" src="/layui/layui.js"></script>
 </head>
-<body class="childrenBody">
-    @yield('content')
-    <script type="text/javascript">
-        layui.use('layer', function () {
-            var layer = layui.layer
-                @if (Session::has('success'))
-                var index = layer.msg('{{ Session::get('success') }}');
-                @endif
-        });
-    </script>
-</body>
+@yield('content')
+<script type="text/javascript">
+    layui.use('layer', function () {
+        var layer = layui.layer
+            @if (Session::has('success'))
+            var index = layer.msg('{{ Session::get('success') }}');
+            @endif
+    });
+</script>
 </html>
