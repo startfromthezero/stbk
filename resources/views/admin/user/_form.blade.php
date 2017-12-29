@@ -53,43 +53,45 @@
 
 </div>
 --}}
-<div class="layui-form-item" style="margin-top: 20px;">
+
+<div class="layui-form-item">
     <label class="layui-form-label">用户名称</label>
-    <div class="layui-input-block">
+    <div class="layui-input-inline">
         <input type="text" name="name" class="layui-input" required="required" placeholder="请输入用户名称" value="{{ $name }}">
     </div>
 </div>
-<div class="layui-form-item" style="margin-top: 20px;">
+<div class="layui-form-item">
     <label class="layui-form-label">用户帐号</label>
-    <div class="layui-input-block">
+    <div class="layui-input-inline">
         <input type="text" name="username" class="layui-input" required="required" placeholder="请输入用户帐号" value="{{ $username }}">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">邮箱</label>
-    <div class="layui-input-block">
+    <div class="layui-input-inline">
         <input type="text" name="email" class="layui-input" required="required" placeholder="请输入邮箱" value="{{ $email }}">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">用户密码</label>
-    <div class="layui-input-block">
+    <div class="layui-input-inline">
         <input type="password" name="password" class="layui-input" required="required" placeholder="请输入密码确认" value="">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">密码确认</label>
-    <div class="layui-input-block">
+    <div class="layui-input-inline">
         <input type="password" name="password_confirmation" class="layui-input" required="required" placeholder="请输入密码确认" value="">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">选择角色</label>
     <div class="layui-input-block" style="line-height:36px;">
-        @foreach($rolesAll as $v)
+    @foreach($rolesAll as $v)
             <input style="display:inline-block" type="checkbox" name="roles[]" value="{{$v['id']}}" @if(in_array($v['id'],$roles)) checked @endif>
             {{$v['name']}}
         @endforeach
     </div>
 </div>
+
 

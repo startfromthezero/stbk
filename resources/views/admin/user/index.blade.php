@@ -10,7 +10,7 @@
     </div>
     @if(Gate::forUser(auth('admin')->user())->check('admin.user.create'))
     <div class="layui-inline">
-        <a class="layui-btn layui-btn-normal perAdd_btn">添加用户</a>
+        <a class="layui-btn layui-btn-normal user_add">添加用户</a>
     </div>
     @endif
     <div class="layui-inline">
@@ -21,118 +21,112 @@
 	<table class="layui-table">
 		<colgroup>
 			<col width="50">
-			<col>
-			<col width="9%">
-			<col width="9%">
-			<col width="9%">
-			<col width="9%">
+			<col width="5%">
 			<col width="12%">
+			<col width="12%">
+			<col>
+			<col width="15%">
+			<col width="15%">
 			<col width="15%">
 		</colgroup>
 		<thead>
 		<tr>
 			<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
-			<th style="text-align:left;">文章标题</th>
-			<th>发布人</th>
-			<th>审核状态</th>
-			<th>浏览权限</th>
-			<th>是否展示</th>
-			<th>发布时间</th>
+			<th>ID</th>
+			<th>用户名称</th>
+			<th>帐号</th>
+			<th>邮箱</th>
+			<th>创建时间</th>
+			<th>修改时间</th>
 			<th>操作</th>
 		</tr>
 		</thead>
-		<tbody class="news_content"></tbody>
+		<tbody class="users_data">
+		@foreach ($data['users'] as $user)
+			<tr>
+				<td><input type="checkbox" name="checked" lay-skin="primary" lay-filter="choose"></td>
+				<td>{{ $user->id }}</td>
+				<td>{{ $user->name }}</td>
+				<td>{{ $user->username }}</td>
+				<td>{{ $user->email }}</td>
+				<td>{{ $user->created_at }}</td>
+				<td>{{ $user->updated_at }}</td>
+				<td>
+					@if(Gate::forUser(auth('admin')->user())->check('admin.user.edit'))
+						<a class="layui-btn layui-btn-xs user_edit" edit-id="{{ $user->id }}">编辑</a>
+					@endif
+					@if(Gate::forUser(auth('admin')->user())->check('admin.user.destroy'))
+						<a class="layui-btn layui-btn-danger layui-btn-xs user_del" del-id="{{ $user->id }}">删除</a>
+					@endif
+					<form class="deleteForm" method="POST" action="/admin/list" style="display:none;">
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<input type="hidden" name="_method" value="DELETE">
+					</form>
+				</td>
+			</tr>
+		@endforeach
+		</tbody>
 	</table>
-    <table class="layui-table" lay-data="{height: 'full-100', url:'{{ url('admin/user/index') }}', page:true,limit:6}" lay-filter="userEvent">
-        <thead>
-        <tr>
-            <th lay-data="{type:'checkbox', fixed: 'left', width:'3%'}"></th>
-            <th lay-data="{field:'id', width:'7%'}">ID</th>
-            <th lay-data="{field:'name', width:'10%'}">用户名称</th>
-            <th lay-data="{field:'username', width:'10%'}">帐号</th>
-            <th lay-data="{field:'email', width:'20%'}">邮箱</th>
-            <th lay-data="{field:'created_at', width:'15%',sort:true}">创建时间</th>
-            <th lay-data="{field:'updated_at', width:'15%',sort:true}">修改时间</th>
-            <th lay-data="{fixed: 'right', width:'20%', align:'center', toolbar: '#userOper'}">操作</th>
-        </tr>
-        </thead>
-    </table>
-    <script type="text/html" id="userOper">
-        @if(Gate::forUser(auth('admin')->user())->check('admin.user.edit'))
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        @endif
-        @if(Gate::forUser(auth('admin')->user())->check('admin.user.destroy'))
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-        @endif
-        <form class="deleteForm" method="POST" action="/admin/list" style="display:none;">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="_method" value="DELETE">
-        </form>
-    </script>
+	<div id="page"></div>
 </div>
-<div id="page"></div>
 <script type="text/javascript">
 
-	layui.use(['form', 'layer','table', 'jquery'], function () {
-		var table = layui.table,
-		    $ = layui.jquery;
+	layui.use(['laypage', 'jquery'], function () {
+		var laypage = layui.laypage,
+				$ = layui.jquery,
+				nums = 10; //每页出现的数据量;
 
-		//添加用户
-		//改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-		$(window).one("resize", function () {
-			$(".perAdd_btn").click(function () {
-				var index = layui.layer.open({
-					type   : 2,
-					title  : '添加用户',
-					area   : ['700px', '450px'],
-					fixed  : false, //不固定
-					maxmin : true,
-					skin   : 'layui-layer-molv',
-					content: "/admin/user/create",
-					success: function (layero, index) {
-						setTimeout(function () {
-							layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
-								tips: 3
-							});
-						}, 500)
-					}
-				});
-			})
-		}).resize();
-		table.on('tool(userEvent)', function (obj) {
-			var data = obj.data;
-			if (obj.event === 'detail')
+		//搜索
+		$("body").on("click", ".search_btn", function ()
+		{
+			var search = $('.search_input').val(), url = "/admin/user?page=1&limit=" + nums;
+			if (search != '')
 			{
-				location.href="/admin/user/"+ data.id;
+				url += "&search=" + search;
 			}
-			else if (obj.event === 'del')
+			window.location.href = url;
+			return;
+		})
+
+		//添加角色
+		$("body").on("click", ".user_add", function ()
+		{
+			window.location.href = '/admin/user/create';
+		})
+
+		//编辑
+		$("body").on("click", ".user_edit", function ()
+		{
+			window.location.href = '/admin/user/' + $(this).attr("edit-id") + '/edit';
+		})
+
+		//删除
+		$("body").on("click", ".user_del", function ()
+		{
+			var _this = $(this);
+			layer.confirm('确定删除此角色？', {icon: 3, title: '提示信息'}, function (index)
 			{
-				layer.confirm('真的删除行么', function (index) {
-					$('.deleteForm').attr('action', '/admin/user/' + data.id);
-					$('.deleteForm').submit();
-					layer.close(index);
-				});
-			}
-			else if (obj.event === 'edit')
+				$('.deleteForm').attr('action', '/admin/user/' + _this.attr("del-id"));
+				$('.deleteForm').submit();
+			});
+		})
+
+		//分页
+		laypage.render({
+			elem  : "page",
+			layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
+			count : {{ $data['count'] }},
+			limit : nums,
+			curr  : {{ $data['page'] }},
+			jump  : function (obj, first)
 			{
-				var index = layui.layer.open({
-					type   : 2,
-					title: '编辑用户',
-					area   : ['700px', '450px'],
-					fixed  : false, //不固定
-					maxmin : true,
-					skin: 'layui-layer-molv',
-					content: '/admin/user/' + data.id + '/edit',
-					success: function (layero, index) {
-						setTimeout(function () {
-							layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
-								tips: 3
-							});
-						}, 500)
-					}
-				});
+				if (!first)
+				{
+					window.location.href = "/admin/user?page=" + obj.curr + "&limit=" + nums;
+					return;
+				}
 			}
-		});
+		})
 	});
 </script>
 @endsection

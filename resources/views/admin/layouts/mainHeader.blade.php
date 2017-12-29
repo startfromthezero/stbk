@@ -68,7 +68,7 @@
         <a href="javascript:;" class="mobileAddTab" data-url="page/user/changePwd.html"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><cite>设置</cite></a>
       </li>
       <li class="layui-nav-item" mobile>
-        <a href="/admin/logout" class="signOut"><i class="iconfont icon-loginout"></i> 退出</a>
+        <a href="javascript:top.window.location.href='/admin/logout'" class="signOut"><i class="iconfont icon-loginout"></i> 退出</a>
       </li>
       <li class="layui-nav-item lockcms" pc>
         <a href="javascript:;"><i class="iconfont icon-lock1"></i><cite>锁屏</cite></a>
@@ -83,9 +83,9 @@
           <dd><a href="javascript:;" data-url="/user/user/changePwd"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><cite>修改密码</cite></a></dd>
           <dd><a href="javascript:;" class="changeSkin"><i class="iconfont icon-huanfu"></i><cite>更换皮肤</cite></a></dd>
           <dd><a href="/admin/logout" class="signOut" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="iconfont icon-loginout"></i><cite>退出</cite></a>
-            {{--<form id="logout-form" action="{{ url('admin/logout') }}" method="POST" style="display: none;">--}}
-              {{--{{ csrf_field() }}--}}
-            {{--</form>--}}
+            <form id="logout-form" action="{{ url('admin/logout') }}" method="POST" style="display: none;">--}}
+              {{ csrf_field() }}
+            </form>
           </dd>
         </dl>
       </li>

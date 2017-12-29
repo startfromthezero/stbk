@@ -45,11 +45,14 @@
         </div>
     </div>
 @stop
---}}@extends('admin.layouts.app')
+--}}
+@extends('admin.layouts.app')
 @section('content')
+    <body>
     @include('admin.partials.errors')
-    @include('admin.partials.success')
-    <form class="layui-form" action="/admin/user/{{ $id }}" role="form" method="POST">
+    <div class="layui-layer-title" style="cursor: move;">编辑用户</div>
+    <span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1" href="/admin/user"></a></span>
+    <form class="layui-form layui-form-pane" style="padding:40px" action="/admin/user/{{ $id }}" role="form" method="POST">
         {!! csrf_field() !!}
         {{ method_field('PATCH') }}
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -57,10 +60,9 @@
         <input type="hidden" name="id" value="{{ $id }}">
         @include('admin.user._form')
         <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn">保存</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            </div>
+            <button class="layui-btn">保存</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </form>
+    </body>
 @endsection

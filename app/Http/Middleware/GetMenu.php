@@ -43,6 +43,7 @@ class GetMenu
                 ->orWhere('cid', 0)
                 ->get();
         });
+
         foreach ($table as $v) {
             if ($v->cid == 0 || \Gate::forUser(auth('admin')->user())->check($v->name)) {
                 if ($v->name == $urlPath) {
@@ -57,6 +58,7 @@ class GetMenu
                 $data['top'][] = $v;
             }
         }
+
         unset($data[0]);
         //ation open 可以在函数中计算给他
         $data['openarr'] = array_unique($openArr);

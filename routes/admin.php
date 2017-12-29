@@ -18,14 +18,19 @@ Route::post('logout', 'LoginController@logout');
 
 Route::get('/', 'IndexController@index');
 Route::get('/show', 'IndexController@show');
-
 //Route::get('index', ['as' => 'admin.index', 'uses' => function () {
 //    return redirect('/admin/log-viewer');
 //}]);
-
+Route::group([
+    'middleware' => [
+        'menu',
+    ]
+], function ()
+{
+    Route::get('/getMenu', 'IndexController@getMenu');
+});
 
 Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin']], function () {
-	Route::get('/getMenu', 'IndexController@getMenu');
 	Route::get('permission/show', 'PermissionController@show');
     //权限管理路由
     Route::get('permission/{cid}/create', ['as' => 'admin.permission.create', 'uses' => 'PermissionController@create']);
@@ -45,7 +50,6 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin']], function () 
     Route::get('user/index', ['as' => 'admin.user.index', 'uses' => 'UserController@index']);  //用户管理
     Route::post('user/index', ['as' => 'admin.user.index', 'uses' => 'UserController@index']);
     Route::resource('user', 'UserController', ['names' => ['update' => 'admin.role.edit', 'store' => 'admin.role.create']]);
-
 });
 
 //Route::get('/', function () {

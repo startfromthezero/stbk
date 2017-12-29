@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Admin\Role;
 use App\Models\Admin\AdminUser as User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 class UserController extends Controller
 {
     protected $fields = [
@@ -25,34 +25,30 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $data = array();
-            $data['draw'] = $request->get('draw');
-            $start = $request->get('page');
-            $length = $request->get('limit');
-            $order = $request->get('order');
-            $columns = $request->get('columns');
-            $search = $request->get('search');
-            $data['count'] = User::count();
-            if (strlen($search['value']) > 0) {
-                $data['count'] = User::where(function ($query) use ($search) {
-                    $query->where('name', 'LIKE', '%' . $search['value'] . '%')
-                        ->orWhere('email', 'like', '%' . $search['value'] . '%');
-                })->count();
-                $data['data'] = User::where(function ($query) use ($search) {
-                    $query->where('name', 'LIKE', '%' . $search['value'] . '%')
-                        ->orWhere('email', 'like', '%' . $search['value'] . '%');
-                })
-                    ->skip(($start - 1) * $length)->take($length)->get();
-            } else {
-                //$data['recordsFiltered'] = User::count();
-                $data['data'] = User::skip(($start - 1) * $length)->take($length)->get();
-            }
-			$data['code'] = 0;
-            return response()->json($data);
+        $start          = $request->get('page', 1);
+        $length         = $request->get('limit', 10);
+        $search         = $request->get('search');
+        $data           = array();
+        $data['page']   = $start;
+        $data['search'] = $search;
+        $data['count']  = User::count();
+        if (strlen($search) > 0)
+        {
+            $data['count'] = User::where(function ($query) use ($search)
+            {
+                $query->where('name', 'LIKE', '%' . $search . '%')->orWhere('email', 'like', '%' . $search . '%');
+            })->count();
+            $data['users'] = User::where(function ($query) use ($search)
+            {
+                $query->where('name', 'LIKE', '%' . $search . '%')->orWhere('email', 'like', '%' . $search . '%');
+            })->skip(($start - 1) * $length)->take($length)->get();
+        }
+        else
+        {
+            $data['users'] = User::skip(($start - 1) * $length)->take($length)->get();
         }
 
-        return view('admin.user.index');
+        return view('admin.user.index', compact('data'));
     }
 
     /**

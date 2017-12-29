@@ -109,9 +109,9 @@ class StudentController extends Controller
 
 				$boot = Storage::disk('public')->put($fileName,file_get_contents($realPath));
 
-				var_dump($boot);
+				//var_dump($boot);
 			}
-			exit();
+			//exit();
 		}
 		return view('student.upload');
 	}

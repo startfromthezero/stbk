@@ -33,7 +33,7 @@ Route::get('test',function(){
 //Route::any('/queue', 'StudentController@queue');
 //Route::any('/cache1', 'StudentController@cache1');
 //Route::any('/cache2', 'StudentController@cache2');
-//Route::any('/upload', 'StudentController@upload');
+Route::any('/upload', 'StudentController@upload');
 //Route::any('/mail', 'StudentController@mail');
 //Route::auth();
 //Route::group(['middleware'=>'auth','namespace'=>'Admin','prefix'=>'admin'],function(){

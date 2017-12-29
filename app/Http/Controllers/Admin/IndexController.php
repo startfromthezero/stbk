@@ -48,7 +48,6 @@ class IndexController extends Controller
                 $val['name'] = str_replace('.','/', $val['name']);
             }
         }
-
 		return response()->json($comData);
     }
 }

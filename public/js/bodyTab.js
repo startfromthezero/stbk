@@ -21,6 +21,7 @@ layui.define(["element","jquery"],function(exports){
 	//获取二级菜单数据
 	Tab.prototype.render = function() {
 		var url = this.tabConfig.url;
+		console.log(this.tabConfig);
 		console.log(url);
 		$.get(url,function(data){
 			console.log(navBar(data));
