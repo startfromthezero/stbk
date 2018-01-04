@@ -68,7 +68,7 @@
     <div id="page"></div>
 </div>
 <script type="text/javascript">
-	layui.use(['jquery', 'laypage'], function () {
+	layui.use(['jquery', 'laypage','form'], function () {
 		var laypage = layui.laypage,
 			$ = layui.jquery,
 			nums = 10; //每页出现的数据量;
@@ -76,8 +76,7 @@
 		//搜索
 		$("body").on("click", ".search_btn", function () {
 			var search = $('.search_input').val(), url = "/admin/role?page=1&limit=" + nums;
-			if (search != '')
-			{
+			if (search != ''){
 				url += "&search=" + search;
 			}
 			window.location.href = url;

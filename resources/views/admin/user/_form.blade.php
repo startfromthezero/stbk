@@ -53,45 +53,50 @@
 
 </div>
 --}}
-
+<div style="width:60%">
 <div class="layui-form-item">
     <label class="layui-form-label">用户名称</label>
-    <div class="layui-input-inline">
+    <div class="layui-input-block">
         <input type="text" name="name" class="layui-input" required="required" placeholder="请输入用户名称" value="{{ $name }}">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">用户帐号</label>
-    <div class="layui-input-inline">
+    <div class="layui-input-block">
         <input type="text" name="username" class="layui-input" required="required" placeholder="请输入用户帐号" value="{{ $username }}">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">邮箱</label>
-    <div class="layui-input-inline">
+    <div class="layui-input-block">
         <input type="text" name="email" class="layui-input" required="required" placeholder="请输入邮箱" value="{{ $email }}">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">用户密码</label>
-    <div class="layui-input-inline">
+    <div class="layui-input-block">
         <input type="password" name="password" class="layui-input" required="required" placeholder="请输入密码确认" value="">
     </div>
 </div>
 <div class="layui-form-item">
     <label class="layui-form-label">密码确认</label>
-    <div class="layui-input-inline">
+    <div class="layui-input-block">
         <input type="password" name="password_confirmation" class="layui-input" required="required" placeholder="请输入密码确认" value="">
     </div>
 </div>
-<div class="layui-form-item">
+<div class="layui-form-item" pane>
     <label class="layui-form-label">选择角色</label>
     <div class="layui-input-block" style="line-height:36px;">
     @foreach($rolesAll as $v)
-            <input style="display:inline-block" type="checkbox" name="roles[]" value="{{$v['id']}}" @if(in_array($v['id'],$roles)) checked @endif>
-            {{$v['name']}}
-        @endforeach
+        <input type="checkbox" name="roles[]" title="{{$v['name']}}" lay-skin="primary" value="{{$v['id']}}" @if(in_array($v['id'],$roles)) checked @endif>
+    @endforeach
     </div>
 </div>
+</div>
+<script>
+	layui.use(['form', 'jquery'], function () {
+		var form = layui.form, $ = layui.jquery;
+	});
+</script>
 
 

@@ -81,7 +81,7 @@
 	<div id="page"></div>
 </div>
 <script type="text/javascript">
-	layui.use(['jquery','laypage'], function () {
+	layui.use(['jquery','laypage','form'], function () {
 		var laypage = layui.laypage,
 		    $ = layui.jquery,
 		    nums = 10; //每页出现的数据量;

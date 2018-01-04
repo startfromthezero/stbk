@@ -81,18 +81,12 @@
             @foreach($permissionAll[0] as $v)
                 <tr>
                     <td>
-                        <label class="layui-form-label">
-                        {{$v['label']}}
-                        <input style="display:inline-block" type="checkbox" name="like1[{{$v['id']}}]" onclick="checkAll(this,'{{$v['id']}}')">
-                        </label>
+                        <input type="checkbox" name="permissions[]" lay-skin="primary" title="{{$v['label']}}" value="{{$v['id']}}" lay-filter="allChoose" @if(in_array($v['id'],$permissions)) checked @endif>
                     </td>
                     <td align="left">
                         @if(isset($permissionAll[$v['id']]))
                             @foreach($permissionAll[$v['id']] as $vv)
-                                <label style="float: left;padding: 9px 15px;">
-                                {{$vv['label']}}
-                                    <input class="check-{{$v['id']}}" style="display:inline-block" type="checkbox" name="permissions[]" value="{{$vv['id']}}" @if(in_array($vv['id'],$permissions)) checked @endif>&emsp;
-                                </label>
+                                <input type="checkbox" name="permissions[]" lay-skin="primary" title="{{$vv['label']}}" value="{{$vv['id']}}" @if(in_array($vv['id'],$permissions)) checked @endif>&emsp;
                             @endforeach
                         @endif
                     </td>
@@ -102,11 +96,17 @@
         </tbody>
     </table>
 </div>
-<script type="text/javascript" src="/js/jquery.min.js"></script>
 <script>
-	function checkAll(obj,id)
-	{
-		$('.check-' + id).prop('checked', $(obj).is(":checked"));
-	}
+	layui.use(['form', 'jquery'], function () {
+		var form = layui.form,$= layui.jquery;
+		//全选
+		form.on('checkbox(allChoose)', function (data) {
+			var child = $(data.elem).parent().next().find('input[type="checkbox"]:not([name="permissions"])');
+			child.each(function (index, item) {
+				item.checked = data.elem.checked;
+			});
+			form.render('checkbox');
+		});
+    });
 </script>
 

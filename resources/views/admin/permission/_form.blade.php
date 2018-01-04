@@ -56,7 +56,7 @@
                value="{{ $label }}">
     </div>
 </div>
-    @if($cid == 0 )
+    @if($cid == 0)
     {{--图标修改--}}
     @include('admin.permission.fonticonpicker')
     @endif
