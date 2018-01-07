@@ -8,11 +8,11 @@
         </div>
         <a class="layui-btn search_btn">查询</a>
     </div>
-    @if(Gate::forUser(auth('admin')->user())->check('admin.role.create'))
+    @check('admin.role.create')
     <div class="layui-inline">
         <a class="layui-btn layui-btn-normal role_add">添加角色</a>
     </div>
-    @endif
+    @endcheck
     <div class="layui-inline">
         <a class="layui-btn layui-btn-danger batchDel">批量删除</a>
     </div>
@@ -49,13 +49,13 @@
                 <td>{{ $role->created_at }}</td>
                 <td>{{ $role->updated_at }}</td>
                 <td>
-                    @if(Gate::forUser(auth('admin')->user())->check('admin.role.edit'))
+                    @check('admin.role.edit')
                         <a class="layui-btn layui-btn-xs role_edit" edit-id="{{ $role->id }}">编辑</a>
-                    @endif
-                    @if(Gate::forUser(auth('admin')->user())->check('admin.role.destroy'))
+                    @endcheck
+                    @check('admin.role.destroy')
                         <a class="layui-btn layui-btn-danger layui-btn-xs role_del"
                            del-id="{{ $role->id }}">删除</a>
-                    @endif
+                    @endcheck
                     <form class="deleteForm" method="POST" action="/admin/list" style="display:none;">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="_method" value="DELETE">

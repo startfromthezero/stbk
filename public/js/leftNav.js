@@ -7,7 +7,7 @@ function navBar(strData){
 	}
 	top = data.top;
 	var ulHtml = '<ul class="layui-nav layui-nav-tree"><li class="layui-nav-item"><a href="/admin"><i class="icomoon-home"></i><cite class="sidecite">控制面板</cite></a></li>';
-	console.log(top.length);
+	//console.log(top.length);
 	for(var i=0;i< top.length;i++){
 		ulHtml += '<li class="layui-nav-item">';
 		if(data[top[i].id].length > 0){

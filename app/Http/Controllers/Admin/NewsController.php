@@ -4,13 +4,56 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\News;
+use App\Models\Admin\News;
+use App\Models\Admin\AdminUser as User;
 
 class NewsController extends Controller
 {
-	public function index()
+	protected $fields = [
+		'title'   => '',
+		'from'    => '1',
+		'user_id' => '',
+		'img'   => '/img/cover_default.jpg',
+		'type_id'   => '',
+		'is_show'   => '',
+		'is_recomm'   => '',
+		'is_top'   => '',
+		'keyword'   => '',
+		'synopsis'   => '',
+		'content'   => '',
+	];
+	protected $types = [
+		'1'=>'PHP',
+		'2'=>'JAVA',
+		'3'=>'.NET',
+	];
+
+	public function index(Request $request)
 	{
-		return view('admin/news/index');
+		$start          = $request->get('page', 1);
+		$length         = $request->get('limit', 10);
+		$search         = $request->get('search');
+		$data           = array();
+		$data['page']   = $start;
+		$data['search'] = $search;
+		$data['count']  = News::count();
+		if (strlen($search) > 0)
+		{
+			$data['count'] = News::where(function ($query) use ($search) {
+				$query->where('title', 'LIKE', '%' . $search . '%')->orWhere('email', 'like', '%' . $search . '%');
+			})->count();
+			$data['news'] = News::where(function ($query) use ($search) {
+				$query->where('title', 'LIKE', '%' . $search . '%')->orWhere('email', 'like', '%' . $search . '%');
+			})->skip(($start - 1) * $length)->take($length)->get();
+		}
+		else
+		{
+			$data['news'] = News::skip(($start - 1) * $length)->take($length)->get();
+		}
+		$user = new User();
+		$data['users'] = $user->getName();
+
+		return view('admin.news.index', compact('data'));
 	}
 
 	public function show()
@@ -18,90 +61,108 @@ class NewsController extends Controller
 		return view('admin/news/show')->withNews(News::all());
 	}
 
-	public function create()
+	public function create(Request $request)
 	{
-		return view('admin/news/create');
+		$data = [];
+		foreach ($this->fields as $field => $default)
+		{
+			$data[$field] = old($field, $default);
+		}
+		$data['newsAll'] = News::all()->toArray();
+		$data['types'] = $this->types;
+
+		return view('admin.news.create', $data);
 	}
 
 	public function store(Request $request) // Laravel 的依赖注入系统会自动初始化我们需要的 Request 类
 	{
-		// 数据验证
-		$this->validate($request, [
-			'title'   => 'required|unique:articles|max:255',
-			// 必填、在 articles 表中唯一、最大长度 255
-			'content' => 'required',
-			// 必填
-		]);
-
-		// 通过 Article Model 插入一条数据进 articles 表
-		$news          = new News; // 初始化 Article 对象
-		$news->title   = $request->get('title');
-		$news->from   = $request->get('from');
-		$news->type_id   = $request->get('type_id');
-		$news->is_show   = $request->get('is_show') == 'on' ? 1 : 0;
-		$news->is_recomm   = $request->get('is_recomm') == 'on' ? 1 : 0;
-		$news->is_top   = $request->get('is_top') == 'on' ? 1 : 0;
-		$news->keyword   = $request->get('keyword');
-		$news->synopsis   = $request->get('synopsis');
-		$news->content = $request->get('content'); // 同上
-		$news->user_id = $request->user()->id; // 获取当前 Auth 系统中注册的用户，并将其 id 赋给 article 的 user_id 属性
-
-		// 将数据保存到数据库，通过判断保存结果，控制页面进行不同跳转
-		if ($news->save())
+		$news = new News();
+		foreach (array_keys($this->fields) as $field)
 		{
-			return redirect('admin/news/show'); // 保存成功，跳转到 文章管理 页
+			$news->$field = $request->get($field);
 		}
-		else
-		{
-			// 保存失败，跳回来路页面，保留用户的输入，并给出提示
-			return redirect()->back()->withInput()->withErrors('保存失败！');
-		}
+
+		$news->is_show = $news->is_show == 'on' ? 1 : 0;
+		$news->is_recomm = $news->is_recomm == 'on' ? 1 : 0;
+		$news->is_top = $news->is_top == 'on' ? 1 : 0;
+		$news->save();
+		event(new \App\Events\userActionEvent('\App\Models\Admin\News', $news->id, 1, '添加了文章' . $news->title));
+
+		return redirect('/admin/news')->withSuccess('添加成功！');
 	}
 
-	public function destroy(Request $request, $id)
+	public function destroy($id)
 	{
-		$article = Article::findOrFail($id);
-		if ($request->user()->cannot('destroy-post', $article))
-		{
-			return "你没有权限！";
-			//abort(403);
+		$tag = News::find((int)$id);
+		if ($tag){
+			$tag->delete();
+		}else{
+			return redirect()->back()->withErrors("删除失败");
 		}
-		Article::find($id)->delete();
 
-		return redirect()->back()->withInput()->withErrors('删除成功！');
+		return redirect()->back()->withSuccess("删除成功");
 	}
 
 	public function edit($id)
 	{
-		$news = News::where('news_id',$id);
-		return view('admin/news/edit', compact('news'));
+		$news = News::find((int)$id);
+		if (!$news){
+			return redirect('/admin/news')->withErrors("找不到该文章!");
+		}
+
+		foreach (array_keys($this->fields) as $field){
+			$data[$field] = old($field, $news->$field);
+		}
+		$data['newsAll'] = News::all()->toArray();
+		$data['id']       = (int)$id;
+		$data['types'] = $this->types;
+		event(new \App\Events\userActionEvent('\App\Models\Admin\News', $news->id, 3, '编辑了文章' . $news->title));
+
+		return view('admin.news.edit', $data);
 	}
 
 	public function update(Request $request, $id)
 	{
-		$article = News::findOrFail($id);
-		//		if ($request->user()->cannot('update-post', $article))
-		//		{
-		//			return "你没有权限！". $request->user();
-		//			//abort(403);
-		//		}
-		$this->authorize($article);
+		$news = News::find((int)$id);
+		if($request->ajax()){
+			if(isset($request->is_show)){
+				$news->is_show = (int)$request->is_show;
+			}
+			if(isset($request->is_recomm)){
+				$news->is_recomm = (int)$request->is_recomm;
+			}
+			if(isset($request->is_top)){
+				$news->is_top = (int)$request->is_top;
+			}
+			$boot =$news->save();
+			if($boot){
+				$out = array('r'=>0,'msg'=>'修改成功');
+			}else{
+				$out = array('r'=> -1, 'msg' => '修改失败');
+			}
+			return response()->json($out);
+		}
+		foreach (array_keys($this->fields) as $field)
+		{
+			$news->$field = $request->get($field);
+		}
 
-		$article->update([
-			'title'   => $request->get('title'),
-			'content' => $request->get('content'),
-			'user_id' => $request->user()->id
-		]);
+		$news->is_show   = $news->is_show == 'on' ? 1 : 0;
+		$news->is_recomm = $news->is_recomm == 'on' ? 1 : 0;
+		$news->is_top    = $news->is_top == 'on' ? 1 : 0;
 
-		return redirect('admin/news');
+		$news->save();
+		return redirect('/admin/news')->withSuccess('编辑成功！');
 	}
 
 	public function upload(Request $request)
 	{
 		if ($request->isMethod('POST'))
 		{
+			$destinationPath = 'img/upload/';
 			//dd($_FILES);
-			$file = $request->file('source');
+			$file = $request->file('file');
+
 			//是否上传成功
 			if ($file->isValid())
 			{
@@ -114,13 +175,15 @@ class NewsController extends Controller
 				//文件临时绝对路径
 				$realPath = $file->getRealPath();
 
-				$fileName = date('Y-m-d-H-i-s') . '-' . uniqid() . '.' . $ext;
+				$fileName =  uniqid() . '-'.time(). '.' . $ext;
 
-				$boot = Storage::disk('public')->put($fileName, file_get_contents($realPath));
+				$file->move($destinationPath, $fileName);
+				//$boot = Storage::disk('public')->put($fileName, file_get_contents($realPath));
+				$data['r']   = 0;
+				$data['url'] = '/'.$destinationPath. $fileName;
 
-				var_dump($boot);
+				return response()->json($data);
 			}
 		}
-		return view('student.upload');
 	}
 }

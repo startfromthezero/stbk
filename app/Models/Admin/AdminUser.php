@@ -3,6 +3,7 @@
 namespace App\Models\Admin;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use DB;
 
 class AdminUser extends Authenticatable
 {
@@ -66,4 +67,13 @@ class AdminUser extends Authenticatable
         }
         return true;
     }
+
+    public function getName(){
+    	$names = array();
+    	$users = DB::table($this->table)->select('id', 'username')->get();
+    	foreach ($users as $user){
+			$names[$user->id] = $user->username;
+		}
+		return $names;
+	}
 }

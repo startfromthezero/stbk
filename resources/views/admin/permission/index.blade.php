@@ -16,11 +16,11 @@
         </div>
         <a class="layui-btn search_btn">查询</a>
     </div>
-    @if(Gate::forUser(auth('admin')->user())->check('admin.permission.create'))
+	@check('admin.permission.create')
     <div class="layui-inline">
         <a class="layui-btn layui-btn-normal perAdd_btn">添加权限</a>
     </div>
-    @endif
+	@endcheck
     <div class="layui-inline">
         <a class="layui-btn layui-btn-danger batchDel">批量删除</a>
     </div>
@@ -63,12 +63,12 @@
                 	@if($data['cid']==0)
 			        <a href="{{ url('admin/permission/'. $permission->id ) }}" class="layui-btn layui-btn-primary layui-btn-xs">下级菜单</a>
 			        @endif
-			        @if(Gate::forUser(auth('admin')->user())->check('admin.permission.edit'))
+					@check('admin.permission.edit')
        				<a class="layui-btn layui-btn-xs permission_edit" edit-id="{{ $permission->id }}">编辑</a>
-        			@endif
-                	@if(Gate::forUser(auth('admin')->user())->check('admin.permission.destroy'))
+					@endcheck
+					@check('admin.permission.destroy')
         			<a class="layui-btn layui-btn-danger layui-btn-xs permission_del" del-id="{{ $permission->id }}">删除</a>
-        			@endif
+					@endcheck
         			<form class="deleteForm" method="POST" action="/admin/list" style="display:none;">
 			            <input type="hidden" name="_token" value="{{ csrf_token() }}">
 			            <input type="hidden" name="_method" value="DELETE">

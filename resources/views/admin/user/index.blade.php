@@ -8,11 +8,11 @@
         </div>
         <a class="layui-btn search_btn">查询</a>
     </div>
-    @if(Gate::forUser(auth('admin')->user())->check('admin.user.create'))
+	@check('admin.user.create')
     <div class="layui-inline">
         <a class="layui-btn layui-btn-normal user_add">添加用户</a>
     </div>
-    @endif
+	@endcheck
     <div class="layui-inline">
         <a class="layui-btn layui-btn-danger batchDel">批量删除</a>
     </div>
@@ -52,12 +52,12 @@
 				<td>{{ $user->created_at }}</td>
 				<td>{{ $user->updated_at }}</td>
 				<td>
-					@if(Gate::forUser(auth('admin')->user())->check('admin.user.edit'))
+					@check('admin.user.edit')
 						<a class="layui-btn layui-btn-xs user_edit" edit-id="{{ $user->id }}">编辑</a>
-					@endif
-					@if(Gate::forUser(auth('admin')->user())->check('admin.user.destroy'))
+					@endcheck
+					@check('admin.user.destroy')
 						<a class="layui-btn layui-btn-danger layui-btn-xs user_del" del-id="{{ $user->id }}">删除</a>
-					@endif
+					@endcheck
 					<form class="deleteForm" method="POST" action="/admin/list" style="display:none;">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="_method" value="DELETE">

@@ -16,7 +16,7 @@
                             <label for="file" class="col-md-4 control-label">请上传文件</label>
 
                             <div class="col-md-6">
-                                <input id="file" type="file" class="form-control" name="source" required>
+                                <input id="file" type="file" class="form-control" name="file" required>
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">

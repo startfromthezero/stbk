@@ -107,7 +107,7 @@ class UserController extends Controller
             $data[$field] = old($field, $default);
         }
         $data['rolesAll'] = Role::all()->toArray();
-
+		//WWWdd($data);
         return view('admin.user.create', $data);
     }
 
@@ -133,17 +133,6 @@ class UserController extends Controller
 
         return redirect('/admin/user')->withSuccess('添加成功！');
     }
-
-//    /**
-//     * Display the specified resource.
-//     *
-//     * @param  int $id
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function show($id)
-//    {
-//        //
-//    }
 
     /**
      * Show the form for editing the specified resource.
@@ -194,7 +183,7 @@ class UserController extends Controller
         $user->save();
         $user->giveRoleTo($request->get('roles', []));
 
-        return redirect('/admin/user')->withSuccess('添加成功！');
+        return redirect('/admin/user')->withSuccess('编辑成功！');
     }
 
     /**

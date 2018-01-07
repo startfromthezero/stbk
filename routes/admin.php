@@ -29,7 +29,7 @@ Route::group([
 {
     Route::get('/getMenu', 'IndexController@getMenu');
 });
-
+Route::any('news/upload','NewsController@upload');
 Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin']], function () {
 	Route::get('permission/show', 'PermissionController@show');
     //权限管理路由
@@ -50,6 +50,11 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin']], function () 
     Route::get('user/index', ['as' => 'admin.user.index', 'uses' => 'UserController@index']);  //用户管理
     Route::post('user/index', ['as' => 'admin.user.index', 'uses' => 'UserController@index']);
     Route::resource('user', 'UserController', ['names' => ['update' => 'admin.role.edit', 'store' => 'admin.role.create']]);
+
+    //文章管理路由
+    Route::get('news/index', ['as' => 'admin.news.index', 'uses' => 'NewsController@index']);  //文章管理
+    Route::post('news/index', ['as' => 'admin.news.index', 'uses' => 'NewsController@index']);
+    Route::resource('news', 'NewsController', ['names' => ['update' => 'admin.news.edit', 'store' => 'admin.news.create']]);
 });
 
 //Route::get('/', function () {

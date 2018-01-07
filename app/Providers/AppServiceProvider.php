@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \Blade::if('check',function($param){
+        	return \Gate::forUser(auth('admin')->user())->check($param);
+		});
     }
 
     /**

@@ -13,6 +13,13 @@
     <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
     <link rel="stylesheet" href="/css/news.css" media="all" />
     <script type="text/javascript" src="/layui/layui.js"></script>
+    <style>
+        .img-cover{
+            width:100%;
+            height:auto;
+            border:1px solid #ddd;
+        }
+    </style>
 </head>
 @yield('content')
 <script type="text/javascript">
