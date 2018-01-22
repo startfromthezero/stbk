@@ -58,6 +58,9 @@
     <a href="javascript:;" class="iconfont hideMenu icon-menu1"></a>
     <!-- 顶部右侧菜单 -->
     <ul class="layui-nav top_menu">
+      <li class="layui-nav-item" id="donate" pc>
+        <a href="javascript:;"><i class="layui-icon" data-icon="&#xe65e;">&#xe65e;</i><cite>捐赠作者</cite></a>
+      </li>
       <li class="layui-nav-item purgeCache" id="purgeCache" pc>
         <a href="/common/home/flush"><i class="layui-icon" data-icon="&#x1002;">&#x1002;</i><cite>清除缓存</cite></a>
       </li>

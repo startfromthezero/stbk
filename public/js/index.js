@@ -138,6 +138,11 @@ layui.config({
 		tab.tabMove();
 	})
 
+	//捐赠作者
+	$('#donate').on('click',function(){
+		donation();
+	});
+
 	//渲染左侧菜单
 	tab.render();
 
@@ -357,13 +362,14 @@ layui.config({
 //捐赠弹窗
 function donation(){
 	layer.tab({
-		area : ['260px', '367px'],
+		area : ['260px', '380px'],
+		scrollbar: false,
 		tab : [{
 			title : "微信",
-			content : "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><img src='images/wechat.jpg'></div>"
+			content : "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><img width='100%' height='100%' src='img/wechat.jpg'></div>"
 		},{
 			title : "支付宝",
-			content : "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><img src='images/alipay.jpg'></div>"
+			content : "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><img width='100%' height='100%' src='img/alipay.jpg'></div>"
 		}]
 	})
 }
