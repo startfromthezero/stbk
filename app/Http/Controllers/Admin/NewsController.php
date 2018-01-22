@@ -23,9 +23,12 @@ class NewsController extends Controller
 		'content'   => '',
 	];
 	protected $types = [
-		'1'=>'PHP',
-		'2'=>'JAVA',
-		'3'=>'.NET',
+		'1'=>'提问',
+		'2'=>'分享',
+		'3'=>'讨论',
+		'4'=>'建议',
+		'5'=>'公告',
+		'6'=>'动态'
 	];
 
 	public function index(Request $request)

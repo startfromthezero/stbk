@@ -26,7 +26,7 @@ $(document).ready(function() {
 		displayLength: 5
 	} );
 
-	// When the column visibility changes on the firs table, also change it on
+	// When the Column visibility changes on the firs table, also change it on
 	// the others
 	tables.table(0).on('column-visibility', function ( e, settings, colIdx, visibility ) {
 		tables.tables(':gt(0)').column( colIdx ).visible( visibility );

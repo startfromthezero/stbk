@@ -42,14 +42,14 @@ var factory = function( $, DataTable ) {
  * * Automatic control - columns are automatically hidden when there is no
  *   room left to display them. Columns removed from the right.
  *
- * In additional to column visibility control, Responsive also has built into
+ * In additional to Column visibility control, Responsive also has built into
  * options to use DataTables' child row display to show / hide the information
  * from the table that has been hidden. There are also two modes of operation
  * for this child row display:
  *
  * * Inline - when the control element that the user can use to show / hide
- *   child rows is displayed inside the first column of the table.
- * * Column - where a whole column is dedicated to be the show / hide control.
+ *   child rows is displayed inside the first Column of the table.
+ * * Column - where a whole Column is dedicated to be the show / hide control.
  *
  * Initialisation of Responsive is performed by:
  *
@@ -146,7 +146,7 @@ Responsive.prototype = {
 			that._detailsInit();
 			this._detailsVis();
 
-			dt.on( 'column-visibility.dtr', function () {
+			dt.on( 'Column-visibility.dtr', function () {
 				that._detailsVis();
 			} );
 
@@ -184,7 +184,7 @@ Responsive.prototype = {
 	 *
 	 * @param  {string} breakpoint Breakpoint name to use for the calculation
 	 * @return {array} Array of boolean values initiating the visibility of each
-	 *   column.
+	 *   Column.
 	 *  @private
 	 */
 	_columnsVisiblity: function ( breakpoint )
@@ -204,7 +204,7 @@ Responsive.prototype = {
 					$.inArray( breakpoint, col.includeIn ) !== -1;
 		} );
 
-		// Auto column control - first pass: how much width is taken by the
+		// Auto Column control - first pass: how much width is taken by the
 		// ones that must be included from the non-auto columns
 		var requiredWidth = 0;
 		for ( i=0, ien=display.length ; i<ien ; i++ ) {
@@ -223,11 +223,11 @@ Responsive.prototype = {
 		var widthAvailable = dt.table().container().offsetWidth - bar;
 		var usedWidth = widthAvailable - requiredWidth;
 
-		// Control column needs to always be included. This makes it sub-
+		// Control Column needs to always be included. This makes it sub-
 		// optimal in terms of using the available with, but to stop layout
-		// thrashing or overflow. Also we need to account for the control column
+		// thrashing or overflow. Also we need to account for the control Column
 		// width first so we know how much width is available for the other
-		// columns, since the control column might not be the first one shown
+		// columns, since the control Column might not be the first one shown
 		for ( i=0, ien=display.length ; i<ien ; i++ ) {
 			if ( columns[i].control ) {
 				usedWidth -= columns[i].minWidth;
@@ -239,7 +239,7 @@ Responsive.prototype = {
 		var empty = false;
 		for ( i=0, ien=display.length ; i<ien ; i++ ) {
 			if ( display[i] === '-' && ! columns[i].control ) {
-				// Once we've found a column that won't fit we don't let any
+				// Once we've found a Column that won't fit we don't let any
 				// others display either, or columns might disappear in the
 				// middle of the table
 				if ( empty || usedWidth - columns[i].minWidth < 0 ) {
@@ -254,9 +254,9 @@ Responsive.prototype = {
 			}
 		}
 
-		// Determine if the 'control' column should be shown (if there is one).
-		// This is the case when there is a hidden column (that is not the
-		// control column). The two loops look inefficient here, but they are
+		// Determine if the 'control' Column should be shown (if there is one).
+		// This is the case when there is a hidden Column (that is not the
+		// control Column). The two loops look inefficient here, but they are
 		// trivial and will fly through. We need to know the outcome from the
 		// first , before the action in the second can be taken
 		var showControl = false;
@@ -274,7 +274,7 @@ Responsive.prototype = {
 			}
 		}
 
-		// Finally we need to make sure that there is at least one column that
+		// Finally we need to make sure that there is at least one Column that
 		// is visible
 		if ( $.inArray( true, display ) === -1 ) {
 			display[0] = true;
@@ -286,8 +286,8 @@ Responsive.prototype = {
 
 	/**
 	 * Create the internal `columns` array with information about the columns
-	 * for the table. This includes determining which breakpoints the column
-	 * will appear in, based upon class names in the column, which makes up the
+	 * for the table. This includes determining which breakpoints the Column
+	 * will appear in, based upon class names in the Column, which makes up the
 	 * vast majority of this method.
 	 *
 	 * @private
@@ -356,7 +356,7 @@ Responsive.prototype = {
 			}
 		};
 
-		// Loop over each column and determine if it has a responsive control
+		// Loop over each Column and determine if it has a responsive control
 		// class
 		columns.each( function ( col, i ) {
 			var classNames = col.className.split(' ');
@@ -380,7 +380,7 @@ Responsive.prototype = {
 					return;
 				}
 				else if ( className === 'control' ) {
-					// Special column that is only visible, when one of the other
+					// Special Column that is only visible, when one of the other
 					// columns is hidden. This is used for the details control
 					hasClass = true;
 					col.control = true;
@@ -388,7 +388,7 @@ Responsive.prototype = {
 				}
 
 				$.each( breakpoints, function ( j, breakpoint ) {
-					// Does this column have a class that matches this breakpoint?
+					// Does this Column have a class that matches this breakpoint?
 					var brokenPoint = breakpoint.name.split('-');
 					var re = new RegExp( '(min\\-|max\\-|not\\-)?('+brokenPoint[0]+')(\\-[_a-zA-Z0-9])?' );
 					var match = className.match( re );
@@ -434,7 +434,7 @@ Responsive.prototype = {
 			details.target = 'td:first-child';
 		}
 
-		// type.target can be a string jQuery selector or a column index
+		// type.target can be a string jQuery selector or a Column index
 		var target   = details.target;
 		var selector = typeof target === 'string' ? target : 'td';
 
@@ -451,7 +451,7 @@ Responsive.prototype = {
 				return;
 			}
 
-			// For column index, we determine if we should act or not in the
+			// For Column index, we determine if we should act or not in the
 			// handler - otherwise it is already okay
 			if ( typeof target === 'number' ) {
 				var targetIdx = target < 0 ?
@@ -480,7 +480,7 @@ Responsive.prototype = {
 
 
 	/**
-	 * Update the child rows in the table whenever the column visibility changes
+	 * Update the child rows in the table whenever the Column visibility changes
 	 *
 	 * @private
 	 */
@@ -553,7 +553,7 @@ Responsive.prototype = {
 	/**
 	 * Alter the table display for a resized viewport. This involves first
 	 * determining what breakpoint the window currently is in, getting the
-	 * column visibilities to apply and then setting them.
+	 * Column visibilities to apply and then setting them.
 	 *
 	 * @private
 	 */
@@ -577,7 +577,7 @@ Responsive.prototype = {
 		// Show the columns for that break point
 		var columnsVis = this._columnsVisiblity( breakpoint );
 
-		// Set the class before the column visibility is changed so event
+		// Set the class before the Column visibility is changed so event
 		// listeners know what the state is. Need to determine if there are
 		// any columns that are not visible but can be shown
 		var collapsedClass = false;
@@ -597,9 +597,9 @@ Responsive.prototype = {
 
 
 	/**
-	 * Determine the width of each column in the table so the auto column hiding
+	 * Determine the width of each Column in the table so the auto Column hiding
 	 * has that information to work with. This method is never going to be 100%
-	 * perfect since column widths can change slightly per page, but without
+	 * perfect since Column widths can change slightly per page, but without
 	 * seriously compromising performance this is quite effective.
 	 *
 	 * @private
@@ -646,7 +646,7 @@ Responsive.prototype = {
 			.append( cells )
 			.appendTo( clonedHeader );
 
-		// In the inline case extra padding is applied to the first column to
+		// In the inline case extra padding is applied to the first Column to
 		// give space for the show / hide icon. We need to use this in the
 		// calculation
 		if ( this.c.details.type === 'inline' ) {
@@ -666,7 +666,7 @@ Responsive.prototype = {
 
 		inserted.insertBefore( dt.table().node() );
 
-		// The cloned header now contains the smallest that each column can be
+		// The cloned header now contains the smallest that each Column can be
 		dt.columns().eq(0).each( function ( idx ) {
 			columns[idx].minWidth = cells[ idx ].offsetWidth || 0;
 		} );
@@ -734,7 +734,7 @@ Responsive.defaults = {
 	 *   The default function will show the data from the hidden columns
 	 * * `target` - Used as the selector for what objects to attach the child
 	 *   open / close to
-	 * * `type` - `false` to disable the details display, `inline` or `column`
+	 * * `type` - `false` to disable the details display, `inline` or `Column`
 	 *   for the two control types
 	 *
 	 * @type {Object|string}

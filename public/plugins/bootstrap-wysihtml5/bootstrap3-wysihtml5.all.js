@@ -7975,7 +7975,7 @@ wysihtml5.dom.isLoadedImage = function (node) {
             }
         },
 
-        // removes row or column by selected cell element
+        // removes row or Column by selected cell element
         remove: function(what) {
             if (this.rectify()) {
                 switch (what) {

@@ -31,7 +31,7 @@ $(document).ready(function() {
 	var table = $('#example').DataTable();
 	var keys = new $.fn.dataTable.KeyTable( table );
 
-	/* Focus handler for all cells in last column */
+	/* Focus handler for all cells in last Column */
 	keys.event.focus( 4, null, function( node, x, y ) {
 		eventMsg( "Cell "+x+","+y+" focused ('live' event - column)" );
 	} );

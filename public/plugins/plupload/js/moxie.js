@@ -7753,14 +7753,14 @@ define("moxie/runtime/html5/image/ExifParser", [
 				/*
 				The image orientation viewed in terms of rows and columns.
 
-				1 = The 0th row is at the visual top of the image, and the 0th column is the visual left-hand side.
-				2 = The 0th row is at the visual top of the image, and the 0th column is the visual right-hand side.
-				3 = The 0th row is at the visual bottom of the image, and the 0th column is the visual right-hand side.
-				4 = The 0th row is at the visual bottom of the image, and the 0th column is the visual left-hand side.
-				5 = The 0th row is the visual left-hand side of the image, and the 0th column is the visual top.
-				6 = The 0th row is the visual right-hand side of the image, and the 0th column is the visual top.
-				7 = The 0th row is the visual right-hand side of the image, and the 0th column is the visual bottom.
-				8 = The 0th row is the visual left-hand side of the image, and the 0th column is the visual bottom.
+				1 = The 0th row is at the visual top of the image, and the 0th Column is the visual left-hand side.
+				2 = The 0th row is at the visual top of the image, and the 0th Column is the visual right-hand side.
+				3 = The 0th row is at the visual bottom of the image, and the 0th Column is the visual right-hand side.
+				4 = The 0th row is at the visual bottom of the image, and the 0th Column is the visual left-hand side.
+				5 = The 0th row is the visual left-hand side of the image, and the 0th Column is the visual top.
+				6 = The 0th row is the visual right-hand side of the image, and the 0th Column is the visual top.
+				7 = The 0th row is the visual right-hand side of the image, and the 0th Column is the visual bottom.
+				8 = The 0th row is the visual left-hand side of the image, and the 0th Column is the visual bottom.
 				*/
 				0x0112: 'Orientation',
 				0x010E: 'ImageDescription',
@@ -9121,14 +9121,14 @@ define("moxie/runtime/html5/image/Image", [
 			}
 
 			/**
-			1 = The 0th row is at the visual top of the image, and the 0th column is the visual left-hand side.
-			2 = The 0th row is at the visual top of the image, and the 0th column is the visual right-hand side.
-			3 = The 0th row is at the visual bottom of the image, and the 0th column is the visual right-hand side.
-			4 = The 0th row is at the visual bottom of the image, and the 0th column is the visual left-hand side.
-			5 = The 0th row is the visual left-hand side of the image, and the 0th column is the visual top.
-			6 = The 0th row is the visual right-hand side of the image, and the 0th column is the visual top.
-			7 = The 0th row is the visual right-hand side of the image, and the 0th column is the visual bottom.
-			8 = The 0th row is the visual left-hand side of the image, and the 0th column is the visual bottom.
+			1 = The 0th row is at the visual top of the image, and the 0th Column is the visual left-hand side.
+			2 = The 0th row is at the visual top of the image, and the 0th Column is the visual right-hand side.
+			3 = The 0th row is at the visual bottom of the image, and the 0th Column is the visual right-hand side.
+			4 = The 0th row is at the visual bottom of the image, and the 0th Column is the visual left-hand side.
+			5 = The 0th row is the visual left-hand side of the image, and the 0th Column is the visual top.
+			6 = The 0th row is the visual right-hand side of the image, and the 0th Column is the visual top.
+			7 = The 0th row is the visual right-hand side of the image, and the 0th Column is the visual bottom.
+			8 = The 0th row is the visual left-hand side of the image, and the 0th Column is the visual bottom.
 			*/
 
 			var ctx = _canvas.getContext('2d');

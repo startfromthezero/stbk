@@ -77,13 +77,13 @@ class UserController extends Controller
                         ->orWhere('email', 'like', '%' . $search['value'] . '%');
                 })
                     ->skip($start)->take($length)
-                    ->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])
+                    ->orderBy($columns[$order[0]['Column']]['data'], $order[0]['dir'])
                     ->get();
             } else {
                 $data['recordsFiltered'] = User::count();
                 $data['data'] = User::
                 skip($start)->take($length)
-                    ->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])
+                    ->orderBy($columns[$order[0]['Column']]['data'], $order[0]['dir'])
                     ->get();
             }
 

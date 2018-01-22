@@ -30,7 +30,7 @@ var factory = function( $, DataTable ) {
 
 /**
  * When making use of DataTables' x-axis scrolling feature, you may wish to
- * fix the left most column in place. This plug-in for DataTables provides
+ * fix the left most Column in place. This plug-in for DataTables provides
  * exactly this option (note for non-scrolling tables, please use the
  * FixedHeader plug-in, which can fix headers, footers and columns). Key
  * features include:
@@ -182,7 +182,7 @@ var FixedColumns = function ( dt, init ) {
 			"dt": null,
 
 			/**
-			 * Left fixed column grid components
+			 * Left fixed Column grid components
 			 * @namespace
 			 */
 			"left": {
@@ -193,7 +193,7 @@ var FixedColumns = function ( dt, init ) {
 			},
 
 			/**
-			 * Right fixed column grid components
+			 * Right fixed Column grid components
 			 * @namespace
 			 */
 			"right": {
@@ -210,7 +210,7 @@ var FixedColumns = function ( dt, init ) {
 		 */
 		"clone": {
 			/**
-			 * Left column cloned table nodes
+			 * Left Column cloned table nodes
 			 * @namespace
 			 */
 			"left": {
@@ -237,7 +237,7 @@ var FixedColumns = function ( dt, init ) {
 			},
 
 			/**
-			 * Right column cloned table nodes
+			 * Right Column cloned table nodes
 			 * @namespace
 			 */
 			"right": {
@@ -366,7 +366,7 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 	 *      } );
 	 *      var fc = new $.fn.dataTable.fixedColumns( table );
 	 *
-	 *      // You may want to do this after manipulating a row in the fixed column
+	 *      // You may want to do this after manipulating a row in the fixed Column
 	 *      fc.fnSetRowHeight( $('#example tbody tr:eq(0)')[0], 50 );
 	 */
 	"fnSetRowHeight": function ( nTarget, iHeight )
@@ -385,8 +385,8 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 	 * tables and get the index position for the data in the main table.
 	 *  @param {node} node TR, TH or TD element to get the information about
 	 *  @returns {int} If nNode is given as a TR, then a single index is 
-	 *    returned, or if given as a cell, an array of [row index, column index
-	 *    (visible), column index (all)] is given.
+	 *    returned, or if given as a cell, an array of [row index, Column index
+	 *    (visible), Column index (all)] is given.
 	 */
 	"fnGetPosition": function ( node )
 	{
@@ -450,7 +450,7 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 		{
 			this.s.dt.oInstance.oApi._fnLog( this.s.dt, 1, "FixedColumns is not needed (no "+
 				"x-scrolling in DataTables enabled), so no action will be taken. Use 'FixedHeader' for "+
-				"column fixing when scrolling is not enabled" );
+				"Column fixing when scrolling is not enabled" );
 			return;
 		}
 
@@ -462,7 +462,7 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 		this.dom.grid.dt = $(this.s.dt.nTable).parents('div.'+classes.sScrollWrapper)[0];
 		this.dom.scroller = $('div.'+classes.sScrollBody, this.dom.grid.dt )[0];
 
-		/* Set up the DOM that we want for the fixed column layout grid */
+		/* Set up the DOM that we want for the fixed Column layout grid */
 		this._fnColCalc();
 		this._fnGridSetup();
 
@@ -490,7 +490,7 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 			'mousewheel.DTFC';
 
 		if ( that.s.iLeftColumns > 0 ) {
-			// When scrolling the left column, scroll the body and right column
+			// When scrolling the left Column, scroll the body and right Column
 			$(that.dom.grid.left.liner)
 				.on( 'mouseover.DTFC touchstart.DTFC', function () {
 					mouseController = 'left';
@@ -513,7 +513,7 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 		}
 
 		if ( that.s.iRightColumns > 0 ) {
-			// When scrolling the right column, scroll the body and the left column
+			// When scrolling the right Column, scroll the body and the left Column
 			$(that.dom.grid.right.liner)
 				.on( 'mouseover.DTFC touchstart.DTFC', function () {
 					mouseController = 'right';
@@ -547,17 +547,17 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 				that._fnDraw.call( that, bFirstDraw );
 				bFirstDraw = false;
 			} )
-			.on( 'column-sizing.dt.DTFC', function () {
+			.on( 'Column-sizing.dt.DTFC', function () {
 				that._fnColCalc();
 				that._fnGridLayout( that );
 			} )
-			.on( 'column-visibility.dt.DTFC', function () {
+			.on( 'Column-visibility.dt.DTFC', function () {
 				that._fnColCalc();
 				that._fnGridLayout( that );
 				that._fnDraw( true );
 			} )
 			.on( 'destroy.dt.DTFC', function () {
-				jqTable.off( 'column-sizing.dt.DTFC destroy.dt.DTFC draw.dt.DTFC' );
+				jqTable.off( 'Column-sizing.dt.DTFC destroy.dt.DTFC draw.dt.DTFC' );
 
 				$(that.dom.scroller).off( 'scroll.DTFC mouseover.DTFC' );
 				$(window).off( 'resize.DTFC' );
@@ -578,7 +578,7 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 
 
 	/**
-	 * Calculate the column widths for the grid layout
+	 * Calculate the Column widths for the grid layout
 	 *  @returns {void}
 	 *  @private
 	 */
@@ -613,7 +613,7 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 					iWidth += typeof border === 'string' ? 1 : parseInt( border, 10 );
 				}
 
-				// Likewise with the final column on the right
+				// Likewise with the final Column on the right
 				if ( that.s.aiOuterWidths.length === that.s.dt.aoColumns.length-1 ) {
 					border = $(that.s.dt.nTable).css('border-right-width');
 					iWidth += typeof border === 'string' ? 1 : parseInt( border, 10 );
@@ -640,9 +640,9 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 
 
 	/**
-	 * Set up the DOM for the fixed column. The way the layout works is to create a 1x3 grid
-	 * for the left column, the DataTable (for which we just reuse the scrolling element DataTable
-	 * puts into the DOM) and the right column. In each of he two fixed column elements there is a
+	 * Set up the DOM for the fixed Column. The way the layout works is to create a 1x3 grid
+	 * for the left Column, the DataTable (for which we just reuse the scrolling element DataTable
+	 * puts into the DOM) and the right Column. In each of he two fixed Column elements there is a
 	 * grouping wrapper element and then a head, body and footer wrapper. In each of these we then
 	 * place the cloned header, body or footer tables. This effectively gives as 3x3 grid structure.
 	 *  @returns {void}
@@ -975,7 +975,7 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 	 *  @returns {void}
 	 *  @param   {Object} oClone Object containing the header, footer and body cloned DOM elements
 	 *  @param   {Object} oGrid Grid object containing the display grid elements for the cloned
-	 *                    column (left or right)
+	 *                    Column (left or right)
 	 *  @param   {Array} aiColumns Column indexes which should be operated on from the DataTable
 	 *  @param   {Boolean} bAll Indicate if the header and footer should be updated as well (true)
 	 *  @private
@@ -1001,7 +1001,7 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 			oClone.header.style.width = "100%";
 			oGrid.head.appendChild( oClone.header );
 
-			/* Copy the DataTables layout cache for the header for our floating column */
+			/* Copy the DataTables layout cache for the header for our floating Column */
 			aoCloneLayout = this._fnCopyLayout( dt.aoHeader, aiColumns );
 			jqCloneThead = $('>thead', oClone.header);
 			jqCloneThead.empty();
@@ -1075,7 +1075,7 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 		$(nBody).empty();
 		if ( dt.aiDisplay.length > 0 )
 		{
-			/* Copy the DataTables' header elements to force the column width in exactly the
+			/* Copy the DataTables' header elements to force the Column width in exactly the
 			 * same way that DataTables does it - have the header element, apply the width and
 			 * colapse it down
 			 */
@@ -1197,7 +1197,7 @@ FixedColumns.prototype = /** @lends FixedColumns.prototype */{
 			this._fnEqualiseHeights( 'tfoot', this.dom.footer, oClone.footer );
 		}
 
-		/* Equalise the column widths between the header footer and body - body get's priority */
+		/* Equalise the Column widths between the header footer and body - body get's priority */
 		var anUnique = dt.oApi._fnGetUniqueThs( dt, $('>thead', oClone.header)[0] );
 		$(anUnique).each( function (i) {
 			iColumn = aiColumns[i];
@@ -1391,8 +1391,8 @@ FixedColumns.version = "3.0.4";
  * @event
  * @param {event} e jQuery event object
  * @param {object} o Event parameters from FixedColumns
- * @param {object} o.leftClone Instance's object dom.clone.left for easy reference. This object contains references to the left fixed clumn column's nodes
- * @param {object} o.rightClone Instance's object dom.clone.right for easy reference. This object contains references to the right fixed clumn column's nodes
+ * @param {object} o.leftClone Instance's object dom.clone.left for easy reference. This object contains references to the left fixed clumn Column's nodes
+ * @param {object} o.rightClone Instance's object dom.clone.right for easy reference. This object contains references to the right fixed clumn Column's nodes
  */
 
 

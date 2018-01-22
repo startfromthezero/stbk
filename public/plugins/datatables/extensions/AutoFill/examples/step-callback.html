@@ -31,7 +31,7 @@ $(document).ready(function() {
 				var val = parseInt( (last || read).replace(/[$,]/g, ''), 10 );
 				val += (x<0 || y<0 ? -100 : 100); // - if going back up, + if going down
 
-				// Format for the currency column
+				// Format for the currency Column
 				return '$'+val.toString().replace( /\B(?=(\d{3})+(?!\d))/g, ',' );
 			}
 		} ]

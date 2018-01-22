@@ -4,7 +4,7 @@
 
 /**
  * @summary     ColVis
- * @description Controls for column visibility in DataTables
+ * @description Controls for Column visibility in DataTables
  * @version     1.1.2
  * @file        dataTables.colReorder.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
@@ -28,7 +28,7 @@ var factory = function( $, DataTable ) {
 "use strict";
 
 /**
- * ColVis provides column visibility control for DataTables
+ * ColVis provides Column visibility control for DataTables
  *
  * @class ColVis
  * @constructor
@@ -208,7 +208,7 @@ ColVis.prototype = {
 	},
 
 	/**
-	 * Rebuild the list of buttons for this instance (i.e. if there is a column
+	 * Rebuild the list of buttons for this instance (i.e. if there is a Column
 	 * header update)
 	 *  @method  fnRebuild
 	 */
@@ -289,7 +289,7 @@ ColVis.prototype = {
 		/* If columns are reordered, then we need to update our exclude list and
 		 * rebuild the displayed list
 		 */
-		$(this.s.dt.oInstance).bind( 'column-reorder.dt', function ( e, oSettings, oReorder ) {
+		$(this.s.dt.oInstance).bind( 'Column-reorder.dt', function ( e, oSettings, oReorder ) {
 			for ( i=0, iLen=that.s.aiExclude.length ; i<iLen ; i++ ) {
 				that.s.aiExclude[i] = oReorder.aiInvertMapping[ that.s.aiExclude[i] ];
 			}
@@ -328,7 +328,7 @@ ColVis.prototype = {
 			this.s.restore = this.s.sRestore;
 		}
 
-		// CamelCase to Hungarian for the column groups 
+		// CamelCase to Hungarian for the Column groups
 		var groups = this.s.groups;
 		var hungarianGroups = this.s.aoGroups;
 		if ( groups ) {
@@ -346,7 +346,7 @@ ColVis.prototype = {
 
 	/**
 	 * On each table draw, check the visibility checkboxes as needed. This allows any process to
-	 * update the table's column visibility and ColVis will still be accurate.
+	 * update the table's Column visibility and ColVis will still be accurate.
 	 *  @method  _fnDrawCallback
 	 *  @returns void
 	 *  @private
@@ -988,9 +988,9 @@ ColVis.defaults = {
 	iOverlayFade: 500,
 
 	/**
-	 * Label callback for column names. Takes three parameters: 1. the
-	 * column index, 2. the column title detected by DataTables and 3. the
-	 * TH node for the column
+	 * Label callback for Column names. Takes three parameters: 1. the
+	 * Column index, 2. the Column title detected by DataTables and 3. the
+	 * TH node for the Column
 	 *  @property fnLabel
 	 *  @type     function
 	 *  @default  null
@@ -998,7 +998,7 @@ ColVis.defaults = {
 	fnLabel: null,
 
 	/**
-	 * Indicate if the column list should be positioned by Javascript,
+	 * Indicate if the Column list should be positioned by Javascript,
 	 * visually below the button or allow CSS to do the positioning
 	 *  @property bCssPosition
 	 *  @type     boolean
@@ -1015,11 +1015,11 @@ ColVis.defaults = {
 	aoGroups: [],
 
 	/**
-	 * Button ordering - 'alpha' (alphabetical) or 'column' (table column
+	 * Button ordering - 'alpha' (alphabetical) or 'Column' (table Column
 	 * order)
 	 *  @property order
 	 *  @type     string
-	 *  @default  column
+	 *  @default  Column
 	 */
 	order: 'column'
 };

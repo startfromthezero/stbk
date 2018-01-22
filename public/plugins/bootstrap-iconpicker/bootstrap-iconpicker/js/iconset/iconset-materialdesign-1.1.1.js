@@ -173,7 +173,7 @@
             'view-agenda',
             'view-array',
             'view-carousel',
-            'view-column',
+            'view-Column',
             'view-day',
             'view-headline',
             'view-list',

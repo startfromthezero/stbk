@@ -16,7 +16,7 @@
 //	Route::any('/session2', 'StudentController@session2');
 //});
 Route::get('test',function(){
-	return view('test');
+	echo phpinfo();
 });
 ////宣传页面
 //Route::any('/activity0', 'StudentController@activity0');
@@ -27,7 +27,9 @@ Route::get('test',function(){
 //	Route::any('/activity2', 'StudentController@activity2');
 //});
 //
-//Route::get('/', 'HomeController@index');
+Route::get('/', 'ColumnController@index');
+Route::get('column/{type?}/{state?}/{page?}', 'ColumnController@index');
+
 //Route::any('/response', 'StudentController@response');
 //Route::any('/request1', 'StudentController@request1');
 //Route::any('/queue', 'StudentController@queue');
@@ -36,10 +38,11 @@ Route::get('test',function(){
 Route::any('/upload', 'StudentController@upload');
 //Route::any('/mail', 'StudentController@mail');
 //Route::auth();
+
 //Route::group(['middleware'=>'auth','namespace'=>'Admin','prefix'=>'admin'],function(){
 //	Route::get('/','HomeController@index');
 //	Route::get('/show','HomeController@show');
-//	Route::resource('article', 'ArticleController');
+	Route::resource('article', 'ArticlesController');
 //	Route::get('/article/show', 'ArticleController@show');
 //	Route::resource('news', 'NewsController');
 //	Route::get('/news/show', 'NewsController@show');

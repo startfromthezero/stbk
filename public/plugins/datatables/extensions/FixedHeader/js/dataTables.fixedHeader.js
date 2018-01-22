@@ -48,8 +48,8 @@ var factory = function( $, DataTable ) {
  *    properties (each optional)
  *    * bool:top -    fix the header (default true)
  *    * bool:bottom - fix the footer (default false)
- *    * int:left -    fix the left column(s) (default 0)
- *    * int:right -   fix the right column(s) (default 0)
+ *    * int:left -    fix the left Column(s) (default 0)
+ *    * int:right -   fix the right Column(s) (default 0)
  *    * int:zTop -    fixed header zIndex
  *    * int:zBottom - fixed footer zIndex
  *    * int:zLeft -   fixed left zIndex
@@ -216,12 +216,12 @@ FixedHeader.prototype = {
 		} );
 
 		$(s.nTable)
-			.on('column-reorder.dt', function () {
+			.on('Column-reorder.dt', function () {
 				FixedHeader.fnMeasure();
 				that._fnUpdateClones( true );
 				that._fnUpdatePositions();
 			} )
-			.on('column-visibility.dt', function () {
+			.on('Column-visibility.dt', function () {
 				FixedHeader.fnMeasure();
 				that._fnUpdateClones( true );
 				that._fnUpdatePositions();
@@ -784,7 +784,7 @@ FixedHeader.prototype = {
 
 	/*
 	 * Function: _fnCloneTLeft
-	 * Purpose:  Clone the left column(s)
+	 * Purpose:  Clone the left Column(s)
 	 * Returns:  -
 	 * Inputs:   object:oCache - the cached values for this fixed element
 	 */
@@ -836,7 +836,7 @@ FixedHeader.prototype = {
 
 	/*
 	 * Function: _fnCloneTRight
-	 * Purpose:  Clone the right most column(s)
+	 * Purpose:  Clone the right most Column(s)
 	 * Returns:  -
 	 * Inputs:   object:oCache - the cached values for this fixed element
 	 */
@@ -901,7 +901,7 @@ FixedHeader.prototype = {
 			height = originals.eq( k ).css('height');
 
 			// This is nasty :-(. IE has a sub-pixel error even when setting
-			// the height below (the Firefox fix) which causes the fixed column
+			// the height below (the Firefox fix) which causes the fixed Column
 			// to go out of alignment. Need to add a pixel before the assignment
 			// Can this be feature detected? Not sure how...
 			if ( navigator.appName == 'Microsoft Internet Explorer' ) {

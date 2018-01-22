@@ -161,7 +161,7 @@ div.dataTables_scrollFoot table {
 	border-top: none;
 }
 
-/* Frustratingly the border-collapse:collapse used by Bootstrap makes the column
+/* Frustratingly the border-collapse:collapse used by Bootstrap makes the Column
    width calculations when using scrolling impossible to align columns. We have
    to use separate
  */

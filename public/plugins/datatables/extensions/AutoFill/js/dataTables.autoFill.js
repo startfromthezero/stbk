@@ -103,7 +103,7 @@ var AutoFill = function( oDT, oConfig )
 		},
 
 		/**
-		 * @namespace Information stored for each column. An array of objects
+		 * @namespace Information stored for each Column. An array of objects
 		 */
 		"columns": []
 	};
@@ -665,7 +665,7 @@ AutoFill.prototype = {
 			return;
 		}
 
-		/* Check that we are allowed to AutoFill this column or not */
+		/* Check that we are allowed to AutoFill this Column or not */
 		var nTd = (e.target.nodeName.toLowerCase() == 'td') ? e.target : $(e.target).parents('td')[0];
 		var iX = this._fnTargetCoords(nTd).column;
 		if ( !this.s.columns[iX].enable )
@@ -749,7 +749,7 @@ AutoFill.defaults = {
 	 */
 	column: {
 		/**
-		 * If AutoFill should be enabled on this column
+		 * If AutoFill should be enabled on this Column
 		 *
 		 * @type {boolean}
 		 * @default true
@@ -757,7 +757,7 @@ AutoFill.defaults = {
 		enable: true,
 
 		/**
-		 * Allow automatic increment / decrement on this column if a number
+		 * Allow automatic increment / decrement on this Column if a number
 		 * is found.
 		 *
 		 * @type {boolean}

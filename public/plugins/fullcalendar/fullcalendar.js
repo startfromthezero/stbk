@@ -2591,7 +2591,7 @@ var Grid = fc.Grid = RowRenderer.extend({
 	rowCnt: 0, // number of rows
 	colCnt: 0, // number of cols
 	rowData: null, // array of objects, holding misc data for each row
-	colData: null, // array of objects, holding misc data for each column
+	colData: null, // array of objects, holding misc data for each Column
 
 	el: null, // the containing element
 	coordMap: null, // a GridCoordMap that converts pixel values to datetimes
@@ -2631,7 +2631,7 @@ var Grid = fc.Grid = RowRenderer.extend({
 	------------------------------------------------------------------------------------------------------------------*/
 
 
-	// Generates the format string used for the text in column headers, if not explicitly defined by 'columnFormat'
+	// Generates the format string used for the text in Column headers, if not explicitly defined by 'columnFormat'
 	// TODO: move to another class. not applicable to all Grids
 	computeColHeadFormat: function() {
 		// subclasses must implement if they want to use headHtml()
@@ -2729,7 +2729,7 @@ var Grid = fc.Grid = RowRenderer.extend({
 	},
 
 
-	// Retrieves misc data baout the given column
+	// Retrieves misc data baout the given Column
 	getColData: function(col) {
 		return this.colData[col] || {};
 	},
@@ -2741,7 +2741,7 @@ var Grid = fc.Grid = RowRenderer.extend({
 	},
 
 
-	// Retrieves the element representing the given column
+	// Retrieves the element representing the given Column
 	getColEl: function(col) {
 		// subclasses should implement if leveraging the default getCellDayEl() or computeColCoords()
 	},
@@ -4152,7 +4152,7 @@ var DayGrid = Grid.extend({
 	------------------------------------------------------------------------------------------------------------------*/
 
 
-	// Computes a default column header formatting string if `colFormat` is not explicitly defined
+	// Computes a default Column header formatting string if `colFormat` is not explicitly defined
 	computeColHeadFormat: function() {
 		if (this.rowCnt > 1) { // more than one week row. day numbers will be in each cell
 			return 'ddd'; // "Sat"
@@ -4254,7 +4254,7 @@ var DayGrid = Grid.extend({
 	},
 
 
-	// Retrieves the element representing the given column
+	// Retrieves the element representing the given Column
 	getColEl: function(col) {
 		return this.dayEls.eq(col);
 	},
@@ -4669,14 +4669,14 @@ DayGrid.mixin({
 		var tbody = $('<tbody/>');
 		var segMatrix = []; // lookup for which segments are rendered into which level+col cells
 		var cellMatrix = []; // lookup for all <td> elements of the level+col matrix
-		var loneCellMatrix = []; // lookup for <td> elements that only take up a single column
+		var loneCellMatrix = []; // lookup for <td> elements that only take up a single Column
 		var i, levelSegs;
 		var col;
 		var tr;
 		var j, seg;
 		var td;
 
-		// populates empty cells from the current column (`col`) to `endCol`
+		// populates empty cells from the current Column (`col`) to `endCol`
 		function emptyCellsUntil(endCol) {
 			while (col < endCol) {
 				// try to grab a cell from the level above and extend its rowspan. otherwise, create a fresh cell
@@ -4719,7 +4719,7 @@ DayGrid.mixin({
 					if (seg.leftCol != seg.rightCol) {
 						td.attr('colspan', seg.rightCol - seg.leftCol + 1);
 					}
-					else { // a single-column segment
+					else { // a single-Column segment
 						loneCellMatrix[i][col] = td;
 					}
 
@@ -4902,12 +4902,12 @@ DayGrid.mixin({
 		var col = 0; // col #, left-to-right (not chronologically)
 		var cell;
 		var levelSegs; // array of segment objects in the last allowable level, ordered left-to-right
-		var cellMatrix; // a matrix (by level, then column) of all <td> jQuery elements in the row
+		var cellMatrix; // a matrix (by level, then Column) of all <td> jQuery elements in the row
 		var limitedNodes; // array of temporarily hidden level <tr> and segment <td> DOM nodes
 		var i, seg;
 		var segsBelow; // array of segment objects below `seg` in the current `col`
 		var totalSegsBelow; // total number of segments below `seg` in any of the columns `seg` occupies
-		var colSegsBelow; // array of segment arrays, below seg, one for each column (offset from segs's first column)
+		var colSegsBelow; // array of segment arrays, below seg, one for each Column (offset from segs's first Column)
 		var td, rowspan;
 		var segMoreNodes; // array of "more" <td> cells that will stand-in for the current seg's cell
 		var j;
@@ -4957,7 +4957,7 @@ DayGrid.mixin({
 					rowspan = td.attr('rowspan') || 1;
 					segMoreNodes = [];
 
-					// make a replacement <td> for each column the segment occupies. will be one for each colspan
+					// make a replacement <td> for each Column the segment occupies. will be one for each colspan
 					for (j = 0; j < colSegsBelow.length; j++) {
 						moreTd = $('<td class="fc-more-cell"/>').attr('rowspan', rowspan);
 						segsBelow = colSegsBelow[j];
@@ -5314,7 +5314,7 @@ var TimeGrid = Grid.extend({
 	},
 
 
-	// Computes a default column header formatting string if `colFormat` is not explicitly defined
+	// Computes a default Column header formatting string if `colFormat` is not explicitly defined
 	computeColHeadFormat: function() {
 		if (this.colCnt > 1) { // multiple days, so full single date string WON'T be in title text
 			return this.view.opt('dayOfMonthFormat'); // "Sat 12/10"
@@ -5376,7 +5376,7 @@ var TimeGrid = Grid.extend({
 	},
 
 
-	// Retrieves the element representing the given column
+	// Retrieves the element representing the given Column
 	getColEl: function(col) {
 		return this.dayEls.eq(col);
 	},
@@ -5392,7 +5392,7 @@ var TimeGrid = Grid.extend({
 	},
 
 
-	// Slices up a date range by column into an array of segments
+	// Slices up a date range by Column into an array of segments
 	rangeToSegs: function(range) {
 		var colCnt = this.colCnt;
 		var segs = [];
@@ -5732,7 +5732,7 @@ TimeGrid.mixin({
 
 		this.computeSegVerticals(segs); // compute and assign top/bottom
 
-		for (col = 0; col < segCols.length; col++) { // iterate each column grouping
+		for (col = 0; col < segCols.length; col++) { // iterate each Column grouping
 			colSegs = segCols[col];
 			placeSlotSegs(colSegs); // compute horizontal coordinates, z-index's, and reorder the array
 
@@ -5919,7 +5919,7 @@ TimeGrid.mixin({
 });
 
 
-// Given an array of segments that are all in the same column, sets the backwardCoord and forwardCoord on each.
+// Given an array of segments that are all in the same Column, sets the backwardCoord and forwardCoord on each.
 // Also reorders the given array by date!
 function placeSlotSegs(segs) {
 	var levels;
@@ -9106,7 +9106,7 @@ var BasicView = fcViews.basic = View.extend({
 	},
 
 
-	// Generates an HTML attribute string for setting the width of the week number column, if it is known
+	// Generates an HTML attribute string for setting the width of the week number Column, if it is known
 	weekNumberStyleAttr: function() {
 		if (this.weekNumberWidth !== null) {
 			return 'style="width:' + this.weekNumberWidth + 'px"';
@@ -9490,7 +9490,7 @@ fcViews.agenda = View.extend({ // AgendaView
 	},
 
 
-	// Generates the HTML that goes before the bg of the TimeGrid slot area. Long vertical column.
+	// Generates the HTML that goes before the bg of the TimeGrid slot area. Long vertical Column.
 	slotBgIntroHtml: function() {
 		return '<td class="fc-axis ' + this.widgetContentClass + '" ' + this.axisStyleAttr() + '></td>';
 	},

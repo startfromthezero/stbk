@@ -961,11 +961,11 @@ TableTools.prototype = {
 
 
 	/**
-	 * Calculate a unity array with the column width by proportion for a set of columns to be
+	 * Calculate a unity array with the Column width by proportion for a set of columns to be
 	 * included for a button. This is particularly useful for PDF creation, where we can use the
-	 * column widths calculated by the browser to size the columns in the PDF.
+	 * Column widths calculated by the browser to size the columns in the PDF.
 	 *  @param   {Object} oConfig Button configuration object
-	 *  @returns {Array} Unity array of column ratios
+	 *  @returns {Array} Unity array of Column ratios
 	 */
 	"fnCalcColRatios": function ( oConfig )
 	{
@@ -2062,9 +2062,9 @@ TableTools.prototype = {
 	 *  @method  _fnColumnTargets
 	 *  @param   {String|Array} mColumns The columns to be included in data retrieval. If a string
 	 *			 then it can take the value of "visible" or "hidden" (to include all visible or
-	 *			 hidden columns respectively). Or an array of column indexes
+	 *			 hidden columns respectively). Or an array of Column indexes
 	 *  @returns {Array} A boolean array the length of the columns of the table, which each value
-	 *			 indicating if the column is to be included or not
+	 *			 indicating if the Column is to be included or not
 	 *  @private 
 	 */
 	"_fnColumnTargets": function ( mColumns )
@@ -2817,7 +2817,7 @@ TableTools.buttonBase = {
 	"sFieldBoundary": "",
 	"sFieldSeperator": "\t",
 	"sNewLine": "auto",
-	"mColumns": "all", /* "all", "visible", "hidden" or array of column integers */
+	"mColumns": "all", /* "all", "visible", "hidden" or array of Column integers */
 	"bHeader": true,
 	"bFooter": true,
 	"bOpenRows": false,

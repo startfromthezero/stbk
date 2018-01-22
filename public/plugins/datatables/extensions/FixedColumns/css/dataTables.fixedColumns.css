@@ -1,13 +1,13 @@
 
 
-/* Block out what is behind the fixed column's header and footer */
+/* Block out what is behind the fixed Column's header and footer */
 table.DTFC_Cloned thead,
 table.DTFC_Cloned tfoot {
 	background-color: white;
 }
 
 /* Block out the gap above the scrollbar on the right, when there is a fixed
- * right column
+ * right Column
  */
 div.DTFC_Blocker {
 	background-color: white;
