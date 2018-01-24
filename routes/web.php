@@ -29,7 +29,8 @@ Route::get('test',function(){
 //
 Route::get('/', 'ColumnController@index');
 Route::get('column/{type?}/{state?}/{page?}', 'ColumnController@index');
-
+Route::get('jie/add', 'ColumnController@create');
+Route::get('jie/{id?}','ColumnController@jie');
 //Route::any('/response', 'StudentController@response');
 //Route::any('/request1', 'StudentController@request1');
 //Route::any('/queue', 'StudentController@queue');

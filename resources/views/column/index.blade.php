@@ -23,11 +23,10 @@
 
         <div class="fly-column-right layui-hide-xs">
             <span class="fly-search"><i class="layui-icon"></i></span>
-            <a href="add.html" class="layui-btn">发表新帖</a>
+            <a href="/jie/add" class="layui-btn">发表新帖</a>
         </div>
-        <div class="layui-hide-sm layui-show-xs-block"
-             style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
-            <a href="add.html" class="layui-btn">发表新帖</a>
+        <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
+            <a href="/jie/add" class="layui-btn">发表新帖</a>
         </div>
     </div>
 </div>
@@ -61,7 +60,7 @@
                         </a>
                         <h2>
                             <a class="layui-badge">{{$data['types'][$data['array'][$new->type_id]]}}</a>
-                            <a href="detail.html">{{$new->title}}</a>
+                            <a href="/jie/{{ $new->id }}">{{$new->title}}</a>
                         </h2>
                         <div class="fly-list-info">
                             <a href="user/home.html" link>

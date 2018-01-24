@@ -7,7 +7,7 @@ use App\Models\Admin\News;
 
 class ColumnController extends Controller
 {
-	protected $types = array('all'=>'首页','quiz'=>'提问', 'share'=>'分享', 'discuss'=>'讨论', 'suggest'=>'建议', 'notice'=>'公告','news'=>'动态');
+	protected $types = array('all'=>'首页','quiz'=>'提问', 'share'=>'分享', 'discuss'=>'讨论', 'suggest'=>'建议', 'notice'=>'公告','news'=>'动�??');
 	protected $status = array('all'=>'综合','unsolved'=>'未结', 'solved'=>'已结', 'wonderful'=>'精华');
 	public function index(Request $request){
 		$array= array('quiz'=>'1', 'share' => '2', 'discuss' => '3', 'suggest' => '4', 'notice' => '5', 'news' => '6');
@@ -33,6 +33,7 @@ class ColumnController extends Controller
 		}else{
 			$news = News::orderByRaw('concat(is_top,created_at) desc')->get();
 		}
+		$count = count($news);
 
 		$data =[
 			'types'=> $this->types,
@@ -40,8 +41,19 @@ class ColumnController extends Controller
 			'status'=> $this->status,
 			'state'=> $request->state,
 			'news' => $news,
+			'count'=> $count,
+			'page' => 1,
 			'array'=> array_flip($array)
 		];
 		return view('column/index', compact('data'));
+	}
+
+	public function jie($id){
+		$new = News::findOrFail($id);
+		return view('column/detail', compact('new'));
+	}
+
+	public function create(){
+		return view('column/create');
 	}
 }

@@ -10,7 +10,7 @@
 
 <script src="/layui/layui.js"></script>
 <script>
-    var count = {{ $data['count'] }},nums = 20, curr = {{ $data['page'] }};
+    var count = 10,nums = 20, curr = 1;
 
 	layui.cache.page = 'jie';
 	layui.cache.user = {
