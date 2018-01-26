@@ -1,35 +1,6 @@
-<!-- 加载头部-->
-@include ('layouts.header')
-<div class="fly-panel fly-column">
-    <div class="layui-container">
-        <ul class="layui-clear">
-            @foreach($data['types'] as $type =>$type_name)
-                <li @if($type == $data['type']) class="layui-this" @endif>
-                    @if($type == 'all')
-                        <a href="/">{{ $type_name }}</a>
-                    @else
-                        <a href="/column/{{ $type }}/">{{ $type_name }} @if($type=='share')<span class="layui-badge-dot"></span>@endif</a>
-                    @endif
-                </li>
-            @endforeach
-            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
-
-            <!-- 用户登入后显示 -->
-            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="../user/index.html">我发表的贴</a>
-            </li>
-            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="../user/index.html#collection">我收藏的贴</a>
-            </li>
-        </ul>
-
-        <div class="fly-column-right layui-hide-xs">
-            <span class="fly-search"><i class="layui-icon"></i></span>
-            <a href="/jie/add" class="layui-btn">发表新帖</a>
-        </div>
-        <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
-            <a href="/jie/add" class="layui-btn">发表新帖</a>
-        </div>
-    </div>
-</div>
+@extends('layouts.base')
+@section('content')
+@include('column.nav')
 <div class="layui-container">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md8">
@@ -45,11 +16,7 @@
                     <span class="fly-mid"></span>
                     @endif
                     @endforeach
-                    <span class="fly-filter-right layui-hide-xs">
-            <a href="" class="layui-this">按最新</a>
-            <span class="fly-mid"></span>
-            <a href="">按热议</a>
-          </span>
+                    <span class="fly-filter-right layui-hide-xs"><a href="" class="layui-this">按最新</a><span class="fly-mid"></span><a href="">按热议</a></span>
                 </div>
 
                 <ul class="fly-list">
@@ -59,7 +26,7 @@
                             <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt="贤心">
                         </a>
                         <h2>
-                            <a class="layui-badge">{{$data['types'][$data['array'][$new->type_id]]}}</a>
+                            <a class="layui-badge">{{$data['types'][$data['keys'][$new->type_id]]}}</a>
                             <a href="/jie/{{ $new->id }}">{{$new->title}}</a>
                         </h2>
                         <div class="fly-list-info">
@@ -74,9 +41,7 @@
                             @if(!$new->is_show)
                                 <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
                             @endif
-                            <span class="fly-list-nums">
-                <i class="iconfont icon-pinglun1" title="回答"></i> 66
-              </span>
+                            <span class="fly-list-nums"><i class="iconfont icon-pinglun1" title="回答"></i> 66</span>
                         </div>
                         @if($new->is_top || $new->is_recomm)
                         <div class="fly-list-badge">
@@ -138,7 +103,26 @@
                 <div class="fly-none">没有相关数据</div>
                 -->
             </dl>
+            <div class="fly-panel fly-signin">
+                <div class="fly-panel-title">
+                    签到
+                    <i class="fly-mid"></i>
+                    <a href="javascript:;" class="fly-link" id="LAY_signinHelp">说明</a>
+                    <i class="fly-mid"></i>
+                    <a href="javascript:;" class="fly-link" id="LAY_signinTop">活跃榜<span class="layui-badge-dot"></span></a>
+                    <span class="fly-signin-days">已连续签到<cite>16</cite>天</span>
+                </div>
+                <div class="fly-panel-main fly-signin-main">
+                    <button class="layui-btn layui-btn-danger" id="LAY_signin">今日签到</button>
+                    <span>可获得<cite>5</cite>飞吻</span>
 
+                    <!-- 已签到状态 -->
+                    <!--
+                    <button class="layui-btn layui-btn-disabled">今日已签到</button>
+                    <span>获得了<cite>20</cite>飞吻</span>
+                    -->
+                </div>
+            </div>
             <div class="fly-panel">
                 <div class="fly-panel-title">
                     这里可作为广告区域
@@ -169,4 +153,4 @@
         </div>
     </div>
 </div>
-@include('layouts.fooder')
+@endsection

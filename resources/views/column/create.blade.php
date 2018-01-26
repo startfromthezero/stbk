@@ -1,5 +1,5 @@
-<!-- 加载头部-->
-@include ('layouts.header')
+@extends('layouts.base')
+@section('content')
 <div class="layui-container fly-marginTop">
   <div class="fly-panel" pad20 style="padding-top: 5px;">
     <!--<div class="fly-none">没有权限</div>-->
@@ -99,4 +99,4 @@
     </div>
   </div>
 </div>
-@include('layouts.fooder')
+@endsection

@@ -1,39 +1,11 @@
-<!-- 加载头部-->
-@include ('layouts.header')
-<div class="layui-hide-xs">
-  <div class="fly-panel fly-column">
-    <div class="layui-container">
-      <ul class="layui-clear">
-        <li class="layui-hide-xs"><a href="/">首页</a></li>
-        <li class="layui-this"><a href="">提问</a></li>
-        <li><a href="">分享<span class="layui-badge-dot"></span></a></li>
-        <li><a href="">讨论</a></li>
-        <li><a href="">建议</a></li>
-        <li><a href="">公告</a></li>
-        <li><a href="">动态</a></li>
-        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
-
-        <!-- 用户登入后显示 -->
-        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="../user/index.html">我发表的贴</a></li>
-        <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="../user/index.html#collection">我收藏的贴</a></li>
-      </ul>
-
-      <div class="fly-column-right layui-hide-xs">
-        <span class="fly-search"><i class="layui-icon"></i></span>
-        <a href="add.html" class="layui-btn">发表新帖</a>
-      </div>
-      <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
-        <a href="add.html" class="layui-btn">发表新帖</a>
-      </div>
-    </div>
-  </div>
-</div>
-
+@extends('layouts.base')
+@section('content')
+@include('column.nav')
 <div class="layui-container">
   <div class="layui-row layui-col-space15">
     <div class="layui-col-md8 content detail">
       <div class="fly-panel detail-box">
-        <h1>{{ $new->title }}</h1>
+        <h1>{{ $data['new']->title }}</h1>
         <div class="fly-detail-info">
           <!-- <span class="layui-badge">审核中</span> -->
           <span class="layui-badge layui-bg-green fly-detail-column">动态</span>
@@ -68,7 +40,7 @@
               <i class="iconfont icon-renzheng" title="认证信息"></i>
               <i class="layui-badge fly-badge-vip">VIP3</i>
             </a>
-            <span>{{ $new->created_at }}</span>
+            <span>{{ $data['new']->created_at }}</span>
           </div>
           <div class="detail-hits" id="LAY_jieAdmin" data-id="123">
             <span style="padding-right: 10px; color: #FF7200">悬赏：60飞吻</span>
@@ -76,7 +48,7 @@
           </div>
         </div>
         <div class="detail-body photos">
-          {{ $new->content }}
+          {{ $data['new']->content }}
         </div>
       </div>
 
@@ -218,4 +190,4 @@
     </div>
   </div>
 </div>
-@include('layouts.fooder')
+@endsection

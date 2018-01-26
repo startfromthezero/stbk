@@ -38,12 +38,38 @@ Route::get('jie/{id?}','ColumnController@jie');
 //Route::any('/cache2', 'StudentController@cache2');
 Route::any('/upload', 'StudentController@upload');
 //Route::any('/mail', 'StudentController@mail');
-//Route::auth();
-
+Route::auth();
+Route::group(['middleware'=>'auth'],function(){
+	Route::get('jie/add', 'ColumnController@create');
+	Route::get('home', function ()
+	{
+		return view('user/home');
+	});
+	Route::get('user/post', function ()
+	{
+		return view('user/post');
+	});
+	Route::get('user/message', function ()
+	{
+		return view('user/message');
+	});
+	Route::get('user/set', function ()
+	{
+		return view('user/set');
+	});
+	Route::get('user', function ()
+	{
+		return view('user/index');
+	});
+	Route::get('user/product', function ()
+	{
+		return view('user/product');
+	});
+});
 //Route::group(['middleware'=>'auth','namespace'=>'Admin','prefix'=>'admin'],function(){
 //	Route::get('/','HomeController@index');
 //	Route::get('/show','HomeController@show');
-	Route::resource('article', 'ArticlesController');
+	//Route::resource('article', 'ArticlesController');
 //	Route::get('/article/show', 'ArticleController@show');
 //	Route::resource('news', 'NewsController');
 //	Route::get('/news/show', 'NewsController@show');

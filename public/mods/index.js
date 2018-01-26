@@ -3,7 +3,6 @@
  @Name: Fly社区主入口
 
  */
- 
 
 layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util','laypage'], function(exports){
   
@@ -576,7 +575,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util','laypage'],
 	  , limit: nums
       , count: count
       , curr: curr
-      , jump :
+      , jump : ''
   });
 
   //加载特定模块
