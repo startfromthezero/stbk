@@ -15,7 +15,7 @@
                                 <div class="layui-form-item">
                                     <label for="L_email" class="layui-form-label">邮箱</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" name="email" required lay-verify="required" autocomplete="off" class="layui-input" value="{{ old('email') }}">
+                                        <input type="text" name="email" required lay-verify="required" class="layui-input" value="{{ old('email') }}">
                                     </div>
                                     @if ($errors->has('email'))
                                         <span class="help-block">

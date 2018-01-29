@@ -30,6 +30,7 @@ Route::get('test',function(){
 Route::get('/', 'ColumnController@index');
 Route::get('column/{type?}/{state?}/{page?}', 'ColumnController@index');
 Route::get('jie/add', 'ColumnController@create');
+Route::post('jie/reply', 'CommentController@store');
 Route::get('jie/{id?}','ColumnController@jie');
 //Route::any('/response', 'StudentController@response');
 //Route::any('/request1', 'StudentController@request1');
@@ -40,6 +41,7 @@ Route::any('/upload', 'StudentController@upload');
 //Route::any('/mail', 'StudentController@mail');
 Route::auth();
 Route::group(['middleware'=>'auth'],function(){
+	Route::post('jie/reply','CommentController@store');
 	Route::get('jie/add', 'ColumnController@create');
 	Route::get('home', function ()
 	{

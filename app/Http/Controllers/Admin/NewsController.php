@@ -88,7 +88,7 @@ class NewsController extends Controller
 		$news->is_show = $news->is_show == 'on' ? 1 : 0;
 		$news->is_recomm = $news->is_recomm == 'on' ? 1 : 0;
 		$news->is_top = $news->is_top == 'on' ? 1 : 0;
-		$news->content = htmlspecialchars($news->content, ENT_NOQUOTES);
+		$news->content = htmlspecialchars($news->content);
 		$news->save();
 		event(new \App\Events\userActionEvent('\App\Models\Admin\News', $news->id, 1, '添加了文章' . $news->title));
 
@@ -148,13 +148,13 @@ class NewsController extends Controller
 		}
 		foreach (array_keys($this->fields) as $field)
 		{
-			$news->field = $request->get($field);
+			$news->$field = $request->get($field);
 		}
 
 		$news->is_show   = $news->is_show == 'on' ? 1 : 0;
 		$news->is_recomm = $news->is_recomm == 'on' ? 1 : 0;
 		$news->is_top    = $news->is_top == 'on' ? 1 : 0;
-		$news->content = htmlspecialchars($news->content, ENT_NOQUOTES);
+		$news->content = htmlspecialchars($news->content);
 		$news->save();
 		return redirect('/admin/news')->withSuccess('编辑成功！');
 	}

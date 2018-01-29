@@ -1,19 +1,19 @@
 <div class="fly-panel fly-column">
     <div class="layui-container">
         <ul class="layui-clear">
-            @foreach($data['types'] as $type =>$type_name)
-                <li @if(isset($data['type']) && $type == $data['type']) class="layui-this" @endif>
-                    @if($type == 'all')
+            @foreach($types as $key =>$type_name)
+                <li @if(isset($type) && $key == $type) class="layui-this" @endif>
+                    @if($key == 'all')
                         <a href="/">{{ $type_name }}</a>
                     @else
-                        <a href="/column/{{ $type }}/">{{ $type_name }} @if($type=='share')<span class="layui-badge-dot"></span>@endif</a>
+                        <a href="/column/{{ $key }}/">{{ $type_name }} @if($key=='share')<span class="layui-badge-dot"></span>@endif</a>
                     @endif
                 </li>
             @endforeach
             <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
 
             <!-- 用户登入后显示 -->
-            @if (Route::has('login'))
+            @if (Auth::check())
             <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="/user/post">我发表的贴</a>
             </li>
             <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="../user/index.html#collection">我收藏的贴</a>

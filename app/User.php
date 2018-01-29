@@ -26,4 +26,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getName()
+    {
+        $names = array();
+        $users = DB::table('users')->select('id', 'username')->get();
+        foreach ($users as $user)
+        {
+            $names[$user->id] = $user->username;
+        }
+
+        return $names;
+    }
 }

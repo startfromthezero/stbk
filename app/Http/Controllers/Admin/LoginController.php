@@ -60,6 +60,14 @@ class LoginController extends Controller
     }
 
     /**
+     * 重写验证时使用的用户名字段
+     */
+    public function username()
+    {
+        return 'username';
+    }
+
+    /**
      * Log the user out of the application.
      *
      * @param  Request  $request

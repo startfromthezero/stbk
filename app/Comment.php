@@ -8,10 +8,9 @@ class Comment extends Model
 {
     //
 	protected $fillable = [
-		'nickname',
-		'email',
-		'website',
-		'content',
-		'new_id'
+		'user_id',
+		'parent_id',
+		'new_id',
+		'content'
 	];
 }

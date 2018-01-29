@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Admin\News;
+use App\User;
 
 class ColumnController extends Controller
 {
@@ -51,16 +52,24 @@ class ColumnController extends Controller
 			'page'   => $start,
 			'keys'   => $keys
 		];
-		return view('column/index', compact('data'));
+		return view('column/index', $data);
 	}
 
 	public function jie($id){
 		$new = News::with('hasManyComments')->findOrFail($id);
+		//dd($new->hasManyComments[0]->user_id);
+		$keys = array_keys($this->types);
+		$user = new User();
 		$data = [
 			'new'=> $new,
-			'types' => $this->types
+			'types' => $this->types,
+			'keys' => $keys,
+			'users'=> $user->getName()
 		];
-		return view('column/detail', compact('data'));
+//		echo htmlspecialchars_decode($new->content);
+//		exit();
+		//dd(htmlspecialchars_decode($new->content));
+		return view('column/detail', $data);
 	}
 
 	public function create(){

@@ -90,15 +90,18 @@ layui.define('fly', function(exports){
     
     //设置置顶、状态
     ,set: function(div){
-      var othis = $(this);
-      fly.json('/api/jie-set/', {
-        id: div.data('id')
-        ,rank: othis.attr('rank')
-        ,field: othis.attr('field')
-      }, function(res){
-        if(res.status === 0){
-          location.reload();
-        }
+      var othis = $(this),data={
+        _token: div.data('token'), _method: 'PATCH'
+      };
+      if(othis.attr('field') == 'is_top'){
+        data.is_top = othis.attr('rank');
+      }
+      if(othis.attr('field') == 'is_recomm'){
+        data.is_recomm = othis.attr('rank');
+      }
+
+      fly.json('/admin/news/'+ div.data('id'), data, function(res){
+          window.location.reload();
       });
     }
 

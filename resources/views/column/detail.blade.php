@@ -5,25 +5,34 @@
   <div class="layui-row layui-col-space15">
     <div class="layui-col-md8 content detail">
       <div class="fly-panel detail-box">
-        <h1>{{ $data['new']->title }}</h1>
+        <h1>{{ $new->title }}</h1>
         <div class="fly-detail-info">
           <!-- <span class="layui-badge">审核中</span> -->
-          <span class="layui-badge layui-bg-green fly-detail-column">动态</span>
+          <span class="layui-badge layui-bg-green fly-detail-column">{{ $types[$keys[$new->type_id]] }}</span>
 
+          @if($new->is_show)
+            <span class="layui-badge" style="background-color: #5FB878;">已结</span>
+          @else
           <span class="layui-badge" style="background-color: #999;">未结</span>
-          <!-- <span class="layui-badge" style="background-color: #5FB878;">已结</span> -->
-
+          @endif
+          @if($new->is_top)
           <span class="layui-badge layui-bg-black">置顶</span>
+          @endif
+          @if($new->is_recomm)
           <span class="layui-badge layui-bg-red">精帖</span>
-
-          <div class="fly-admin-box" data-id="123">
+          @endif
+          <div class="fly-admin-box" data-id="{{ $new->id }}" data-token="{{ csrf_token() }}">
             <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>
-
-            <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="1">置顶</span>
-            <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span> -->
-
-            <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="1">加精</span>
-            <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span> -->
+            @if($new->is_top)
+              <span class="layui-btn layui-btn-xs jie-admin" type="set" field="is_top" rank="0" style="background-color:#ccc;">取消置顶</span>
+            @else
+              <span class="layui-btn layui-btn-xs jie-admin" type="set" field="is_top" rank="1">置顶</span>
+            @endif
+            @if($new->is_recomm)
+            <span class="layui-btn layui-btn-xs jie-admin" type="set" field="is_recomm" rank="0" style="background-color:#ccc;">取消加精</span>
+            @else
+              <span class="layui-btn layui-btn-xs jie-admin" type="set" field="is_recomm" rank="1">加精</span>
+            @endif
           </div>
           <span class="fly-list-nums">
             <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> 66</a>
@@ -40,7 +49,7 @@
               <i class="iconfont icon-renzheng" title="认证信息"></i>
               <i class="layui-badge fly-badge-vip">VIP3</i>
             </a>
-            <span>{{ $data['new']->created_at }}</span>
+            <span>{{ $new->created_at }}</span>
           </div>
           <div class="detail-hits" id="LAY_jieAdmin" data-id="123">
             <span style="padding-right: 10px; color: #FF7200">悬赏：60飞吻</span>
@@ -48,7 +57,7 @@
           </div>
         </div>
         <div class="detail-body photos">
-          {{ $data['new']->content }}
+          <?php echo htmlspecialchars_decode($new->content) ?>
         </div>
       </div>
 
@@ -58,8 +67,43 @@
         </fieldset>
 
         <ul class="jieda" id="jieda">
+          @foreach($new->hasManyComments as $comment)
+              <li data-id="{{ $comment->user_id }}">
+                <a name="item-1111111111"></a>
+                <div class="detail-about detail-about-reply">
+                  <a class="fly-avatar" href="">
+                    <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt=" ">
+                  </a>
+                  <div class="fly-detail-user">
+                    <a href="" class="fly-link">
+                      <cite>贤心</cite>
+                    </a>
+                  </div>
+                  <div class="detail-hits">
+                    <span>2017-11-30</span>
+                  </div>
+                </div>
+                <div class="detail-body jieda-body photos">
+                  <p>蓝瘦那个香菇，这是一条没被采纳的回帖</p>
+                </div>
+                <div class="jieda-reply">
+              <span class="jieda-zan" type="zan">
+                <i class="iconfont icon-zan"></i>
+                <em>0</em>
+              </span>
+              <span type="reply">
+                <i class="iconfont icon-svgmoban53"></i>
+                回复
+              </span>
+                  <div class="jieda-admin">
+                    <span type="edit">编辑</span>
+                    <span type="del">删除</span>
+                    <span class="jieda-accept" type="accept">采纳</span>
+                  </div>
+                </div>
+              </li>
+          @endforeach
           <li data-id="111" class="jieda-daan">
-            <a name="item-1111111111"></a>
             <div class="detail-about detail-about-reply">
               <a class="fly-avatar" href="">
                 <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" alt=" ">
@@ -145,16 +189,19 @@
         </ul>
 
         <div class="layui-form layui-form-pane">
-          <form action="/jie/reply/" method="post">
+          <form action="/jie/reply/" method="POST" role="form">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="user_id" value="{{ Auth::id() }}" />
+            <input type="hidden" name="parent_id" value="0" />
+            <input type="hidden" name="new_id" value="{{ $new->id }}" />
             <div class="layui-form-item layui-form-text">
               <a name="comment"></a>
               <div class="layui-input-block">
-                <textarea id="L_content" name="content" required lay-verify="required" placeholder="请输入内容"  class="layui-textarea fly-editor" style="height: 150px;"></textarea>
+                <textarea name="content" required lay-verify="required" placeholder="请输入内容" class="layui-textarea fly-editor" style="height: 150px;"></textarea>
               </div>
             </div>
             <div class="layui-form-item">
-              <input type="hidden" name="jid" value="123">
-              <button class="layui-btn" lay-filter="*" lay-submit>提交回复</button>
+              <button class="layui-btn" type="submit">提交回复</button>
             </div>
           </form>
         </div>
