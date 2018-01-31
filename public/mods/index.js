@@ -62,7 +62,6 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util','laypage'],
       }
 
       options = options || {};
-
       return $.ajax({
         type: options.type || 'post',
         dataType: options.dataType || 'json',

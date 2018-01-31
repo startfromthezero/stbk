@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Admin\News;
 use App\User;
@@ -55,9 +56,28 @@ class ColumnController extends Controller
 		return view('column/index', $data);
 	}
 
-	public function jie($id){
+	public function jie(Request $request, $id){
 		$new = News::with('hasManyComments')->findOrFail($id);
-		//dd($new->hasManyComments[0]->user_id);
+		if ($request->ajax())
+		{
+			if (isset($request->is_show)){
+				$new->is_show = (int)$request->is_show;
+			}
+			if (isset($request->is_recomm)){
+				$new->is_recomm = (int)$request->is_recomm;
+			}
+			if (isset($request->is_top)){
+				$new->is_top = (int)$request->is_top;
+			}
+			$boot = $new->save();
+			if ($boot){
+				$out = array('status' => 0, 'msg' => '修改成功');
+			}else{
+				$out = array('status' =>-1, 'msg' => '修改失败');
+			}
+
+			return response()->json($out);
+		}
 		$keys = array_keys($this->types);
 		$user = new User();
 		$data = [
@@ -74,5 +94,30 @@ class ColumnController extends Controller
 
 	public function create(){
 		return view('column/create');
+	}
+
+	public function edit(){
+
+	}
+
+	public function collect(Request $request,$type){
+		if ($request->ajax()){
+			$news = new News();
+			$out = array('status' => 0);
+			if ($type == 'add'){
+				if ($news->favorited($request->nid))
+				{
+					$out = array('status' => -1,'msg'=>'该记录已经在收藏夹中');
+				}else{
+					Auth::user()->favorites()->attach($request->nid);
+				}
+			}
+			if ($type == 'remove'){
+				Auth::user()->favorites()->detach($request->nid);
+			}
+
+			return response()->json($out);
+		}
+		return back();
 	}
 }

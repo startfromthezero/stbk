@@ -3,6 +3,8 @@
 namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use App\Favorite;
 
 class News extends Model
 {
@@ -24,5 +26,9 @@ class News extends Model
 	public function hasManyComments()
 	{
 		return $this->hasMany('App\Comment', 'new_id', 'id');
+	}
+
+	public function favorited($nid){
+		return (bool)Favorite::where('user_id',Auth::id())->where('new_id', $nid)->first();
 	}
 }

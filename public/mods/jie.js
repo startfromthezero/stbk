@@ -99,18 +99,18 @@ layui.define('fly', function(exports){
       if(othis.attr('field') == 'is_recomm'){
         data.is_recomm = othis.attr('rank');
       }
-
-      fly.json('/admin/news/'+ div.data('id'), data, function(res){
+      fly.json('/jie/'+ div.data('id'), data, function(res){
           window.location.reload();
       });
     }
 
     //收藏
     ,collect: function(div){
-      var othis = $(this), type = othis.data('type');
-      fly.json('/collection/'+ type +'/', {
-        cid: div.data('id')
-      }, function(res){
+      var othis = $(this), type = othis.data('type'), data = {
+        _token: div.data('token'), _method: 'PATCH',nid : div.data('id')
+      };
+
+      fly.json('/collect/'+ type, data, function(res){
         if(type === 'add'){
           othis.data('type', 'remove').html('取消收藏').addClass('layui-btn-danger');
         } else if(type === 'remove'){

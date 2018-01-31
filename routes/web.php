@@ -15,9 +15,9 @@
 //	Route::any('/session1', 'StudentController@session1');
 //	Route::any('/session2', 'StudentController@session2');
 //});
-Route::get('test',function(){
-	echo phpinfo();
-});
+//Route::get('test',function(){
+//	echo phpinfo();
+//});
 ////宣传页面
 //Route::any('/activity0', 'StudentController@activity0');
 
@@ -27,6 +27,7 @@ Route::get('test',function(){
 //	Route::any('/activity2', 'StudentController@activity2');
 //});
 //
+
 Route::get('/', 'ColumnController@index');
 Route::get('column/{type?}/{state?}/{page?}', 'ColumnController@index');
 Route::get('jie/add', 'ColumnController@create');
@@ -41,16 +42,16 @@ Route::any('/upload', 'StudentController@upload');
 //Route::any('/mail', 'StudentController@mail');
 Route::auth();
 Route::group(['middleware'=>'auth'],function(){
+	Route::any('jie/{id?}', 'ColumnController@jie');
 	Route::post('jie/reply','CommentController@store');
 	Route::get('jie/add', 'ColumnController@create');
+	Route::any('collect/{type?}','ColumnController@collect');
+	Route::any('test/','ColumnController@test');
 	Route::get('home', function ()
 	{
 		return view('user/home');
 	});
-	Route::get('user/post', function ()
-	{
-		return view('user/post');
-	});
+	Route::get('user/post', 'UserController@post');
 	Route::get('user/message', function ()
 	{
 		return view('user/message');

@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use DB;
+use App\Models\Admin\News;
 
 class User extends Authenticatable
 {
@@ -37,5 +39,9 @@ class User extends Authenticatable
         }
 
         return $names;
+    }
+
+    public function favorites(){
+        return $this->belongsToMany(News::class,'favorites','user_id','new_id')->withTimeStamps();
     }
 }

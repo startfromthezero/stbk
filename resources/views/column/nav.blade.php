@@ -16,7 +16,7 @@
             @if (Auth::check())
             <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="/user/post">我发表的贴</a>
             </li>
-            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="../user/index.html#collection">我收藏的贴</a>
+            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="/user/post">我收藏的贴</a>
             </li>
             @endif
         </ul>
