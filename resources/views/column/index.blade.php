@@ -38,10 +38,10 @@
                             <span>{{$new->created_at}}</span>
 
                             <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-                            @if(!$new->is_show)
+                            @if($new->is_show)
                                 <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
                             @endif
-                            <span class="fly-list-nums"><i class="iconfont icon-pinglun1" title="回答"></i> 66</span>
+                            <span class="fly-list-nums"><i class="iconfont icon-pinglun1" title="回答"></i> {{ $new->reply }}</span>
                         </div>
                         @if($new->is_top || $new->is_recomm)
                         <div class="fly-list-badge">

@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
 		'App\Events\userActionEvent' => [
 			'App\Listeners\userActionListener',
 		],
+		'App\Events\newsViewEvent'=>[
+			'App\Listeners\newsViewListener',
+		],
 	];
 
     /**

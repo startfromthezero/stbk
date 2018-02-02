@@ -35,8 +35,8 @@
             @endif
           </div>
           <span class="fly-list-nums">
-            <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> 66</a>
-            <i class="iconfont" title="人气">&#xe60b;</i> 99999
+            <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> {{ $reply }}</a>
+            <i class="iconfont" title="人气">&#xe60b;</i> {{ $new->view_count }}
           </span>
         </div>
         <div class="detail-about">
@@ -59,7 +59,7 @@
               <span class="layui-btn layui-btn-xs jie-admin" type="collect" data-type="add">收藏</span>
             @endif
             @if(auth::id() == $new->user_id)
-            <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="add.html">编辑此贴</a></span>
+            <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="/jie/edit/{{$new->id}}">编辑此贴</a></span>
             @endif
           </div>
         </div>
@@ -79,7 +79,7 @@
           <li class="fly-none">消灭零回复</li>
           @else
           @foreach($new->hasManyComments as $comment)
-              <li data-id="{{ $comment->user_id }}">
+              <li data-id="{{ $comment->id }}" data-token="{{ csrf_token() }}">
                 <a name="item-1111111111"></a>
                 <div class="detail-about detail-about-reply">
                   <a class="fly-avatar" href="">
@@ -108,14 +108,14 @@
                   <p>{{ $comment->content }}</p>
                 </div>
                 <div class="jieda-reply">
-              <span class="jieda-zan zanok" type="zan">
-                <i class="iconfont icon-zan"></i>
-                <em>1</em>
-              </span>
-              <span type="reply">
-                <i class="iconfont icon-svgmoban53"></i>
-                回复
-              </span>
+                <span class="jieda-zan zanok" type="zan">
+                  <i class="iconfont icon-zan"></i>
+                  <em>1</em>
+                </span>
+                <span type="reply">
+                  <i class="iconfont icon-svgmoban53"></i>
+                  回复
+                </span>
                   <div class="jieda-admin">
                     @if(Auth::id() == $comment->user_id)
                     <span type="edit">编辑</span>
@@ -140,7 +140,7 @@
             <div class="layui-form-item layui-form-text">
               <a name="comment"></a>
               <div class="layui-input-block">
-                <textarea name="content" required lay-verify="required" placeholder="请输入内容" class="layui-textarea fly-editor" style="height: 150px;"></textarea>
+                <textarea id="L_content" name="content" required lay-verify="required" placeholder="请输入内容" class="layui-textarea fly-editor" style="height: 150px;"></textarea>
               </div>
             </div>
             <div class="layui-form-item">

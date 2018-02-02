@@ -157,10 +157,12 @@ layui.define('fly', function(exports){
     }
     ,reply: function(li){ //回复
       var val = dom.content.val();
+      var parent = li.data('id');
       var aite = '@'+ li.find('.fly-detail-user cite').text().replace(/\s/g, '');
       dom.content.focus()
       if(val.indexOf(aite) !== -1) return;
       dom.content.val(aite +' ' + val);
+      $("input[name='parent_id']").val(parent);
     }
     ,accept: function(li){ //采纳
       var othis = $(this);
@@ -181,9 +183,10 @@ layui.define('fly', function(exports){
     }
     ,edit: function(li){ //编辑
       fly.json('/jie/getDa/', {
-        id: li.data('id')
+        id: li.data('id'), _token: li.data('token'), _method: 'PATCH'
       }, function(res){
         var data = res.rows;
+        console.log(data);
         layer.prompt({
           formType: 2
           ,value: data.content
@@ -197,7 +200,7 @@ layui.define('fly', function(exports){
           }
         }, function(value, index){
           fly.json('/jie/updateDa/', {
-            id: li.data('id')
+            id: li.data('id'), _token: li.data('token'), _method: 'PATCH'
             ,content: value
           }, function(res){
             layer.close(index);

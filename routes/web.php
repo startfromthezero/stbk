@@ -30,9 +30,7 @@
 
 Route::get('/', 'ColumnController@index');
 Route::get('column/{type?}/{state?}/{page?}', 'ColumnController@index');
-Route::get('jie/add', 'ColumnController@create');
-Route::post('jie/reply', 'CommentController@store');
-Route::get('jie/{id?}','ColumnController@jie');
+//Route::post('jie/reply', 'CommentController@store');
 //Route::any('/response', 'StudentController@response');
 //Route::any('/request1', 'StudentController@request1');
 //Route::any('/queue', 'StudentController@queue');
@@ -42,11 +40,17 @@ Route::any('/upload', 'StudentController@upload');
 //Route::any('/mail', 'StudentController@mail');
 Route::auth();
 Route::group(['middleware'=>'auth'],function(){
-	Route::any('jie/{id?}', 'ColumnController@jie');
-	Route::post('jie/reply','CommentController@store');
+	Route::any('jie/store', 'ColumnController@store');
+	Route::any('jie/update', 'ColumnController@update');
 	Route::get('jie/add', 'ColumnController@create');
+	Route::post('jie/reply','CommentController@store');
+	Route::get('jie/edit/{id?}', 'ColumnController@edit');
 	Route::any('collect/{type?}','ColumnController@collect');
-	Route::any('test/','ColumnController@test');
+	Route::any('jie/getDa','CommentController@getDa');
+	Route::any('jie/updateDa','CommentController@updateDa');
+	//Route::any('test/','ColumnController@test');
+
+	Route::post('jie/update','ColumnController@update');
 	Route::get('home', function ()
 	{
 		return view('user/home');
@@ -69,6 +73,7 @@ Route::group(['middleware'=>'auth'],function(){
 		return view('user/product');
 	});
 });
+Route::any('jie/{id?}', 'ColumnController@jie');
 //Route::group(['middleware'=>'auth','namespace'=>'Admin','prefix'=>'admin'],function(){
 //	Route::get('/','HomeController@index');
 //	Route::get('/show','HomeController@show');

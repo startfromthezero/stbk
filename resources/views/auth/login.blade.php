@@ -15,7 +15,7 @@
                                 <div class="layui-form-item">
                                     <label for="L_email" class="layui-form-label">邮箱</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" name="email" required lay-verify="required" class="layui-input" value="{{ old('email') }}">
+                                        <input type="text" name="email" required lay-verify="email" class="layui-input" value="{{ old('email') }}">
                                     </div>
                                     @if ($errors->has('email'))
                                         <span class="help-block">
@@ -26,7 +26,7 @@
                                 <div class="layui-form-item">
                                     <label for="L_pass" class="layui-form-label">密码</label>
                                     <div class="layui-input-inline">
-                                        <input type="password" id="L_pass" name="password" autocomplete="off" class="layui-input">
+                                        <input type="password" id="L_pass" name="password" required lay-verify="required"  autocomplete="off" class="layui-input">
                                     </div>
                                     @if ($errors->has('password'))
                                         <span class="help-block">
@@ -40,10 +40,8 @@
                                 </div>
                                 <div class="layui-form-item fly-form-app">
                                     <span>或者使用社交账号登入</span>
-                                    <a href="" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})"
-                                       class="iconfont icon-qq" title="QQ登入"></a>
-                                    <a href="" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})"
-                                       class="iconfont icon-weibo" title="微博登入"></a>
+                                    <a href="" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-qq" title="QQ登入"></a>
+                                    <a href="" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-weibo" title="微博登入"></a>
                                 </div>
                             </form>
                         </div>

@@ -26,9 +26,13 @@ class UserController extends Controller
 
 	public function post(){
 		$myFavorites = Auth::user()->favorites;
+		$where = ['user_id'=> Auth::id(),'from'=>2];
+		$news = News::where($where)->get();
 		$data =[
 			'myFavorites'=> $myFavorites,
-			'count'      => Favorite::count()
+			'news'		 => $news,
+			'count'      => Favorite::where('user_id', Auth::id())->count(),
+			'mycount'    => News::where($where)->count()
 		];
 		return view('user/post', $data);
 	}

@@ -6,9 +6,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Admin\News;
 use App\User;
+use App\Comment;
 
 class ColumnController extends Controller
 {
+	protected $fields = [
+		'title'     => '',
+		'from'      => 2,
+		'user_id'   => '',
+		'img'       => '/img/cover_default.jpg',
+		'type_id'   => '',
+		'is_show'   => 0,
+		'is_recomm' => 0,
+		'is_top'    => 0,
+		'keyword'   => '',
+		'synopsis'  => '',
+		'content'   => '',
+	];
 	protected $types = array('all'=>'首页','quiz'=>'提问', 'share'=>'分享', 'discuss'=>'讨论', 'suggest'=>'建议', 'notice'=>'公告','news'=>'动态');
 	protected $status = array('all'=>'综合','unsolved'=>'未结', 'solved'=>'已结', 'wonderful'=>'精华');
 	public function index(Request $request){
@@ -41,6 +55,9 @@ class ColumnController extends Controller
 		}else{
 			$count = News::count();
 			$news = News::orderByRaw('concat(is_top,created_at) desc')->skip(($start - 1) * $length)->take($length)->get();
+		}
+		foreach ($news as &$new){
+			$new->reply = Comment::where('new_id',$new->id)->count();
 		}
 
 		$data = [
@@ -84,8 +101,10 @@ class ColumnController extends Controller
 			'new'=> $new,
 			'types' => $this->types,
 			'keys' => $keys,
-			'users'=> $user->getName()
+			'users'=> $user->getName(),
+			'reply'=> Comment::where('new_id', $new->id)->count()
 		];
+		event(new \App\Events\newsViewEvent($new));
 //		echo htmlspecialchars_decode($new->content);
 //		exit();
 		//dd(htmlspecialchars_decode($new->content));
@@ -93,11 +112,68 @@ class ColumnController extends Controller
 	}
 
 	public function create(){
-		return view('column/create');
+		$types = array_values($this->types);
+		$types[0] = '请选择';
+		$data = ['types'=> $types];
+		return view('column/create', $data);
 	}
 
-	public function edit(){
+	public function store(Request $request){
+		$new = new News();
+		foreach (array_keys($this->fields) as $field)
+		{
+			$new->$field = $request->get($field);
+		}
 
+		$new->content = htmlspecialchars($new->content);
+		$new->user_id = Auth::id();
+		$new->is_show = 0;
+		$new->is_recomm = 0;
+		$new->is_top = 0;
+		$new->img ='/img/cover_default.jpg';
+		$new->from =2;
+
+		$new->save();
+
+		return redirect('/jie/'. $new->id)->withSuccess('发表成功！');
+	}
+
+	public function update(Request $request){
+		$new = News::find((int)$request->id);
+		foreach (array_keys($this->fields) as $field)
+		{
+			$new->$field = $request->get($field);
+		}
+		$new->content   = htmlspecialchars($new->content);
+		$new->user_id   = Auth::id();
+		$new->is_show   = 0;
+		$new->is_recomm = 0;
+		$new->is_top    = 0;
+		$new->img       = '/img/cover_default.jpg';
+		$new->from      = 2;
+		$new->save();
+
+		return redirect('/jie/' . $new->id)->withSuccess('编辑成功！');
+	}
+
+	public function edit($id){
+		$new = News::find((int)$id);
+		$types = array_values($this->types);
+		$types[0] = '请选择';
+		$data = [
+			'newAll' => News::all()->toArray(),
+			'id'     => (int)$id,
+			'types'  => $types
+		];
+		if (!$new){
+			return redirect('/')->withErrors("找不到该文章!");
+		}
+		foreach (array_keys($this->fields) as $field)
+		{
+			$data[$field] = old($field, $new->$field);
+		}
+
+		return view('column/edit', $data);
 	}
 
 	public function collect(Request $request,$type){
