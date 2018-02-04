@@ -32,7 +32,7 @@
             @foreach($myFavorites as $favorite)
             <li>
               <a class="jie-title" href="/jie/{{ $favorite->id }}" target="_blank">{{ $favorite->title }}</a>
-              <i>{{ time_tran($favorite->created_at) }}</i>
+              <i>{{ $favorite->created_at }}</i>
             </li>
             @endforeach
           </ul>

@@ -1,4 +1,4 @@
-@extends('layouts.base')
+  @extends('layouts.base')
 @section('content')
 <div class="layui-container fly-marginTop fly-user-main">
   @include('user.nav')

@@ -38,7 +38,7 @@ layui.define('fly', function(exports){
   });
 
   //提交回答
-  fly.form['/jie/reply/'] = function(data, required){
+  fly.form['/comment/reply/'] = function(data, required){
     var tpl = '<li>\
       <div class="detail-about detail-about-reply">\
         <a class="fly-avatar" href="/u/{{ layui.cache.user.uid }}" target="_blank">\
@@ -90,9 +90,7 @@ layui.define('fly', function(exports){
     
     //设置置顶、状态
     ,set: function(div){
-      var othis = $(this),data={
-        _token: div.data('token'), _method: 'PATCH'
-      };
+      var othis = $(this),data={};
       if(othis.attr('field') == 'is_top'){
         data.is_top = othis.attr('rank');
       }
@@ -106,11 +104,9 @@ layui.define('fly', function(exports){
 
     //收藏
     ,collect: function(div){
-      var othis = $(this), type = othis.data('type'), data = {
-        _token: div.data('token'), _method: 'PATCH',nid : div.data('id')
-      };
+      var othis = $(this), type = othis.data('type');
 
-      fly.json('/collect/'+ type, data, function(res){
+      fly.json('/collect/'+ type, {nid: div.data('id')}, function(res){
         if(type === 'add'){
           othis.data('type', 'remove').html('取消收藏').addClass('layui-btn-danger');
         } else if(type === 'remove'){
@@ -142,8 +138,9 @@ layui.define('fly', function(exports){
   gather.jiedaActive = {
     zan: function(li){ //赞
       var othis = $(this), ok = othis.hasClass('zanok');
-      fly.json('/api/jieda-zan/', {
-        ok: ok
+      console.log(ok);
+      fly.json('/comment/vote', {
+        ok: ok ? 1 : 0
         ,id: li.data('id')
       }, function(res){
         if(res.status === 0){
@@ -182,8 +179,8 @@ layui.define('fly', function(exports){
       });
     }
     ,edit: function(li){ //编辑
-      fly.json('/jie/getDa/', {
-        id: li.data('id'), _token: li.data('token'), _method: 'PATCH'
+      fly.json('/comment/getDa/', {
+        id: li.data('id')
       }, function(res){
         var data = res.rows;
         console.log(data);
@@ -199,8 +196,8 @@ layui.define('fly', function(exports){
             });
           }
         }, function(value, index){
-          fly.json('/jie/updateDa/', {
-            id: li.data('id'), _token: li.data('token'), _method: 'PATCH'
+          fly.json('/comment/updateDa/', {
+            id: li.data('id')
             ,content: value
           }, function(res){
             layer.close(index);

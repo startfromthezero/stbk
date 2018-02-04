@@ -36,21 +36,24 @@ Route::get('column/{type?}/{state?}/{page?}', 'ColumnController@index');
 //Route::any('/queue', 'StudentController@queue');
 //Route::any('/cache1', 'StudentController@cache1');
 //Route::any('/cache2', 'StudentController@cache2');
+Route::post('comment/vote', 'CommentController@vote'); //评论点赞
+Route::post('sign/in','SignController@in');
 Route::any('/upload', 'StudentController@upload');
 //Route::any('/mail', 'StudentController@mail');
 Route::auth();
 Route::group(['middleware'=>'auth'],function(){
-	Route::any('jie/store', 'ColumnController@store');
-	Route::any('jie/update', 'ColumnController@update');
-	Route::get('jie/add', 'ColumnController@create');
-	Route::post('jie/reply','CommentController@store');
-	Route::get('jie/edit/{id?}', 'ColumnController@edit');
-	Route::any('collect/{type?}','ColumnController@collect');
-	Route::any('jie/getDa','CommentController@getDa');
-	Route::any('jie/updateDa','CommentController@updateDa');
+	Route::get('jie/add', 'ColumnController@create');//发布文章页
+	Route::any('jie/store', 'ColumnController@store');//发布文章
+	Route::get('jie/edit/{id?}', 'ColumnController@edit');//编辑文章页
+	Route::any('jie/update', 'ColumnController@update');//发布编辑文章
+	Route::any('collect/{type?}','ColumnController@collect');//收藏文章
+
 	//Route::any('test/','ColumnController@test');
 
-	Route::post('jie/update','ColumnController@update');
+	Route::any('comment/reply', 'CommentController@store');    //回复评论
+	Route::post('comment/getDa','CommentController@getDa');//获取评论编辑页面
+	Route::post('comment/updateDa','CommentController@updateDa'); //编辑评论
+
 	Route::get('home', function ()
 	{
 		return view('user/home');

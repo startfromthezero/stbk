@@ -15,6 +15,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util','laypage'],
   ,util = layui.util
   ,laypage = layui.laypage
   ,device = layui.device()
+  ,loading = false
 
   ,DISABLED = 'layui-btn-disabled';
   
@@ -60,14 +61,19 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util','laypage'],
         success = data;
         data = {};
       }
-
+      if(loading) return false;
+      loading = true;
       options = options || {};
       return $.ajax({
         type: options.type || 'post',
         dataType: options.dataType || 'json',
         data: data,
         url: url,
+        headers:{
+			'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+        },
         success: function(res){
+		loading=false;
           if(res.status === 0) {
             success && success(res);
           } else {
@@ -317,7 +323,6 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util','laypage'],
     ,'<span>可获得<cite>{{ d.experience }}</cite>飞吻</span>'
   ,'{{# } }}'].join('')
   ,tplSigninDay = '已连续签到<cite>{{ d.days }}</cite>天'
-
   ,signRender = function(data){
     laytpl(tplSignin).render(data, function(html){
       elemSigninMain.html(html);
@@ -348,6 +353,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util','laypage'],
     fly.json('/sign/in', {
       token: signRender.token || 1
     }, function(res){
+      console.log(res);
       signRender(res.data);
     }, {
       error: function(){

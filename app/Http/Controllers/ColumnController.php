@@ -59,6 +59,12 @@ class ColumnController extends Controller
 		foreach ($news as &$new){
 			$new->reply = Comment::where('new_id',$new->id)->count();
 		}
+		$user = new User();
+		dd(Auth::user()->hasManySigns);
+		//		foreach ($user->hasManySigns() as $sign){
+//			echo $sign->last_sign_time;
+//		}
+//		exit();
 
 		$data = [
 			'types'  => $this->types,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comment;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -23,13 +24,20 @@ class CommentController extends Controller
 	{
 		if ($request->ajax())
 		{
-			$com = Comment::find((int)$request->id);
-			$out = array(
-				'status' => 0,
-				'msg'    => '编辑成功',
-				'rows'   => $com
-			);
-
+			if (Auth::check())
+			{
+				$com = Comment::find((int)$request->id);
+				$out = array(
+					'status' => 0,
+					'msg'    => '编辑成功',
+					'rows'   => $com
+				);
+			}else{
+				$out = array(
+					'status' => -1,
+					'msg'    => '未登录'
+				);
+			}
 			return response()->json($out);
 		}
 	}
@@ -42,4 +50,23 @@ class CommentController extends Controller
 
 		return redirect('/jie/'. $com->new_id)->withSuccess('编辑成功！');
 	}
+
+	public function vote(Request $request){
+		if ($request->ajax()){
+			if(Auth::check()){
+				$com = Comment::find((int)$request->id);
+				if ($request->ok){
+					Auth::User()->downVote($com);
+				}else{
+					Auth::User()->upVote($com);
+				}
+
+				$out = array('status' => 0);
+			}else{
+				$out = array('status' => -1, 'msg'=>'未登录');
+			}
+			return response()->json($out);
+		}
+	}
+
 }

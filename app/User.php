@@ -6,10 +6,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use DB;
 use App\Models\Admin\News;
+use Jcc\LaravelVote\Vote;
+use App\Sign;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, Vote;
 
     /**
      * The attributes that are mass assignable.

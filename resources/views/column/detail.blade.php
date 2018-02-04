@@ -21,6 +21,7 @@
           @if($new->is_recomm)
           <span class="layui-badge layui-bg-red">精帖</span>
           @endif
+          @if(Auth::id() == 1)
           <div class="fly-admin-box" data-id="{{ $new->id }}" data-token="{{ csrf_token() }}">
             <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>
             @if($new->is_top)
@@ -34,6 +35,7 @@
               <span class="layui-btn layui-btn-xs jie-admin" type="set" field="is_recomm" rank="1">加精</span>
             @endif
           </div>
+          @endif
           <span class="fly-list-nums">
             <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> {{ $reply }}</a>
             <i class="iconfont" title="人气">&#xe60b;</i> {{ $new->view_count }}
@@ -51,8 +53,9 @@
             </a>
             <span>{{ $new->created_at }}</span>
           </div>
-          <div class="detail-hits" id="LAY_jieAdmin" data-id="{{ $new->id }}" data-token="{{ csrf_token() }}">
+          <div class="detail-hits" id="LAY_jieAdmin" data-id="{{ $new->id }}">
             <span style="padding-right: 10px; color: #FF7200">悬赏：60飞吻</span>
+            @if(auth::check())
             @if($new->favorited($new->id))
               <span class="layui-btn layui-btn-xs jie-admin layui-btn-danger" type="collect" data-type="remove">取消收藏</span>
             @else
@@ -61,7 +64,9 @@
             @if(auth::id() == $new->user_id)
             <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="/jie/edit/{{$new->id}}">编辑此贴</a></span>
             @endif
+            @endif
           </div>
+
         </div>
         <div class="detail-body photos">
           <?php echo htmlspecialchars_decode($new->content) ?>
@@ -79,7 +84,7 @@
           <li class="fly-none">消灭零回复</li>
           @else
           @foreach($new->hasManyComments as $comment)
-              <li data-id="{{ $comment->id }}" data-token="{{ csrf_token() }}">
+              <li data-id="{{ $comment->id }}">
                 <a name="item-1111111111"></a>
                 <div class="detail-about detail-about-reply">
                   <a class="fly-avatar" href="">
@@ -108,9 +113,9 @@
                   <p>{{ $comment->content }}</p>
                 </div>
                 <div class="jieda-reply">
-                <span class="jieda-zan zanok" type="zan">
+                <span class="jieda-zan @if(Auth::check() && Auth::user()->hasUpVoted($comment))zanok @endif" type="zan">
                   <i class="iconfont icon-zan"></i>
-                  <em>1</em>
+                  <em>{{ $comment->countUpVoters() }}</em>
                 </span>
                 <span type="reply">
                   <i class="iconfont icon-svgmoban53"></i>
@@ -132,7 +137,8 @@
         </ul>
 
         <div class="layui-form layui-form-pane">
-          <form action="/jie/reply/" method="POST" role="form">
+            @if(auth::check())
+          <form action="/comment/reply/" method="POST" role="form">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="user_id" value="{{ Auth::id() }}" />
             <input type="hidden" name="parent_id" value="0" />
@@ -147,6 +153,11 @@
               <button class="layui-btn" type="submit">提交回复</button>
             </div>
           </form>
+                @else
+                <blockquote class="layui-elem-quote layui-quote-nm" style="margin: 100px 0 20px; padding: 50px 20px; text-align: center; color: #999!important;">
+                    评论请先<a href="/login"><cite>登录</cite></a>或<a href="/register">注册</a>
+                </blockquote>
+                @endif
         </div>
       </div>
     </div>
