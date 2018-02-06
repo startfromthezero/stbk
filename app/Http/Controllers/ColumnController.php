@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\News;
 use App\User;
 use App\Comment;
+use App\Sign;
 
 class ColumnController extends Controller
 {
@@ -59,12 +60,7 @@ class ColumnController extends Controller
 		foreach ($news as &$new){
 			$new->reply = Comment::where('new_id',$new->id)->count();
 		}
-		$user = new User();
-		dd(Auth::user()->hasManySigns);
-		//		foreach ($user->hasManySigns() as $sign){
-//			echo $sign->last_sign_time;
-//		}
-//		exit();
+		date_default_timezone_set('Asia/Shanghai');
 
 		$data = [
 			'types'  => $this->types,
@@ -74,8 +70,52 @@ class ColumnController extends Controller
 			'news'   => $news,
 			'count'  => $count,
 			'page'   => $start,
-			'keys'   => $keys
+			'keys'   => $keys,
 		];
+
+		if (Auth::check())
+		{
+			$sign = (object)[];
+			$signById = User::find(Auth::id())->hasOneSign;
+			if(isset($signById->id) && $signById->last_sign_time >= strtotime(date('Ymd', strtotime('-1 day')))){
+				$sign->is_sign = false;
+				$sign->sign_days = $signById->sign_days;
+				if ($signById->last_sign_time >= strtotime(date('Y-m-d', time())) && $signById->last_sign_time < strtotime(date('Y-m-d', strtotime('+1 days'))))
+				{
+					$sign->is_sign = true;
+				}
+				if ($signById->sign_days < 5)
+				{
+					$sign->sign_score = 5;
+				}
+				elseif ($signById->sign_days >= 5 && $signById->sign_days < 15)
+				{
+					$sign->sign_score = 10;
+				}
+				elseif ($signById->sign_days >= 15 && $signById->sign_days < 30)
+				{
+					$sign->sign_score = 15;
+				}
+				elseif ($signById->sign_days >= 30 && $signById->sign_days < 100)
+				{
+					$sign->sign_score = 20;
+				}
+				elseif ($signById->sign_days >= 100 && $signById->sign_days < 365)
+				{
+					$sign->sign_score = 30;
+				}
+				else
+				{
+					$sign->sign_score = 50;
+				}
+			}else{
+				$sign->is_sign = false;
+				$sign->sign_days = 0;
+				$sign->sign_score = 5;
+			}
+			$data['sign'] = $sign;
+		}
+
 		return view('column/index', $data);
 	}
 

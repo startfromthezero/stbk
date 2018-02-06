@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\sign;
-
+use App\Score;
 use Illuminate\Support\Facades\Auth;
 
 class SignController extends Controller
@@ -20,18 +20,42 @@ class SignController extends Controller
 					$sign->user_id = Auth::id();
 					$sign->sign_days = 1;
 				}else{
+					if ($sign->last_sign_time < strtotime(date('Ymd', strtotime('-1 day')))){
+						$sign->sign_days = 0;
+					}
 					$sign->sign_days += 1;
 				}
-				$sign->last_sign_time = time();
+				$sign->last_sign_time = time(0);
 				$sign->save();
+				if($sign->sign_days < 5){
+					$score = 5;
+				}elseif($sign->sign_days >=5 && $sign->sign_days < 15){
+					$score = 10;
+				}elseif($sign->sign_days >=15 && $sign->sign_days < 30){
+					$score = 15;
+				}elseif($sign->sign_days >=30 && $sign->sign_days < 100){
+					$score = 20;
+				}elseif($sign->sign_days >=100 && $sign->sign_days <365){
+					$score = 30;
+				}else{
+					$score = 50;
+				}
+				$userScore = Score::where('user_id', Auth::id())->first();
+				if(empty($userScore)){
+					$userScore = new Score();
+					$userScore->score = $score;
+				}else{
+					$userScore->score += $score;
+				}
+				$userScore->user_id = Auth::id();
+				$userScore->save();
 
 				return [
 					'status'=>0,
 					'data'=>[
 						'signed'=>1,
-						'experience'=>5,
-						'days'=>1,
-						'test1'=> $sign
+						'experience'=> $score,
+						'days'=> $sign->sign_days,
 					]
 				];
 			}else{

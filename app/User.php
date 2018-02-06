@@ -46,4 +46,10 @@ class User extends Authenticatable
     public function favorites(){
         return $this->belongsToMany(News::class,'favorites','user_id','new_id')->withTimeStamps();
     }
+
+    public function hasOneSign()
+    {
+        return $this->hasOne('App\Sign', 'user_id', 'id');
+    }
 }
+
