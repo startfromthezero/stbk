@@ -127,18 +127,6 @@
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label for="L_username" class="layui-form-label">账号</label>
-                                    <div class="layui-input-inline">
-                                        <input type="text" id="L_username" name="username" required autocomplete="off"
-                                               class="layui-input">
-                                        @if ($errors->has('username'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first('username') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
                                     <label for="L_pass" class="layui-form-label">密码</label>
                                     <div class="layui-input-inline">
                                         <input type="password" id="password" name="password" required

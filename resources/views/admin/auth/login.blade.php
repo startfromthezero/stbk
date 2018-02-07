@@ -6,6 +6,8 @@
     <title>后台管理系统登陆</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
     <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" type="text/css" href="/canvas/css/component.css" />
+    <link rel="stylesheet" type="text/css" href="/canvas/css/normalize.css" />
     <script type="text/javascript" src="/layui/layui.js"></script>
     <script type="text/javascript" src="/js/app.js"></script>
 </head>
@@ -14,9 +16,13 @@
 @include('admin.partials.success')
 <div class="layui-carousel video_mask" id="login_carousel">
     <div carousel-item>
-        <div class="carousel_div1"></div>
-        <div class="carousel_div2"></div>
-        <div class="carousel_div3"></div>
+        <div class="container demo-1">
+            <div class="content">
+                <div id="large-header" class="large-header">
+                    <canvas id="demo-canvas"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="login layui-anim layui-anim-up">
         <h1>风之迷者</h1></p>
@@ -45,5 +51,9 @@
     </div>
 </div>
 <script type="text/javascript" src="/js/login.js"></script>
+<script src="/canvas/js/TweenLite.min.js"></script>
+<script src="/canvas/js/EasePack.min.js"></script>
+<script src="/canvas/js/rAF.js"></script>
+<script src="/canvas/js/demo-1.js"></script>
 </body>
 </html>

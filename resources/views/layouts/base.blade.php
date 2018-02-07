@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js">
 <head>
     <meta charset="utf-8">
     <title>基于 layui 的极简社区页面模版</title>
@@ -10,13 +10,17 @@
     <link rel="stylesheet" href="/css/font_24081_aym082o86np3z0k9.css">
     <link rel="stylesheet" href="/layui/css/layui.css">
     <link rel="stylesheet" href="/css/global.css">
-    <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+    <!--
+    <link rel="stylesheet" type="text/css" href="/canvas/css/component.css" />
+    <link rel="stylesheet" type="text/css" href="/canvas/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="/canvas/css/demo.css" />
+-->
 </head>
 <body>
-<div class="fly-header layui-bg-black">
+<div class="fly-header layui-bg-green">
     <div class="layui-container">
         <a class="fly-logo" href="/">
-            <img src="/images/logo.png" alt="layui">
+            @include('layouts.svg')
         </a>
         <ul class="layui-nav fly-nav layui-hide-xs">
             <li class="layui-nav-item layui-this">
@@ -44,8 +48,7 @@
                 <a href="{{ url('/register') }}">注册</a>
             </li>
             <li class="layui-nav-item layui-hide-xs">
-                <a href="javascript:;" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq">
-                </a>
+                <a href="javascript:;" id="qqLoginBtn" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:1000})" title="QQ登入" class="iconfont icon-qq"></a>
             </li>
             <li class="layui-nav-item layui-hide-xs">
                 <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>
@@ -57,7 +60,6 @@
                 <!--data-appid : AppID(必须)-->
                 <!--data-cbfn : 回调函数名(必须)-->
                 <button id="TencentCaptcha" data-appid="2000100519" data-cbfn="callback">验证</button>
-
             </li>
             @else
             <!-- 登入后的状态 -->
@@ -96,7 +98,45 @@
     </p>
 </div>
 <script src="/layui/layui.js"></script>
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101462624" data-redirecturi="http://www.stbk.xyz/" charset="utf-8"></script>
+<!--
+<script src="/canvas/js/TweenLite.min.js"></script>
+<script src="/canvas/js/EasePack.min.js"></script>
+<script src="/canvas/js/rAF.js"></script>
+<script src="/canvas/js/demo-1.js"></script>
+-->
 <script>
+    //调用QC.Login方法，指定btnId参数将按钮绑定在容器节点中
+    QC.Login({
+                //btnId：插入按钮的节点id，必选
+                btnId: "qqLoginBtn",
+                //用户需要确认的scope授权项，可选，默认all
+                scope: "all",
+                //按钮尺寸，可用值[A_XL| A_L| A_M| A_S|  B_M| B_S| C_S]，可选，默认B_S
+                size : "B_S"
+            }
+    );
+    //从页面收集OpenAPI必要的参数。get_user_info不需要输入参数，因此paras中没有参数
+    var paras = {};
+    QC.api("get_user_info", {}).success(function (s)
+    {
+        console.log()
+        //成功回调，通过s.data获取OpenAPI的返回数据
+        nick = s.data.nickname; //获得昵称
+        headurl = s.data.figureurl_qq_1; //获得头像
+        if (QC.Login.check())
+        {//判断是否登录
+            QC.Login.getMe(function (openId, accessToken)
+            { //这里可以得到openId和accessToken
+                //下面可以调用自己的保存方法
+
+            });
+        }
+    }).error(function (f)
+    {
+        //失败回调
+        alert("获取用户信息失败！");
+    });
     function callback(res)
     {
         console.log(res)

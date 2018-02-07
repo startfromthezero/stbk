@@ -18,7 +18,7 @@ class CreateSignsTable extends Migration
 			$table->integer('user_id')->nullable();
 			$table->integer('sign_days')->nullable()->default(0);
 			$table->bigInteger('last_sign_time');
-			$table->timestamp('updated_at');
+			$table->timestamps();
 			$table->unique('user_id');
         });
     }

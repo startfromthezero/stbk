@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username','email', 'password',
+        'name','email', 'password',
     ];
 
     /**
@@ -34,10 +34,10 @@ class User extends Authenticatable
     public function getName()
     {
         $names = array();
-        $users = DB::table('users')->select('id', 'username')->get();
+        $users = DB::table('users')->select('id', 'name')->get();
         foreach ($users as $user)
         {
-            $names[$user->id] = $user->username;
+            $names[$user->id] = $user->name;
         }
 
         return $names;
