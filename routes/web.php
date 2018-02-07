@@ -38,6 +38,7 @@ Route::get('column/{type?}/{state?}/{page?}', 'ColumnController@index');
 //Route::any('/cache2', 'StudentController@cache2');
 Route::post('comment/vote', 'CommentController@vote'); //评论点赞
 Route::post('sign/in','SignController@in');
+Route::post('user/qqlogin', 'UserController@qqlogin');
 Route::any('/upload', 'StudentController@upload');
 //Route::any('/mail', 'StudentController@mail');
 Route::auth();

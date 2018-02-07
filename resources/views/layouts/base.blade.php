@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/font_24081_aym082o86np3z0k9.css">
     <link rel="stylesheet" href="/layui/css/layui.css">
     <link rel="stylesheet" href="/css/global.css">
+    <script src="/js/jquery.min.js"></script>
     <!--
     <link rel="stylesheet" type="text/css" href="/canvas/css/component.css" />
     <link rel="stylesheet" type="text/css" href="/canvas/css/normalize.css" />
@@ -98,7 +99,7 @@
     </p>
 </div>
 <script src="/layui/layui.js"></script>
-<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101462624" data-redirecturi="http://www.stbk.xyz/" charset="utf-8"></script>
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101462624" data-redirecturi="http://www.stbk.xyz/callback.php" charset="utf-8"></script>
 <!--
 <script src="/canvas/js/TweenLite.min.js"></script>
 <script src="/canvas/js/EasePack.min.js"></script>
@@ -120,7 +121,6 @@
     var paras = {};
     QC.api("get_user_info", {}).success(function (s)
     {
-        console.log()
         //成功回调，通过s.data获取OpenAPI的返回数据
         nick = s.data.nickname; //获得昵称
         headurl = s.data.figureurl_qq_1; //获得头像
@@ -129,7 +129,28 @@
             QC.Login.getMe(function (openId, accessToken)
             { //这里可以得到openId和accessToken
                 //下面可以调用自己的保存方法
-
+                $.ajax({
+                    type:'post',
+                    url:'/user/qqlogin',
+					dataType:'json',
+					data:{name: nick,img: headurl,openid: openId, accesstoken: accessToken},
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+					},
+					success:function(res){
+                    	console.log(res);
+//						if (res.status === 0){
+//							success && success(res);
+//						}
+//						else{
+//							layer.msg(res.msg || res.code, {shift: 6});
+//							options.error && options.error();
+//						}
+                    }, error: function (e) {
+//						layer.msg('请求异常，请重试', {shift: 6});
+//						options.error && options.error(e);
+					}
+                });
             });
         }
     }).error(function (f)

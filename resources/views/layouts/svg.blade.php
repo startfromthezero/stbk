@@ -1,5 +1,5 @@
 <svg data-v-d864120a="" version="1.0" xmlns="http://www.w3.org/2000/svg" width="70%" height="100%"
-     viewBox="-10 -90 340.000000 250.000000" preserveAspectRatio="xMidYMid meet" color-interpolation-filters="sRGB"
+     viewBox="60 -90 340.000000 250.000000" preserveAspectRatio="xMidYMid meet" color-interpolation-filters="sRGB"
      class="el-tooltip" style="margin: auto;">
     <g data-v-d864120a="" fill="#4e3057" transform="translate(61.78484344482422,94.98777770996094)">
         <g transform="translate(0,0)">

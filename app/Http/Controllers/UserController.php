@@ -36,4 +36,25 @@ class UserController extends Controller
 		];
 		return view('user/post', $data);
 	}
+
+	public function qqlogin(Request $request){
+		if($request->ajax()){
+			$search=[
+				'openid'=> $request->openid,
+				'accesstoken'=> $request->accesstoken
+			];
+			$insert=[
+				'name'=> $request->name,
+				'img'=> $request->img,
+				'openid'      => $request->openid,
+				'accesstoken' => $request->accesstoken
+			];
+			$login_user = User::updateOrCreate($search, $insert);
+			Auth::loginUsingId($login_user->id);
+			return [
+				'status' => 0,
+				'test'=> $request
+			];
+		}
+	}
 }
