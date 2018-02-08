@@ -51,10 +51,37 @@ class UserController extends Controller
 			];
 			$login_user = User::updateOrCreate($search, $insert);
 			Auth::loginUsingId($login_user->id);
+
+			return redirect('/');
 			return [
 				'status' => 0,
 				'test'=> $request
 			];
 		}
+	}
+
+	public function callback(){
+		require_once("API/qqConnectAPI.php");
+
+		$qc = new QC();
+		$access_token = $qc->qq_callback();
+		$openid=$qc->get_openid();
+		$qc = new QC($access_token, $openid);
+		$ret = $qc->get_user_info();
+
+		$search=[
+			'openid'=> $openid,
+			'accesstoken'=> $access_token
+		];
+		$insert=[
+			'name'=> $ret['nickname'],
+			'img'=> $ret['figureurl'],
+			'openid'      => $openid,
+			'accesstoken' => $access_token
+		];
+		$login_user = User::updateOrCreate($search, $insert);
+		Auth::loginUsingId($login_user->id);
+
+		return redirect('/');
 	}
 }

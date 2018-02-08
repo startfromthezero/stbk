@@ -42,6 +42,10 @@ Route::post('user/qqlogin', 'UserController@qqlogin');
 Route::any('/upload', 'StudentController@upload');
 //Route::any('/mail', 'StudentController@mail');
 Route::auth();
+Route::get('qq/login',function(){
+	return view('qq.login');
+});
+Route::get('user/callback','UserController@callback');
 Route::group(['middleware'=>'auth'],function(){
 	Route::get('jie/add', 'ColumnController@create');//发布文章页
 	Route::any('jie/store', 'ColumnController@store');//发布文章
