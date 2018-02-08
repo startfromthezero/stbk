@@ -176,7 +176,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-		Jcc\LaravelVote\VoteServiceProvider::class
+		Jcc\LaravelVote\VoteServiceProvider::class,
+		SocialiteProviders\Manager\ServiceProvider::class, // 添加第三方登录(QQ、微博)
 
 		//第三方
 
@@ -196,7 +197,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
@@ -230,6 +230,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+		'Socialite' => Laravel\Socialite\Facades\Socialite::class, // 添加第三方登录(QQ、微博)
+
 		//'Debugbar' => Barryvdh\Debugbar\Facade::class,//第三方
     ],
 

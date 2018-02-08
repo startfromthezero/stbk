@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin\News;
 use App\user;
 use App\Favorite;
+use Laravel\Socialite\Facades\Socialite;
 
 class UserController extends Controller
 {
@@ -37,47 +38,28 @@ class UserController extends Controller
 		return view('user/post', $data);
 	}
 
-	public function qqlogin(Request $request){
-		if($request->ajax()){
-			$search=[
-				'openid'=> $request->openid,
-				'accesstoken'=> $request->accesstoken
-			];
-			$insert=[
-				'name'=> $request->name,
-				'img'=> $request->img,
-				'openid'      => $request->openid,
-				'accesstoken' => $request->accesstoken
-			];
-			$login_user = User::updateOrCreate($search, $insert);
-			Auth::loginUsingId($login_user->id);
-
-			return redirect('/');
-			return [
-				'status' => 0,
-				'test'=> $request
-			];
-		}
+	public function qqlogin(){
+		return Socialite::with('qq')->redirect();
 	}
 
 	public function callback(){
-		require_once("API/qqConnectAPI.php");
-
-		$qc = new QC();
-		$access_token = $qc->qq_callback();
-		$openid=$qc->get_openid();
-		$qc = new QC($access_token, $openid);
-		$ret = $qc->get_user_info();
-
+		$user = Socialite::driver('qq')->user();
+		$accessTokenResponseBody = $user->accessTokenResponseBody;
 		$search=[
-			'openid'=> $openid,
-			'accesstoken'=> $access_token
+			'openid'=> $user->id,
+			'accesstoken'=> $accessTokenResponseBody['access_token']
 		];
-		$insert=[
-			'name'=> $ret['nickname'],
-			'img'=> $ret['figureurl'],
-			'openid'      => $openid,
-			'accesstoken' => $access_token
+		if(User::where('name', '=', $user->nickname)->firstOrFail()){
+			$user->nickname .= rand(1,1000);
+		}
+		$insert = [
+			'name'        => $user->nickname,
+			'img'         => $user->user['figureurl'],
+			'openid'      => $user->id,
+			'accesstoken' => $user->token,
+			'sex'         => $user->user['gender'],
+			'province'    => $user->user['province'],
+			'city'        => $user->user['city'],
 		];
 		$login_user = User::updateOrCreate($search, $insert);
 		Auth::loginUsingId($login_user->id);

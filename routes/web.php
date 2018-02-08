@@ -37,15 +37,12 @@ Route::get('column/{type?}/{state?}/{page?}', 'ColumnController@index');
 //Route::any('/cache1', 'StudentController@cache1');
 //Route::any('/cache2', 'StudentController@cache2');
 Route::post('comment/vote', 'CommentController@vote'); //评论点赞
-Route::post('sign/in','SignController@in');
-Route::post('user/qqlogin', 'UserController@qqlogin');
+Route::post('sign/in','SignController@in');	     //签到功能
 Route::any('/upload', 'StudentController@upload');
 //Route::any('/mail', 'StudentController@mail');
 Route::auth();
-Route::get('qq/login',function(){
-	return view('qq.login');
-});
-Route::get('user/callback','UserController@callback');
+Route::get('user/qqlogin','UserController@qqlogin');  //QQ登录
+Route::get('user/callback','UserController@callback'); //QQ回调
 Route::group(['middleware'=>'auth'],function(){
 	Route::get('jie/add', 'ColumnController@create');//发布文章页
 	Route::any('jie/store', 'ColumnController@store');//发布文章

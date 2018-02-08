@@ -1,2 +1,0 @@
-<?php die('forbidden'); ?>
-{"appid":"101462624","appkey":"d4149da2019b3774dd61702e04ccf39b","callback":"http://www.stbk.xyz/user/callback","scope":"get_user_info,add_topic","errorReport":true,"storageType":"file","host":"localhost","user":"root","password":"root","database":"test"}
